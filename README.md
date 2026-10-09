@@ -8,6 +8,7 @@ Free tools that help people find and grow in the Catholic faith. Every site is f
 - **[Your First Mass](https://daxtinenichols.github.io/first-mass/)**: A gentle walkthrough for anyone going to a Catholic Mass for the first time.
 - **[Parish Website Studio](https://daxtinenichols.github.io/parish-studio/)**: Help your parish get a free, warm website in an afternoon.
 - **[Church Finder](https://daxtinenichols.github.io/church-finder/)**: Find a Catholic church near you, with Mass times and directions.
+- **[Parish Scheduler](https://daxtinenichols.github.io/parish-scheduler/)**: A free volunteer schedule for your parish: swaps, sick days and replacements in a tap.
 
 ## How this repository works
 

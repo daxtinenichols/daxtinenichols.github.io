@@ -15,6 +15,7 @@
     firstMass: "/first-mass/",
     tree: "/",
     studio: "/parish-studio/",
+    scheduler: "/parish-scheduler/",
   };
 
   /* ---------- small helpers ---------- */
@@ -42,6 +43,7 @@
   };
   const MASS_ICON = '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 3v6M17 5.6h6" stroke="#a87f33" stroke-width="2" stroke-linecap="round"/><path d="M8 37V22a12 12 0 0 1 24 0v15z" fill="#d9ccb4"/><path d="M13 37V23a7 7 0 0 1 14 0v14z" fill="#f1d59c"/><path d="M18.6 37l.8-10h1.2l.8 10z" fill="#fff7e2"/></svg>';
   const TREE_ICON = '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 30V14" stroke="#8c7a66" stroke-width="2.4" stroke-linecap="round" fill="none"/><path d="M16 19c-5 0-8-3-9-8 5 0 8 3 9 8z" fill="#6f9a6c"/><path d="M16 15c5 0 8-3 9-8-5 0-8 3-9 8z" fill="#4b7651"/><circle cx="16" cy="7" r="3.2" fill="#d6a546"/></svg>';
+  const SCHED_ICON = '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="9" width="28" height="25" rx="4" fill="#d9ccb4"/><rect x="6" y="9" width="28" height="7" rx="3" fill="#8fa58a"/><path d="M13 6v6M27 6v6" stroke="#8fa58a" stroke-width="2.4" stroke-linecap="round"/><path d="M13 25l4 4 9-9" fill="none" stroke="#fff7e2" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const STUDIO_ICON = '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="8" width="30" height="24" rx="4" fill="#d9ccb4"/><rect x="5" y="8" width="30" height="6" rx="3" fill="#b99572"/><path d="M12 22h16M12 26h10" stroke="#fff7e2" stroke-width="2.2" stroke-linecap="round"/></svg>';
 
   const KIND = {
@@ -549,7 +551,8 @@
       <div class="invite">
         <a href="${CFG.firstMass}">${MASS_ICON}<div><b>Going to Mass for the first time?</b><span>A gentle walkthrough: when to sit, stand and kneel, and what to do at Communion.</span></div></a>
         <a class="sage" href="${CFG.tree}">${TREE_ICON}<div><b>Questions about faith?</b><span>The Tree of Life takes the big ones one at a time, with honest answers.</span></div></a>
-        ${!c.web ? `<a href="${CFG.studio}">${STUDIO_ICON}<div><b>Is this your parish?</b><span>Make it a free, simple website in a few minutes. No account needed.</span></div></a>` : ""}
+        ${!c.web ? `<a href="${CFG.studio}">${STUDIO_ICON}<div><b>Is this your parish?</b><span>Make it a free, simple website in a few minutes. No account needed.</span></div></a>`
+          : `<a href="${CFG.scheduler}">${SCHED_ICON}<div><b>Is this your parish?</b><span>A free volunteer schedule for your parish: swaps, sick days and replacements in a tap.</span></div></a>`}
       </div>
 
       <section class="block" aria-labelledby="h-near">

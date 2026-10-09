@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parish Volunteer Scheduler</title>
+<meta name="description" content="A free, simple volunteer schedule for Catholic parishes. See who serves at every Mass, swap in one tap, and find a replacement fast when someone is sick. No passwords.">
+<link rel="canonical" href="https://daxtinenichols.github.io/parish-scheduler/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Parish Volunteer Scheduler">
+<meta property="og:description" content="Free volunteer scheduling for your parish: lectors, Eucharistic ministers, ushers, servers, adoration and more.">
+<meta property="og:url" content="https://daxtinenichols.github.io/parish-scheduler/">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#faf6ee">
+<meta name="robots" content="index,follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='4' y='7' width='24' height='22' rx='4' fill='%23e4ecdf' stroke='%234d6d51' stroke-width='2'/%3E%3Cpath d='M4 13h24' stroke='%234d6d51' stroke-width='2'/%3E%3Cpath d='M10 4v5M22 4v5' stroke='%234d6d51' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M16 16v9M12.5 19.5h7' stroke='%23a87f33' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="app.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Parish Volunteer Scheduler","url":"https://daxtinenichols.github.io/parish-scheduler/","applicationCategory":"BusinessApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free volunteer scheduling for Catholic parishes: Mass ministries, adoration hours, swaps and finding replacements."}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="./" data-act="home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="7" width="24" height="22" rx="4" fill="#e4ecdf" stroke="#4d6d51" stroke-width="2"/><path d="M4 13h24" stroke="#4d6d51" stroke-width="2"/><path d="M10 4v5M22 4v5" stroke="#4d6d51" stroke-width="2" stroke-linecap="round"/><path d="M16 16v9M12.5 19.5h7" stroke="#a87f33" stroke-width="2.2" stroke-linecap="round"/></svg>
+    <span><b>Parish Scheduler</b><small id="parish-name">Free for every parish</small></span>
+  </a>
+  <nav class="tabs" id="tabs" aria-label="Sections" hidden></nav>
+  <nav class="top-links" id="top-links" aria-label="Our other sites">
+    <a href="/church-finder/">Church Finder</a>
+    <a href="/parish-studio/">Parish Website Studio</a>
+  </nav>
+  <button class="me-btn" id="me-btn" type="button" data-act="me" aria-label="My details and settings" hidden></button>
+</header>
+<main id="main"><p class="loading">Loading…</p></main>
+<div id="sheet-root"></div>
+<div class="print-only" id="print-root"></div>
+<noscript><p style="padding:24px">The scheduler needs JavaScript switched on.</p></noscript>
+<script src="app.js"></script>
+</body>
+</html>
