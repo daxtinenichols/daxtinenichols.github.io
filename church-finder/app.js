@@ -252,14 +252,68 @@
     }
     return st;
   }));
+  // The map code (Leaflet + MapLibre, ~900 KB) loads only when a map is first needed, and quietly in the
+  // background once the front page has settled, so the first screen stays light.
+  const LIBS = {
+    css: ["https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css", "https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.css"],
+    leaflet: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js",
+    gl: ["https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js", "https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"],
+  };
+  const addScript = (src) => new Promise((ok, bad) => { const el = document.createElement("script"); el.src = src; el.onload = ok; el.onerror = bad; document.head.append(el); });
+  let libs;
+  function loadMapLibs() {
+    if (libs) return libs;
+    for (const href of LIBS.css) document.head.insertAdjacentHTML("beforeend", `<link rel="stylesheet" href="${href}">`);
+    const gl = (() => { try { return !!document.createElement("canvas").getContext("webgl2"); } catch { return false; } })();
+    const leaflet = addScript(LIBS.leaflet);
+    const glReady = gl ? addScript(LIBS.gl[0]).then(() => leaflet).then(() => addScript(LIBS.gl[1])).catch(() => {}) : Promise.resolve();
+    if (gl) getStyle().catch(() => {});
+    return (libs = Promise.all([leaflet, glReady]));
+  }
+
   function baseLayer(m) {
-    const gl = (() => { try { return !!document.createElement("canvas").getContext("webgl2") && window.maplibregl && L.maplibreGL; } catch { return false; } })();
+    const gl = !!(window.maplibregl && L.maplibreGL);
     if (!gl) return L.tileLayer(TILES, { maxZoom: 19, attribution: OSM_ATTR }).addTo(m);
     const raster = () => L.tileLayer(TILES, { maxZoom: 19, attribution: OSM_ATTR }).addTo(m);
     getStyle().then((style) => L.maplibreGL({ style, attribution: `<a href="https://openfreemap.org">OpenFreeMap</a> ${OSM_ATTR}` }).addTo(m)).catch(raster);
   }
-  let map, layer, meMarker, miniMap;
-  const markers = new Map();
+  let map, layer, meMarker, miniMap, canvas;
+  const markers = new Map(); // id -> marker on the map now
+  const PINS_UPTO = 80; // more churches than this on screen: draw light canvas dots instead of pins
+  const cssVar = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function churchMarker(r, mode, selected = false) {
+    if (mode === "pin" || selected) {
+      return L.marker([r.lat, r.lon], { icon: pinIcon(r, selected ? " sel" : ""), title: r.name, riseOnHover: true, zIndexOffset: selected ? 1000 : 0 });
+    }
+    const m = L.circleMarker([r.lat, r.lon], {
+      renderer: canvas, radius: mode === "small" ? 5 : 7, weight: 2, color: cssVar("--card"), opacity: 1,
+      fillColor: r.flags & 1 ? cssVar("--sage") : cssVar("--rose"), fillOpacity: 1,
+    });
+    if (matchMedia("(hover: hover)").matches) m.bindTooltip(r.name, { direction: "top", offset: [0, -6] });
+    m._base = mode === "small" ? 5 : 7;
+    return m;
+  }
+  // Show exactly these rows, reusing markers already on the map when the style hasn't changed.
+  function drawMarkers(rows, mode, onClick, selectedId) {
+    const want = new Map(rows.map((r) => [r.id, r]));
+    for (const [id, m] of markers) {
+      if (!want.has(id) || m._mode !== mode || (id === selectedId) !== !!m._sel) { layer.removeLayer(m); markers.delete(id); }
+    }
+    for (const r of rows) {
+      if (markers.has(r.id)) continue;
+      const m = churchMarker(r, mode, r.id === selectedId);
+      m._mode = mode; m._sel = r.id === selectedId;
+      m.on("click", () => onClick(r));
+      layer.addLayer(m);
+      markers.set(r.id, m);
+    }
+  }
+  function lightUp(id, on) {
+    const m = markers.get(id);
+    if (!m) return;
+    if (m.setRadius) { m.setRadius(on ? m._base + 3 : m._base); if (on) m.bringToFront(); }
+    else m.getElement()?.classList.toggle("hot", on);
+  }
   const view = { here: null, label: "", filters: new Set(), rows: [], church: null };
   function pinIcon(row, cls = "", small = false) {
     if (small) return L.divIcon({ className: `dot${row.flags & 1 ? " has-times" : ""}`, iconSize: [12, 12], iconAnchor: [6, 6] });
@@ -268,8 +322,11 @@
       html: '<svg viewBox="0 0 26 26"><path class="body" d="M13 25s-9-7.4-9-14a9 9 0 0 1 18 0c0 6.6-9 14-9 14z"/><path class="cross" d="M13 6.2v8.6M9.6 9.4h6.8"/></svg>',
     });
   }
-  function initMap() {
+  async function initMap() {
     if (map) return;
+    await loadMapLibs();
+    if (map) return;
+    canvas = L.canvas({ padding: 0.3, tolerance: 6 });
     map = L.map("map", { zoomControl: true, minZoom: 3, maxZoom: 19, worldCopyJump: true, maxBounds: [[-85, -400], [85, 400]] });
     baseLayer(map);
     layer = L.layerGroup().addTo(map);
@@ -296,7 +353,7 @@
     const list = $("#list");
     if (z < 8) {
       hint.hidden = false;
-      layer.clearLayers(); markers.clear();
+      drawMarkers([], "small");
       $("#list-title").textContent = "Churches near you";
       $("#list-sub").textContent = "";
       list.innerHTML = `<li class="empty"><b>Zoom in a little</b>Search for a town or zoom the map in to see the churches there.</li>`;
@@ -321,12 +378,8 @@
     view.rows = inView;
 
     // markers: only what is on screen
-    layer.clearLayers(); markers.clear();
-    for (const r of inView.slice(0, 700)) {
-      const m = L.marker([r.lat, r.lon], { icon: pinIcon(r, "", z < 13), title: r.name, riseOnHover: true }).addTo(layer);
-      m.on("click", () => go(churchURL(r.id, r.flags)));
-      markers.set(r.id, m);
-    }
+    const shown = inView.slice(0, 1500);
+    drawMarkers(shown, shown.length <= PINS_UPTO && z >= 13 ? "pin" : z < 13 ? "small" : "dot", (r) => go(churchURL(r.id, r.flags)));
 
     const near = view.label ? `Churches near ${view.label}` : view.here && ref === view.here ? "Churches near you" : "Churches in this area";
     $("#list-title").textContent = near;
@@ -398,7 +451,7 @@
     const ups = (await fetchUpdates([id]))[id] || [];
     render(el, c, ups);
     // map: center on the church and highlight it
-    initMap();
+    await initMap();
     map.invalidateSize();
     map.setView([c.lat, c.lon], Math.max(map._loaded ? map.getZoom() : 0, 16), { animate: false });
     await refreshAround(c);
@@ -406,13 +459,9 @@
   }
 
   async function refreshAround(c) {
-    layer.clearLayers(); markers.clear();
-    const rows = await churchesAround(c.lat, c.lon, 0);
-    for (const r of rows) {
-      const m = L.marker([r.lat, r.lon], { icon: pinIcon(r, r.id === c.id ? " sel" : ""), title: r.name, zIndexOffset: r.id === c.id ? 1000 : 0 }).addTo(layer);
-      m.on("click", () => r.id !== c.id && go(churchURL(r.id, r.flags)));
-      markers.set(r.id, m);
-    }
+    const b = map.getBounds().pad(0.5);
+    const rows = (await churchesAround(c.lat, c.lon, 0)).filter((r) => r.id === c.id || b.contains([r.lat, r.lon]));
+    drawMarkers(rows, rows.length <= PINS_UPTO ? "pin" : "dot", (r) => r.id !== c.id && go(churchURL(r.id, r.flags)), c.id);
     unitsAt = c;
     const near = (await churchesAround(c.lat, c.lon, 1)).filter((r) => r.id !== c.id).map((r) => ({ ...r, d: km(c, r) })).sort((a, b) => a.d - b.d).slice(0, 5);
     const ul = $("#nearby");
@@ -752,7 +801,6 @@
     }
     if ($("#home")) $("#home").hidden = true;
     $("#results").hidden = false; $(".search-top").hidden = false;
-    initMap();
     if (id) {
       body.className = "in-results in-church";
       $("#list-view").hidden = true; $("#church").hidden = false;
@@ -764,6 +812,7 @@
     body.className = "in-results";
     view.church = null;
     $("#list-view").hidden = false; $("#church").hidden = true;
+    await initMap();
     document.title = "Catholic Church Finder";
     const [lat, lon, z] = at.split(",").map(Number);
     view.label = p.get("q") || "";
@@ -808,10 +857,12 @@
   $("#sheet-backdrop").addEventListener("click", closeSheet);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet(); });
   // list hover lights up the marker
+  let hot = null;
   $("#list").addEventListener("mouseover", (e) => {
     const li = e.target.closest(".item");
-    $$(".pin.hot, .dot.hot").forEach((p) => p.classList.remove("hot"));
-    if (li) markers.get(li.dataset.id)?.getElement()?.classList.add("hot");
+    if (hot && hot !== li?.dataset.id) lightUp(hot, false);
+    hot = li?.dataset.id;
+    if (hot) lightUp(hot, true);
   });
   $$("form.search").forEach(wireSearch);
   window.addEventListener("popstate", route);
@@ -821,4 +872,7 @@
     if (el) el.textContent = idx.note || `${idx.count.toLocaleString()} Catholic churches listed so far, and growing.`;
   }).catch(() => {});
   route();
+  // Fetch the map libraries quietly once the page has finished loading, so the first search feels instant.
+  const prefetch = () => setTimeout(() => (window.requestIdleCallback || ((f) => f()))(() => loadMapLibs(), { timeout: 3000 }), 300);
+  if (document.readyState === "complete") prefetch(); else addEventListener("load", prefetch, { once: true });
 })();
