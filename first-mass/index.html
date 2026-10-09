@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your First Mass</title>
+<meta name="description" content="A gentle, step-by-step guide for anyone going to a Catholic Mass for the first time: when to stand, sit and kneel, what to say, and what to do at Communion.">
+<link rel="canonical" href="https://daxtinenichols.github.io/first-mass/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Your First Mass">
+<meta property="og:description" content="A gentle, step-by-step guide for anyone going to a Catholic Mass for the first time: when to stand, sit and kneel, what to say, and what to do at Communion.">
+<meta property="og:url" content="https://daxtinenichols.github.io/first-mass/">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<style>
+/* Layout: an open church door welcomes you in; the Mass is a path of moments beside a sticky "posture companion" that always shows whether to stand, sit or kneel. */
+:root {
+  --paper: #faf6ee;
+  --panel: #f3ecdf;
+  --ink: #2b2622;
+  --muted: #6c6358;
+  --line: #e5dccb;
+  --sage: #4d6d51;
+  --sage-pale: #e1e9da;
+  --gold: #a87f33;
+  --gold-pale: #f4e8cd;
+  --slate: #52677f;
+  --slate-pale: #e2e7ee;
+  --stone: #ece3d2;
+  --stone-deep: #d9ccb4;
+  --wood: #b99572;
+  --light-1: #fff7e2;
+  --light-2: #f1d59c;
+  --glow: rgba(232, 188, 105, 0.42);
+  --btn-ink: #fbf8f1;
+  --shadow: 0 24px 48px -28px rgba(80, 58, 30, 0.38);
+  --pew-bg: #1c1915;
+  --pew-ink: #f3ebdc;
+  --pew-muted: #b4a891;
+  --pew-gold: #e6c98c;
+  --font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mark: "Apple Symbols", "Segoe UI Symbol", "Noto Sans Symbols", "DejaVu Sans", serif;
+  --s-1: 0.9rem; --s0: 1.06rem; --s1: 1.3rem; --s2: 1.75rem; --s3: 2.5rem; --s4: 3.6rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1c1915; --panel: #25211b; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
+    --sage: #9dbf9f; --sage-pale: #2a372b; --gold: #ddb66a; --gold-pale: #3a311e;
+    --slate: #a9bdd6; --slate-pale: #28313d;
+    --stone: #2c2720; --stone-deep: #3d352b; --wood: #6e553c; --light-1: #ffeab8; --light-2: #d6a24e;
+    --glow: rgba(230, 170, 75, 0.32); --btn-ink: #1c1915; --shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1c1915; --panel: #25211b; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
+  --sage: #9dbf9f; --sage-pale: #2a372b; --gold: #ddb66a; --gold-pale: #3a311e;
+  --slate: #a9bdd6; --slate-pale: #28313d;
+  --stone: #2c2720; --stone-deep: #3d352b; --wood: #6e553c; --light-1: #ffeab8; --light-2: #d6a24e;
+  --glow: rgba(230, 170, 75, 0.32); --btn-ink: #1c1915; --shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.7);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 17.5px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 66rem; margin: 0 auto; padding-inline: 20px; padding-block: 0 96px; }
+a { color: var(--sage); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; margin: 0; line-height: 1.08; letter-spacing: -0.005em; }
+p { margin: 0; }
+.eyebrow { font: 600 0.78rem var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+
+/* ---------- hero ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); align-items: center; gap: 48px; padding-block: 56px 32px; }
+.hero-text { display: grid; gap: 22px; min-width: 0; }
+.hero h1 { font-size: clamp(3rem, 7.4vw, 5rem); font-weight: 500; line-height: 0.98; }
+.hero h1 em { display: block; font-style: italic; color: var(--sage); }
+.lede { font-size: 1.18rem; color: var(--muted); max-width: 31rem; line-height: 1.6; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 0 24px; border-radius: 999px; font: 600 1rem var(--font-body); border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: transform 200ms ease-out, background 200ms ease-out, box-shadow 200ms ease-out; }
+.btn-primary { background: var(--sage); color: var(--btn-ink); box-shadow: var(--shadow); }
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-quiet:hover { background: var(--panel); }
+.btn svg { width: 18px; height: 22px; }
+
+.door { width: 100%; max-width: 420px; justify-self: center; display: block; overflow: visible; }
+.door .glow { animation: breathe 6s ease-in-out infinite; transform-origin: 200px 300px; }
+@keyframes breathe { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
+
+.assure { list-style: none; margin: 8px 0 0; padding: 28px 0 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 32px; }
+.assure li { display: grid; gap: 4px; align-content: start; }
+.assure strong { font: 500 1.3rem var(--font-display); line-height: 1.2; }
+.assure span { color: var(--muted); font-size: var(--s-1); line-height: 1.5; }
+
+section { padding-block: 72px 0; }
+.sec-head { display: grid; gap: 12px; margin-bottom: 36px; max-width: 40rem; }
+.sec-head h2 { font-size: clamp(2.2rem, 5vw, var(--s3)); }
+.sec-head p { color: var(--muted); }
+
+/* ---------- before you go ---------- */
+.prep { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; counter-reset: prep; }
+.prep > div { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.prep h3 { font-size: 1.55rem; }
+.prep h3::before { counter-increment: prep; content: counter(prep, upper-roman); display: block; font: italic 500 1.1rem var(--font-display); color: var(--gold); margin-bottom: 4px; }
+.prep p { color: var(--muted); }
+.prep .tip { font-size: var(--s-1); }
+
+/* ---------- the Mass ---------- */
+.mass { display: grid; grid-template-columns: 15.5rem minmax(0, 1fr); gap: 64px; align-items: start; }
+.rail { position: sticky; top: calc(28px + env(safe-area-inset-top, 0px)); display: grid; gap: 18px; padding: 24px 22px 22px; border-radius: 22px; background: var(--panel); }
+.rail-label { font-size: var(--s-1); color: var(--muted); }
+.rail-fig { position: relative; height: 128px; display: grid; place-items: center; border-radius: 16px; background: radial-gradient(70% 70% at 50% 60%, var(--gold-pale), transparent 75%); }
+.rail-fig svg { width: 96px; height: 120px; color: var(--sage); transition: opacity 220ms ease-out, transform 220ms ease-out; }
+.rail-fig svg.swap { opacity: 0; transform: translateY(4px); }
+.rail-pose { font: italic 500 2.3rem var(--font-display); line-height: 1; color: var(--ink); min-height: 2.4rem; }
+.rail-pose small { display: block; font: 400 var(--s-1) var(--font-body); font-style: normal; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+.rail-parts { list-style: none; margin: 4px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); display: grid; gap: 2px; }
+.rail-parts a { display: flex; gap: 12px; align-items: baseline; padding: 6px 0; text-decoration: none; color: var(--muted); font-size: 0.98rem; transition: color 200ms; }
+.rail-parts a b { font: italic 500 1.05rem var(--font-display); color: var(--gold); width: 1.4rem; opacity: 0.6; }
+.rail-parts a.on { color: var(--ink); font-weight: 600; }
+.rail-parts a.on b { opacity: 1; }
+.rail-parts a:hover { color: var(--ink); }
+
+.index { display: none; }
+.marks { color: var(--muted); font-size: var(--s-1); margin: -16px 0 36px; display: flex; gap: 10px; align-items: baseline; }
+.rmark { font-family: var(--font-mark); color: var(--gold); font-size: 1.05em; font-style: normal; }
+
+.part { scroll-margin-top: 32px; padding-bottom: 32px; }
+.part + .part { padding-top: 32px; }
+.part-head { display: grid; grid-template-columns: auto 1fr; column-gap: 20px; align-items: end; margin-bottom: 28px; }
+.part-num { grid-row: span 2; font: italic 500 4.2rem var(--font-display); color: var(--gold); line-height: 0.8; opacity: 0.85; }
+.part-head h3 { font-size: 2.3rem; }
+.part-head p { color: var(--muted); }
+
+.steps { list-style: none; margin: 0; padding: 0; position: relative; }
+.steps::before { content: ""; position: absolute; left: 6px; top: 16px; bottom: 24px; width: 1.5px; background: var(--line); }
+.step { position: relative; padding: 0 0 40px 40px; display: grid; gap: 10px; min-width: 0; }
+.step::before { content: ""; position: absolute; left: 0; top: 11px; width: 13px; height: 13px; border-radius: 50%; background: var(--paper); border: 1.5px solid var(--gold); transition: background 250ms ease-out, box-shadow 250ms ease-out; }
+.step.on::before { background: var(--gold); box-shadow: 0 0 0 6px var(--gold-pale); }
+.step-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.step h4 { font-size: 1.7rem; }
+.step .what { max-width: 36rem; }
+
+.pose { display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px 3px 6px; border-radius: 999px; font: 600 0.82rem var(--font-body); letter-spacing: 0.02em; white-space: nowrap; }
+.pose svg { width: 18px; height: 22px; }
+.pose.stand, .pose.walk { background: var(--sage-pale); color: var(--sage); }
+.pose.sit { background: var(--gold-pale); color: var(--gold); }
+.pose.kneel { background: var(--slate-pale); color: var(--slate); }
+
+.say { margin-top: 4px; padding: 18px 22px; border-radius: 16px; background: var(--panel); display: grid; gap: 10px; min-width: 0; max-width: 36rem; }
+.say .line { display: grid; grid-template-columns: 5.2rem minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.say .who { font: 600 0.72rem var(--font-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.say .txt { font: 500 1.28rem/1.35 var(--font-display); }
+.say .all .txt { font-weight: 600; }
+.say .all .who { color: var(--gold); }
+.say .note { font-size: var(--s-1); color: var(--muted); padding-top: 4px; border-top: 1px dashed var(--line); }
+details.why { font-size: var(--s-1); color: var(--muted); max-width: 36rem; }
+details.why summary { cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; list-style: none; color: var(--sage); font-weight: 600; }
+details.why summary::-webkit-details-marker { display: none; }
+details.why summary::before { content: ""; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); transition: transform 200ms ease-out; }
+details.why[open] summary::before { transform: rotate(45deg); }
+details.why p { padding: 2px 0 4px 15px; border-left: 1.5px solid var(--gold-pale); margin-left: 3px; }
+
+/* ---------- communion ---------- */
+.communion { position: relative; overflow: hidden; border-radius: 28px; padding: 56px 48px; background: var(--gold-pale); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; scroll-margin-top: 24px; }
+.communion::before { content: ""; position: absolute; right: -10%; top: -40%; width: 70%; height: 140%; background: radial-gradient(closest-side, var(--glow), transparent); pointer-events: none; }
+.communion > * { position: relative; }
+.communion .intro { display: grid; gap: 16px; align-content: start; }
+.communion h2 { font-size: clamp(2rem, 4.4vw, 2.7rem); }
+.communion .choices { display: grid; gap: 14px; align-content: start; }
+.choice { background: var(--paper); border-radius: 18px; padding: 22px 24px; display: grid; gap: 6px; box-shadow: var(--shadow); }
+.choice h3 { font-size: 1.55rem; }
+.choice p { color: var(--muted); }
+.communion .small { font-size: var(--s-1); color: var(--muted); }
+
+/* ---------- faq ---------- */
+.faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; }
+.faq details { border-top: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 18px 0; min-height: 60px; font: 500 1.45rem/1.2 var(--font-display); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 9px; height: 9px; border-right: 1.5px solid var(--sage); border-bottom: 1.5px solid var(--sage); transform: rotate(45deg) translateY(-3px); transition: transform 200ms ease-out; }
+.faq details[open] summary::after { transform: rotate(-135deg); }
+.faq details p { padding: 0 0 22px; color: var(--muted); }
+
+/* ---------- next + footer ---------- */
+.next { margin-top: 88px; border-radius: 28px; padding: 48px; background: var(--sage-pale); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: center; }
+.next h2 { font-size: clamp(1.9rem, 4vw, 2.4rem); margin-bottom: 10px; }
+.next p { color: var(--muted); max-width: 34rem; }
+footer { margin-top: 56px; color: var(--muted); font-size: var(--s-1); display: grid; gap: 10px; max-width: 44rem; }
+footer ul { margin: 0; padding-left: 1.1em; display: grid; gap: 4px; }
+
+/* ---------- mobile posture pill ---------- */
+.pill { position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 5; transform: translate(-50%, 140%); opacity: 0; display: none; align-items: center; gap: 10px; padding: 8px 18px 8px 10px; border-radius: 999px; background: var(--ink); color: var(--paper); box-shadow: 0 12px 30px -12px rgba(0,0,0,0.5); transition: transform 260ms ease-out, opacity 260ms ease-out; white-space: nowrap; max-width: calc(100vw - 32px); }
+.pill.show { transform: translate(-50%, 0); opacity: 1; }
+.pill svg { width: 26px; height: 32px; color: var(--gold-pale); flex: none; }
+.pill b { font: italic 600 1.35rem var(--font-display); }
+.pill span { font-size: 0.85rem; opacity: 0.75; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- pew mode ---------- */
+.pew { position: fixed; inset: 0; z-index: 10; background: var(--pew-bg); color: var(--pew-ink); display: grid; grid-template-rows: auto 1fr auto; padding: calc(16px + env(safe-area-inset-top, 0px)) 20px calc(16px + env(safe-area-inset-bottom, 0px)); color-scheme: dark; }
+.pew::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(55% 40% at 50% 22%, rgba(226, 170, 82, 0.16), transparent 72%); }
+.pew > * { position: relative; max-width: 40rem; width: 100%; margin-inline: auto; }
+.pew-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.pew-top .eyebrow { color: var(--pew-gold); }
+.pew-close { background: transparent; color: var(--pew-ink); border: 1px solid rgba(243,235,220,0.25); border-radius: 999px; min-height: 44px; padding: 0 18px; font: 600 0.9rem var(--font-body); cursor: pointer; }
+.pew-body { overflow-y: auto; display: grid; align-content: center; gap: 18px; padding-block: 24px; }
+.pew-pose { display: flex; align-items: center; gap: 14px; color: var(--pew-gold); font: italic 600 1.7rem var(--font-display); }
+.pew-pose svg { width: 44px; height: 56px; }
+.pew h2 { font-size: clamp(2.4rem, 8vw, 3.2rem); color: var(--pew-ink); }
+.pew .pew-what { color: var(--pew-muted); font-size: 1.12rem; }
+.pew .say { background: rgba(243,235,220,0.07); color: var(--pew-ink); max-width: none; }
+.pew .say .txt { font-size: 1.5rem; }
+.pew .say .who, .pew .say .note { color: var(--pew-muted); }
+.pew .say .all .who { color: var(--pew-gold); }
+.pew .say .note { border-color: rgba(243,235,220,0.15); }
+.pew-progress { height: 3px; background: rgba(243,235,220,0.12); border-radius: 3px; overflow: hidden; margin-bottom: 14px; }
+.pew-progress span { display: block; height: 100%; background: var(--pew-gold); transition: width 250ms ease-out; }
+.pew-nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; }
+.pew-nav button { min-height: 56px; border-radius: 999px; font: 600 1rem var(--font-body); cursor: pointer; border: 1px solid rgba(243,235,220,0.25); background: transparent; color: var(--pew-ink); }
+.pew-nav button.go { background: var(--pew-gold); color: var(--pew-bg); border-color: transparent; }
+.pew-nav button:disabled { opacity: 0.3; cursor: default; }
+.pew-count { color: var(--pew-muted); font-size: 0.85rem; font-variant-numeric: tabular-nums; text-align: center; min-width: 4.5rem; }
+body.pew-open { overflow: hidden; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 60rem) {
+  .prep { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .assure { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mass { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .rail { display: none; }
+  .index { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 20px; list-style: none; padding: 0; margin: -8px 0 32px; }
+  .index a { display: flex; gap: 10px; align-items: baseline; min-height: 40px; text-decoration: none; color: var(--ink); }
+  .index b { font: italic 500 1.1rem var(--font-display); color: var(--gold); width: 1.3rem; }
+  .pill { display: flex; }
+  .communion { grid-template-columns: minmax(0, 1fr); padding: 40px 32px; }
+  .faq { grid-template-columns: minmax(0, 1fr); }
+  .next { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 40rem) {
+  body { font-size: 17px; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 8px; padding-block: 24px 24px; }
+  .door { order: -1; max-width: 230px; }
+  .prep { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .assure { gap: 20px 24px; }
+  section { padding-block: 56px 0; }
+  .part-num { font-size: 3.2rem; }
+  .part-head h3 { font-size: 2rem; }
+  .step { padding-left: 32px; }
+  .say { padding: 16px 18px; }
+  .say .line { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .communion { padding: 32px 22px; border-radius: 22px; }
+  .next { padding: 32px 24px; border-radius: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before { transition: none !important; animation: none !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="f-stand" viewBox="0 0 80 100">
+      <rect x="6" y="93" width="68" height="2.5" rx="1.25" style="fill:var(--stone-deep)"/>
+      <circle cx="40" cy="17" r="8.5" fill="currentColor"/>
+      <path d="M29 32c0-6 22-6 22 0l4.5 57c0 4.5-31 4.5-31 0z" fill="currentColor"/>
+    </symbol>
+    <symbol id="f-sit" viewBox="0 0 80 100">
+      <rect x="6" y="93" width="68" height="2.5" rx="1.25" style="fill:var(--stone-deep)"/>
+      <rect x="13" y="38" width="5.5" height="55" rx="2.75" style="fill:var(--stone-deep)"/>
+      <rect x="13" y="64" width="42" height="5.5" rx="2.75" style="fill:var(--stone-deep)"/>
+      <rect x="47" y="66" width="4.5" height="27" rx="2.25" style="fill:var(--stone-deep)"/>
+      <circle cx="31" cy="24" r="8.5" fill="currentColor"/>
+      <path d="M21 39c0-6 20-6 20 0l1.5 25H21z" fill="currentColor"/>
+      <rect x="21" y="53" width="40" height="11.5" rx="5.75" fill="currentColor"/>
+      <rect x="51" y="56" width="10.5" height="37" rx="5.25" fill="currentColor"/>
+    </symbol>
+    <symbol id="f-kneel" viewBox="0 0 80 100">
+      <rect x="6" y="93" width="68" height="2.5" rx="1.25" style="fill:var(--stone-deep)"/>
+      <rect x="61" y="38" width="6" height="55" rx="3" style="fill:var(--stone-deep)"/>
+      <rect x="54" y="35" width="17" height="5.5" rx="2.75" style="fill:var(--stone-deep)"/>
+      <rect x="28" y="85" width="34" height="6" rx="3" style="fill:var(--stone-deep)"/>
+      <circle cx="37" cy="19" r="8.5" fill="currentColor"/>
+      <path d="M27 34c0-6 20-6 20 0l1.5 49c0 4.5-21 4.5-21 0z" fill="currentColor"/>
+      <rect x="9" y="75" width="32" height="10" rx="5" fill="currentColor"/>
+      <rect x="40" y="37" width="20" height="7.5" rx="3.75" fill="currentColor"/>
+    </symbol>
+    <symbol id="f-walk" viewBox="0 0 80 100">
+      <rect x="6" y="93" width="68" height="2.5" rx="1.25" style="fill:var(--stone-deep)"/>
+      <circle cx="43" cy="17" r="8.5" fill="currentColor"/>
+      <path d="M31 32c0-6 22-6 22 0l7 57c0 4.5-31 4.5-31 0z" fill="currentColor"/>
+      <path d="M10 70h10M6 79h12M12 61h7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".45"/>
+    </symbol>
+    <symbol id="i-candle" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1.8 2 2.3 3.4 2.3 4.6a2.3 2.3 0 0 1-4.6 0c0-1.2.5-2.6 2.3-4.6z"/><rect x="8.5" y="12" width="7" height="13.5" rx="1.6"/></symbol>
+    <radialGradient id="g-light" cx="50%" cy="62%" r="65%">
+      <stop offset="0" style="stop-color:var(--light-1)"/>
+      <stop offset="1" style="stop-color:var(--light-2)"/>
+    </radialGradient>
+    <radialGradient id="g-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" style="stop-color:var(--glow)"/>
+      <stop offset="1" style="stop-color:var(--paper);stop-opacity:0"/>
+    </radialGradient>
+    <linearGradient id="g-spill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" style="stop-color:var(--light-2);stop-opacity:.55"/>
+      <stop offset="1" style="stop-color:var(--light-2);stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">A guide for newcomers</p>
+      <h1>Your first <em>Mass</em></h1>
+      <p class="lede">Walking into a Catholic church for the first time can feel like arriving at a family dinner where everyone already knows the routine. Here is the routine, so you can relax and simply be there.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#the-mass">Walk me through it</a>
+        <button class="btn btn-quiet" type="button" id="open-pew"><svg aria-hidden="true"><use href="#i-candle"/></svg>Follow along in the pew</button>
+      </div>
+    </div>
+    <svg class="door" viewBox="0 0 400 470" role="img" aria-label="An open church door with warm light inside">
+      <circle class="glow" cx="200" cy="290" r="200" fill="url(#g-glow)"/>
+      <path d="M40 470 Q200 488 360 470 L390 470 Q200 500 10 470Z" fill="url(#g-spill)"/>
+      <path d="M200 26v26M188 37h24" stroke="var(--stone-deep)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M62 440V212a138 138 0 0 1 276 0v228z" fill="var(--stone)"/>
+      <path d="M80 440V214a120 120 0 0 1 240 0v226" fill="none" stroke="var(--stone-deep)" stroke-width="2"/>
+      <path d="M104 440V218a96 96 0 0 1 192 0v222z" fill="url(#g-light)"/>
+      <path d="M188 440l7-120h10l7 120z" fill="var(--light-1)" opacity=".9"/>
+      <g stroke="var(--wood)" stroke-width="3" stroke-linecap="round" opacity=".35">
+        <path d="M118 424h58M224 424h58M128 400h52M220 400h52M138 378h45M217 378h45M146 358h40M214 358h40"/>
+      </g>
+      <path d="M192 300a8 8 0 0 1 16 0v18h-16z" fill="var(--gold)" opacity=".55"/>
+      <path d="M104 440V222l26 14v196z" fill="var(--wood)" opacity=".9"/>
+      <path d="M296 440V222l-26 14v196z" fill="var(--wood)" opacity=".9"/>
+      <rect x="52" y="440" width="296" height="12" rx="4" fill="var(--stone-deep)"/>
+      <rect x="36" y="452" width="328" height="12" rx="4" fill="var(--stone)"/>
+    </svg>
+  </header>
+
+  <ul class="assure">
+    <li><strong>You are welcome</strong><span>whatever you believe, or don't.</span></li>
+    <li><strong>Nobody will single you out</strong><span>or ask you to say or do anything.</span></li>
+    <li><strong>About an hour</strong><span>for a Sunday Mass, a little less on weekdays.</span></li>
+    <li><strong>When in doubt, sit</strong><span>and watch. That's always fine.</span></li>
+  </ul>
+
+  <section id="before">
+    <div class="sec-head">
+      <p class="eyebrow">Before you go</p>
+      <h2>Four small things to know</h2>
+    </div>
+    <div class="prep">
+      <div>
+        <h3>Pick a time</h3>
+        <p>Sunday Masses start Saturday evening and run through Sunday. Look up nearby times on <a href="https://masstimes.org" target="_blank" rel="noopener">MassTimes.org</a> or the parish website.</p>
+        <p class="tip">Arriving ten minutes early gives you time to settle in.</p>
+      </div>
+      <div>
+        <h3>Wear something tidy</h3>
+        <p>Dress the way you would for a nice dinner. You'll see everything from suits to jeans, and nobody is checking.</p>
+      </div>
+      <div>
+        <h3>Walking in</h3>
+        <p>Catholics usually touch the holy water by the door and make the sign of the cross, then bend the right knee toward the altar before stepping into a pew. Join in or simply find a seat.</p>
+      </div>
+      <div>
+        <h3>Where to sit</h3>
+        <p>Somewhere in the middle lets you follow the people in front of you. The book in the pew, often called a missalette, has most of the words.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="the-mass">
+    <div class="sec-head">
+      <p class="eyebrow">Step by step</p>
+      <h2>What happens at Mass</h2>
+      <p>Every Mass follows the same shape in four parts. The words people say aloud are under each step, and the companion beside them shows whether to stand, sit or kneel as you read.</p>
+    </div>
+    <ul class="index" id="index"></ul>
+    <p class="marks"><span class="rmark">℟</span><span>Gold lines are said by everyone. Missalettes mark these responses with the same sign.</span></p>
+    <div class="mass">
+      <aside class="rail" aria-label="What to do now">
+        <span class="rail-label" id="rail-part">Part I · Gathering</span>
+        <div class="rail-fig"><svg id="rail-svg" viewBox="0 0 80 100" aria-hidden="true"><use href="#f-stand"/></svg></div>
+        <p class="rail-pose" id="rail-pose">Stand<small id="rail-step">Opening hymn</small></p>
+        <ol class="rail-parts" id="rail-parts"></ol>
+      </aside>
+      <div id="path"></div>
+    </div>
+  </section>
+
+  <section id="communion-section">
+    <div class="communion" id="communion">
+      <div class="intro">
+        <p class="eyebrow">The moment most newcomers wonder about</p>
+        <h2>When everyone goes up to Communion</h2>
+        <p>Catholics believe that what the priest offers at Communion is truly Jesus. Receiving him is also a sign of full unity with the Catholic Church, so the Church asks people who aren't Catholic not to receive yet.</p>
+        <p>It isn't a judgment of you. It's closer to a family promise you haven't made yet, and the invitation to make it is always open.</p>
+        <p class="small">The U.S. bishops explain this in their <a href="https://www.usccb.org/prayer-and-worship/the-mass/order-of-mass/liturgy-of-the-eucharist/guidelines-for-the-reception-of-communion" target="_blank" rel="noopener">guidelines for receiving Communion</a>.</p>
+      </div>
+      <div class="choices">
+        <div class="choice">
+          <h3>Stay in your seat</h3>
+          <p>Let people step past you and use the time to pray or simply rest in the quiet. Plenty of Catholics do this too, so nobody will notice.</p>
+        </div>
+        <div class="choice">
+          <h3>Go up for a blessing</h3>
+          <p>In many parishes you can walk up in line with your arms crossed over your chest. The priest will say a short blessing over you instead.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="questions">
+    <div class="sec-head">
+      <p class="eyebrow">Common worries</p>
+      <h2>Questions people are shy to ask</h2>
+    </div>
+    <div class="faq">
+      <div>
+        <details><summary>What if I do something wrong?</summary><p>Everyone in that room had a first Mass once, and many still lose their place. Follow the people around you. If you miss a cue, nothing happens. God is not grading posture.</p></details>
+        <details><summary>Do I have to put money in the basket?</summary><p>No. Visitors often just pass the basket along. Parishioners support the parish over time; a guest is not expected to.</p></details>
+        <details><summary>Can I bring my kids?</summary><p>Yes. Children are part of almost every Mass, noise included. Many churches have a cry room or a back area if you need to step out for a moment.</p></details>
+      </div>
+      <div>
+        <details><summary>Why is everyone so quiet beforehand?</summary><p>Catholics believe Jesus is present in the tabernacle, the gold box usually behind or beside the altar. People pray before Mass, so the quiet is a courtesy, like lowering your voice in someone's home.</p></details>
+        <details><summary>Can I talk to the priest afterward?</summary><p>Usually, yes. Many priests greet people at the door after Mass. Saying "This was my first time" is a perfectly good way to start.</p></details>
+        <details><summary>Is a weekday Mass different?</summary><p>It's the same shape, only shorter, often about thirty minutes, with fewer songs and one reading before the Gospel. It can be a quieter way to try it.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <aside class="next">
+    <div>
+      <h2>Still wondering whether any of it is true?</h2>
+      <p>The Tree of Life walks through the big questions one at a time, starting with whether God exists at all, and goes wherever your doubts take you.</p>
+    </div>
+    <a class="btn btn-primary" href="/">Explore the Tree of Life</a>
+  </aside>
+
+  <footer>
+    <p>Postures follow the norms for the United States and vary slightly in other countries. The people's words are from the Roman Missal, Third Edition.</p>
+    <ul>
+      <li><a href="https://www.usccb.org/resources/parts-of-the-mass.pdf" target="_blank" rel="noopener">The parts of the Mass</a>, U.S. Conference of Catholic Bishops</li>
+      <li><a href="https://www.usccb.org/prayer-and-worship/the-mass/general-instruction-of-the-roman-missal/girm-chapter-2" target="_blank" rel="noopener">General Instruction of the Roman Missal, chapter 2</a>, including postures</li>
+      <li><a href="https://www.usccb.org/prayer-and-worship/the-mass/order-of-mass/liturgy-of-the-eucharist/guidelines-for-the-reception-of-communion" target="_blank" rel="noopener">Guidelines for the reception of Communion</a></li>
+    </ul>
+  </footer>
+</div>
+
+<div class="pill" id="pill" aria-hidden="true"><svg viewBox="0 0 80 100"><use href="#f-stand"/></svg><b id="pill-pose">Stand</b><span id="pill-step">Opening hymn</span></div>
+
+<div class="pew" id="pew" hidden role="dialog" aria-modal="true" aria-label="Follow along with the Mass">
+  <div class="pew-top">
+    <span class="eyebrow" id="pew-part"></span>
+    <button class="pew-close" type="button" id="pew-close">Close</button>
+  </div>
+  <div class="pew-body" id="pew-body" aria-live="polite"></div>
+  <div>
+    <div class="pew-progress"><span id="pew-bar"></span></div>
+    <div class="pew-nav">
+      <button type="button" id="pew-prev">Back</button>
+      <span class="pew-count" id="pew-count"></span>
+      <button type="button" class="go" id="pew-next">Next</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const POSES = { stand: "Stand", sit: "Sit", kneel: "Kneel", walk: "Go up, or stay seated" };
+const NUM = ["I", "II", "III", "IV"];
+// P = priest, R = reader, A = everyone. Words are from the Roman Missal, Third Edition (U.S.).
+const PARTS = [
+  { id: "gathering", name: "Gathering", sub: "Introductory rites", blurb: "The community comes together and gets ready to pray.", steps: [
+    { t: "Opening hymn", p: "stand", w: "A hymn begins and the priest walks in with the servers. The hymn number is usually posted on a board near the front.",
+      why: "The community rises together to welcome Christ, who is present in the people gathered and in the priest who leads them." },
+    { t: "Sign of the cross and greeting", p: "stand", w: "Everyone makes the sign of the cross: forehead, chest, left shoulder, right shoulder.",
+      say: [["P","In the name of the Father, and of the Son, and of the Holy Spirit."],["A","Amen."],["P","The Lord be with you."],["A","And with your spirit."]],
+      why: "Everything in the Mass begins in the name of the Trinity, the one God who is Father, Son and Holy Spirit." },
+    { t: "Asking for mercy", p: "stand", w: "A moment of silence to call to mind our sins, then a short prayer for mercy, often repeated after the priest or singer.",
+      say: [["A","Lord, have mercy. Christ, have mercy. Lord, have mercy."]], note: "Some days this begins with a longer prayer that starts “I confess to almighty God.” It's printed in the missalette.",
+      why: "Nobody comes to Mass because they have it all together. The first honest step is admitting that we need God." },
+    { t: "Glory to God", p: "stand", w: "A joyful hymn of praise, sung on most Sundays. It's left out during Advent and Lent.",
+      why: "It opens with the song the angels sang over Bethlehem in Luke 2:14, and it has been sung in some form for over 1,500 years." },
+    { t: "Opening prayer", p: "stand", w: "The priest says “Let us pray,” pauses, and then prays the prayer for that day.",
+      say: [["A","Amen."]] }
+  ]},
+  { id: "word", name: "Listening", sub: "Liturgy of the Word", blurb: "Readings from the Bible, building up to the Gospel.", steps: [
+    { t: "First reading", p: "sit", w: "A reader reads a passage, usually from the Old Testament.",
+      say: [["R","The word of the Lord."],["A","Thanks be to God."]],
+      why: "Over three years of Sundays, Catholics hear most of the Bible read aloud, and the first reading usually echoes the day's Gospel." },
+    { t: "Psalm", p: "sit", w: "A singer sings a psalm. Everyone repeats a short refrain after each verse, which the singer sings first so you can learn it." },
+    { t: "Second reading", p: "sit", w: "On Sundays, a second reading, often from one of St. Paul's letters.",
+      say: [["R","The word of the Lord."],["A","Thanks be to God."]] },
+    { t: "Alleluia", p: "stand", w: "Everyone stands and sings “Alleluia” to welcome the Gospel. During Lent a different short verse replaces it." },
+    { t: "Gospel", p: "stand", w: "A priest or deacon reads from one of the four Gospels. When he names the Gospel, people trace a small cross on their forehead, lips and chest with the thumb.",
+      say: [["P","The Lord be with you."],["A","And with your spirit."],["P","A reading from the holy Gospel according to…"],["A","Glory to you, O Lord."],["P","The Gospel of the Lord."],["A","Praise to you, Lord Jesus Christ."]],
+      why: "We stand because these are the words and deeds of Jesus himself. The three small crosses ask that the Gospel be in our minds, on our lips and in our hearts." },
+    { t: "Homily", p: "sit", w: "The priest or deacon gives a short talk that connects the readings to everyday life." },
+    { t: "Creed", p: "stand", w: "Everyone says the Nicene Creed together, a summary of what Christians believe. It's printed in the missalette. People bow at the words about Jesus becoming man.",
+      why: "This creed was written at the Councils of Nicaea (325) and Constantinople (381), and most Christians around the world still profess it." },
+    { t: "Prayers for the world", p: "stand", w: "Someone reads prayers for the Church, the world, the sick and those who have died. After each one, everyone answers.",
+      say: [["A","Lord, hear our prayer."]] }
+  ]},
+  { id: "eucharist", name: "The Eucharist", sub: "Liturgy of the Eucharist", blurb: "Bread and wine are offered, and the Last Supper is made present.", steps: [
+    { t: "Gifts and collection", p: "sit", w: "Bread and wine are carried to the altar, often by members of the parish, while a basket is passed. Visitors are welcome to just pass it along." },
+    { t: "Pray, brethren", p: "stand", w: "The priest asks everyone to pray that the offering will be accepted. The response is long, so read it from the missalette.",
+      say: [["P","Pray, brethren, that my sacrifice and yours may be acceptable to God, the almighty Father."],["A","May the Lord accept the sacrifice at your hands for the praise and glory of his name, for our good and the good of all his holy Church."]] },
+    { t: "Lift up your hearts", p: "stand", w: "A short exchange opens the great prayer of thanksgiving, which ends with everyone singing “Holy, Holy, Holy.”",
+      say: [["P","The Lord be with you."],["A","And with your spirit."],["P","Lift up your hearts."],["A","We lift them up to the Lord."],["P","Let us give thanks to the Lord our God."],["A","It is right and just."]] },
+    { t: "Eucharistic Prayer", p: "kneel", w: "This is the heart of the Mass. The priest repeats Jesus' words from the Last Supper, “This is my Body” and “This is the chalice of my Blood,” and lifts the host and the chalice. Bells may ring. Afterward, everyone sings a short acclamation, such as this one.",
+      say: [["A","We proclaim your Death, O Lord, and profess your Resurrection until you come again."]], note: "The prayer ends with a sung “Amen,” often called the Great Amen. If kneeling is hard for you, sitting is fine.",
+      why: "Catholics believe that at these words the bread and wine truly become the Body and Blood of Jesus, as he said at the Last Supper (Luke 22:19–20, John 6:51–56). That's why people kneel." }
+  ]},
+  { id: "communion-rite", name: "Communion and sending", sub: "Communion and concluding rites", blurb: "The Lord's Prayer, peace, Communion, and a blessing to go out with.", steps: [
+    { t: "The Our Father", p: "stand", w: "Everyone prays the Lord's Prayer together. Some people hold hands or open their palms; either way is fine.",
+      say: [["A","Our Father, who art in heaven… and deliver us from evil."],["P","(a short prayer for peace)"],["A","For the kingdom, the power and the glory are yours now and for ever."]], note: "Catholics pause after “deliver us from evil.” If you grew up saying the ending straight through, wait for the priest.",
+      why: "This is the prayer Jesus himself taught (Matthew 6:9–13)." },
+    { t: "Sign of peace", p: "stand", w: "People turn to those nearby and shake hands, nod or wave.",
+      say: [["A","Peace be with you."]], why: "Jesus said to be reconciled with your brother before bringing your gift to the altar (Matthew 5:23–24)." },
+    { t: "Lamb of God", p: "kneel", w: "Everyone sings “Lamb of God,” then kneels. The priest holds up the host and everyone answers together.",
+      say: [["P","Behold the Lamb of God, behold him who takes away the sins of the world. Blessed are those called to the supper of the Lamb."],["A","Lord, I am not worthy that you should enter under my roof, but only say the word and my soul shall be healed."]],
+      why: "These words echo a Roman centurion who asked Jesus to heal his servant (Matthew 8:8). Jesus praised his faith." },
+    { t: "Communion", p: "walk", w: "Row by row, people go forward to receive Communion. If you're not Catholic, you can stay seated or go up for a blessing.", link: true },
+    { t: "Quiet prayer", p: "kneel", w: "After Communion, people pray in silence for a few minutes, kneeling or sitting." },
+    { t: "Blessing and sending", p: "stand", w: "The priest says a final prayer, blesses everyone as they make the sign of the cross, and sends them out. A closing hymn follows. It's customary to stay until the priest has walked out.",
+      say: [["P","Go forth, the Mass is ended."],["A","Thanks be to God."]],
+      why: "The word “Mass” comes from this sending, “Ite, missa est” in Latin. The Mass ends by sending people back into the world." }
+  ]}
+];
+
+const fig = p => `<svg viewBox="0 0 80 100" aria-hidden="true"><use href="#f-${p}"/></svg>`;
+const chip = p => `<span class="pose ${p}">${fig(p)}${p === "walk" ? "Go up or stay" : POSES[p]}</span>`;
+const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+const WHO = { A: "Everyone", P: "Priest", R: "Reader" };
+function sayBlock(s) {
+  if (!s.say && !s.note) return "";
+  const lines = (s.say || []).map(([who, txt]) =>
+    `<div class="line ${who === "A" ? "all" : ""}"><span class="who">${who === "A" ? '<span class="rmark">℟</span> ' : ""}${WHO[who]}</span><span class="txt">${esc(txt)}</span></div>`).join("");
+  return `<div class="say">${lines}${s.note ? `<span class="note">${esc(s.note)}</span>` : ""}</div>`;
+}
+
+const FLAT = [];
+document.getElementById("path").innerHTML = PARTS.map((pt, pi) => `
+  <div class="part" id="${pt.id}">
+    <div class="part-head"><span class="part-num" aria-hidden="true">${NUM[pi]}</span><h3>${pt.name}</h3><p>${pt.blurb}</p></div>
+    <ol class="steps">${pt.steps.map(s => { const i = FLAT.push({ ...s, part: pt.name, pi }) - 1; return `
+      <li class="step" data-i="${i}">
+        <div class="step-top"><h4>${s.t}</h4>${chip(s.p)}</div>
+        <p class="what">${esc(s.w)}${s.link ? ` <a href="#communion">Read more</a>` : ""}</p>
+        ${sayBlock(s)}
+        ${s.why ? `<details class="why"><summary>Why do we do this?</summary><p>${esc(s.why)}</p></details>` : ""}
+      </li>`; }).join("")}</ol>
+  </div>`).join("");
+const partLinks = PARTS.map((pt, pi) => `<li><a href="#${pt.id}" data-pi="${pi}"><b>${NUM[pi]}</b>${pt.name}</a></li>`).join("");
+document.getElementById("rail-parts").innerHTML = partLinks;
+document.getElementById("index").innerHTML = partLinks;
+
+// posture companion: follows whichever step is in the middle of the screen
+const railSvg = document.getElementById("rail-svg");
+const pillSvg = document.querySelector("#pill svg");
+const steps = [...document.querySelectorAll(".step")];
+let current = -1, swapTimer = 0;
+function setCurrent(i) {
+  if (i === current) return;
+  const prev = FLAT[current], s = FLAT[i];
+  current = i;
+  steps.forEach(el => el.classList.toggle("on", +el.dataset.i === i));
+  document.getElementById("rail-part").textContent = `Part ${NUM[s.pi]} · ${s.part}`;
+  document.getElementById("rail-pose").firstChild.nodeValue = POSES[s.p];
+  document.getElementById("rail-step").textContent = s.t;
+  document.getElementById("pill-pose").textContent = s.p === "walk" ? "Go up or stay" : POSES[s.p];
+  document.getElementById("pill-step").textContent = s.t;
+  document.querySelectorAll("#rail-parts a").forEach(a => a.classList.toggle("on", +a.dataset.pi === s.pi));
+  pillSvg.innerHTML = `<use href="#f-${s.p}"/>`;
+  if (!prev || prev.p !== s.p) {
+    railSvg.classList.add("swap");
+    clearTimeout(swapTimer);
+    swapTimer = setTimeout(() => { railSvg.innerHTML = `<use href="#f-${FLAT[current].p}"/>`; railSvg.classList.remove("swap"); }, 160);
+  }
+}
+setCurrent(0);
+const pill = document.getElementById("pill");
+const massSection = document.getElementById("the-mass");
+let ticking = false;
+function onScroll() {
+  ticking = false;
+  const mid = window.innerHeight * 0.45;
+  let best = 0;
+  for (const el of steps) { if (el.getBoundingClientRect().top <= mid) best = +el.dataset.i; else break; }
+  setCurrent(best);
+  const r = document.getElementById("path").getBoundingClientRect();
+  pill.classList.toggle("show", r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4);
+}
+window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+
+// pew mode
+const pew = document.getElementById("pew");
+const pewBody = document.getElementById("pew-body");
+let idx = 0, wake = null;
+try { idx = Math.min(FLAT.length - 1, Math.max(0, parseInt(localStorage.getItem("firstMassStep") || "0", 10) || 0)); } catch (e) {}
+function renderPew() {
+  const s = FLAT[idx];
+  document.getElementById("pew-part").textContent = `Part ${NUM[s.pi]} · ${s.part}`;
+  pewBody.innerHTML = `
+    <div class="pew-pose">${fig(s.p)}${POSES[s.p]}</div>
+    <h2>${s.t}</h2>
+    <p class="pew-what">${esc(s.w)}</p>
+    ${s.link ? `<div class="say"><span class="txt">If you're not Catholic, stay in your seat and pray, or go up with your arms crossed over your chest for a blessing.</span></div>` : sayBlock(s)}`;
+  pewBody.scrollTop = 0;
+  document.getElementById("pew-count").textContent = `${idx + 1} of ${FLAT.length}`;
+  document.getElementById("pew-bar").style.width = ((idx + 1) / FLAT.length * 100) + "%";
+  document.getElementById("pew-prev").disabled = idx === 0;
+  document.getElementById("pew-next").textContent = idx === FLAT.length - 1 ? "Finish" : "Next";
+  try { localStorage.setItem("firstMassStep", String(idx)); } catch (e) {}
+}
+async function openPew() {
+  pew.hidden = false; document.body.classList.add("pew-open"); renderPew();
+  document.getElementById("pew-next").focus();
+  try { wake = await navigator.wakeLock.request("screen"); } catch (e) {}
+}
+function closePew() {
+  pew.hidden = true; document.body.classList.remove("pew-open");
+  try { wake && wake.release(); } catch (e) {} wake = null;
+  document.getElementById("open-pew").focus();
+}
+document.getElementById("open-pew").addEventListener("click", openPew);
+document.getElementById("pew-close").addEventListener("click", closePew);
+document.getElementById("pew-prev").addEventListener("click", () => { if (idx > 0) { idx--; renderPew(); } });
+document.getElementById("pew-next").addEventListener("click", () => {
+  if (idx < FLAT.length - 1) { idx++; renderPew(); }
+  else { idx = 0; try { localStorage.setItem("firstMassStep", "0"); } catch (e) {} closePew(); }
+});
+document.addEventListener("keydown", e => {
+  if (pew.hidden) return;
+  if (e.key === "Escape") closePew();
+  if (e.key === "ArrowRight") document.getElementById("pew-next").click();
+  if (e.key === "ArrowLeft") document.getElementById("pew-prev").click();
+});
+</script>
+</body>
+</html>
