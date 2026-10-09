@@ -213,7 +213,7 @@
         const rows = await getJSON(`${CFG.supabaseUrl}/rest/v1/church_updates?select=church,kind,value,created_at&church=in.(${need.join(",")})&order=created_at.asc&limit=1000`, { headers: dbHeaders() });
         for (const id of need) updCache.set(id, []);
         for (const r of rows) updCache.get(r.church)?.push(r);
-      } catch (e) { for (const id of need) updCache.set(id, []); if (/^40[04]$/.test(e.message)) { dbReady = false; document.body.classList.add("no-db"); } }
+      } catch (e) { for (const id of need) updCache.set(id, []); if (/^40[04]$/.test(e.message)) { dbReady = false; document.documentElement.classList.add("no-db"); } }
     }
     return Object.fromEntries(ids.map((id) => [id, updCache.get(id) || []]));
   }
