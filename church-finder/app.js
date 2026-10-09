@@ -408,7 +408,7 @@
         const el = $(`[data-id="${r.id}"] .tags`);
         if (el && !el.querySelector(".next")) {
           const n = nextOf(extra);
-          if (n) el.insertAdjacentHTML("afterbegin", `<span class="tag next">Next Mass ${esc(n.toLowerCase().replace(/^(today|tomorrow)/, (x) => x))}</span>`);
+          if (n) el.insertAdjacentHTML("afterbegin", `<span class="tag next">Next Mass ${esc(n.replace(/^(Today|Tomorrow)/, (x) => x.toLowerCase()))}</span>`);
         }
       }
     });
@@ -417,7 +417,7 @@
   function itemHTML(r) {
     const next = r.mass ? nextOf(parseOsmTimes(r.mass).items) : "";
     const tags = [];
-    if (next) tags.push(`<span class="tag next">Next Mass ${esc(next.charAt(0).toLowerCase() + next.slice(1))}</span>`);
+    if (next) tags.push(`<span class="tag next">Next Mass ${esc(next.replace(/^(Today|Tomorrow)/, (x) => x.toLowerCase()))}</span>`);
     else if (r.mass) tags.push(`<span class="tag">Mass times listed</span>`);
     if (r.kind !== "church") tags.push(`<span class="tag">${esc(KIND[r.kind] || r.kind)}</span>`);
     if (r.rite) tags.push(`<span class="tag rite">${esc(r.rite)}</span>`);
@@ -504,6 +504,7 @@
       const icon = { language: ICON.lang, access: ICON.access, contact: ICON.phone }[u.kind] || ICON.info;
       facts.push([icon, `${esc(u.value)} <span class="by">added by a visitor, ${monthYear(u.created_at)}</span>`]);
     }
+    if (c.perpetual) facts.push([ICON.candle, `<b>Perpetual adoration.</b> The Blessed Sacrament is exposed for adoration around the clock.`]);
     if (adoration.length) facts.push([ICON.candle, `<b>Adoration</b>${scheduleTable(adoration)}`]);
     if (off?.monthly?.length) facts.push([ICON.clock, `<b>Once a month</b>${scheduleTable(off.monthly)}`]);
     if (off?.other?.length) facts.push([ICON.clock, `<b>Other services</b>${scheduleTable(off.other)}`]);
@@ -619,7 +620,7 @@
     let intro = null;
     if (title) intro = await getJSON(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title.replace(/ /g, "_"))}`).catch(() => null);
     const bits = [];
-    if (facts?.year) bits.push(`Built ${esc(facts.year)}`);
+    if (facts?.year) bits.push(`Dates from ${esc(facts.year)}`);
     if (facts?.architect?.length) bits.push(`Architect: ${esc(facts.architect.join(", "))}`);
     if (facts?.style?.length) bits.push(esc(facts.style.join(", ")));
     const heritage = (facts?.heritage || []).filter((h) => !/^Q\d+$/.test(h));
