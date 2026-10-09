@@ -747,6 +747,14 @@ else { const had = visited.has(root.id); select(root.id, false); if (!had) { vis
 .talk-list li.talk-empty { background: none; padding: 0; color: var(--muted); font-size: var(--step--1); }
 .talk-meta { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font: var(--step--1)/1.3 var(--font-ui); color: var(--muted); }
 .talk-meta b { color: var(--ink); font-weight: 500; }
+.talk-own { margin-left: auto; display: inline-flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; }
+.talk-own button {
+  background: none; border: 0; margin: -10px -6px; padding: 10px 6px; min-height: 40px; cursor: pointer;
+  font: inherit; color: var(--muted); text-decoration: underline; text-decoration-color: var(--bark-soft); text-underline-offset: 3px;
+}
+.talk-own button:hover { color: var(--ink); }
+.talk-own .talk-del-yes { color: var(--ink); font-weight: 500; }
+.talk-own button:focus-visible { outline: 2px solid var(--leaf); outline-offset: -6px; border-radius: 8px; }
 .talk-list p { margin: 0; font: 400 var(--step-0)/1.55 var(--font-body); max-width: 64ch; overflow-wrap: anywhere; }
 .talk-form { display: grid; gap: 10px; }
 .talk-form input[type="text"], .talk-form textarea, .tol-field input {
@@ -818,6 +826,22 @@ button[disabled] { opacity: .6; cursor: progress; }
     headers: { apikey: CFG.supabaseKey, ...(CFG.supabaseKey.startsWith("eyJ") ? { Authorization: `Bearer ${CFG.supabaseKey}` } : {}), "Content-Type": "application/json", ...(opts.headers || {}) }
   });
 
+  /* ---------- your own comments: a secret stays in this browser, only its hash is sent ---------- */
+  const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+  function secret() {
+    try {
+      let s = localStorage.getItem("tol-owner");
+      if (!/^[0-9a-f]{64}$/.test(s || "")) { s = hex(crypto.getRandomValues(new Uint8Array(32))); localStorage.setItem("tol-owner", s); }
+      return s;
+    } catch (e) { return ""; }
+  }
+  async function ownerHash() {
+    const s = secret();
+    try { return s ? hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s))) : null; } catch (e) { return null; }
+  }
+  const mine = () => { try { return new Set(JSON.parse(localStorage.getItem("tol-mine") || "[]")); } catch (e) { return new Set(); } };
+  const saveMine = set => { try { localStorage.setItem("tol-mine", JSON.stringify([...set].slice(-500))); } catch (e) {} };
+
   /* ---------- per-question enhancement ---------- */
   function enhance() {
     const entry = reader.querySelector("article.entry");
@@ -840,7 +864,7 @@ button[disabled] { opacity: .6; cursor: progress; }
       const html = `
         <section class="talk" aria-labelledby="talk-h">
           <h3 id="talk-h">Conversation<span class="talk-count" id="talk-count"></span></h3>
-          <p class="talk-note">Public comments on this question. Please be kind; comments with profanity aren't posted.</p>
+          <p class="talk-note">Public comments on this question. Please be kind; comments with profanity aren't posted. You can delete your own comments from this device.</p>
           <ol class="talk-list" id="talk-list" aria-live="polite"><li class="talk-empty">Loading comments…</li></ol>
           <form class="talk-form" id="talk-form" novalidate>
             <label class="tol-sr" for="talk-name">Your name</label>
@@ -856,10 +880,12 @@ button[disabled] { opacity: .6; cursor: progress; }
     }
   }
 
-  function commentHTML(c) {
-    return `<li><div class="talk-meta"><b>${esc(c.name)}</b><time datetime="${esc(c.created_at)}">${when(c.created_at)}</time></div><p>${esc(c.body).replace(/\n/g, "<br>")}</p></li>`;
+  function commentHTML(c, own = mine()) {
+    const del = own.has(c.id) ? `<span class="talk-own"><button type="button" class="talk-del" data-del="${+c.id}">Delete</button></span>` : "";
+    return `<li data-id="${+c.id}"><div class="talk-meta"><b>${esc(c.name)}</b><time datetime="${esc(c.created_at)}">${when(c.created_at)}</time>${del}</div><p>${esc(c.body).replace(/\n/g, "<br>")}</p></li>`;
   }
   function paintCount(n) { const el = document.getElementById("talk-count"); if (el) el.textContent = n ? ` · ${n}` : ""; }
+  const EMPTY = `<li class="talk-empty">No comments yet. You could start the conversation.</li>`;
   async function loadComments(id) {
     const list = document.getElementById("talk-list");
     try {
@@ -867,7 +893,8 @@ button[disabled] { opacity: .6; cursor: progress; }
       if (!r.ok) throw new Error(r.status);
       const rows = await r.json();
       if (nodeId() !== id || !list.isConnected) return;
-      list.innerHTML = rows.length ? rows.map(commentHTML).join("") : `<li class="talk-empty">No comments yet. You could start the conversation.</li>`;
+      const own = mine();
+      list.innerHTML = rows.length ? rows.map(c => commentHTML(c, own)).join("") : EMPTY;
       paintCount(rows.length);
     } catch (e) {
       if (list.isConnected) list.innerHTML = `<li class="talk-empty">Comments couldn't load right now. Please try again later.</li>`;
@@ -888,13 +915,19 @@ button[disabled] { opacity: .6; cursor: progress; }
     if (hasBanned(name) || hasBanned(body)) { out.textContent = MESSAGES.blocked_words; return; }
     btn.disabled = true; out.textContent = "Posting…";
     try {
-      const r = await api("comments?select=id,name,body,created_at", { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify({ node: nodeId(), name: name || "Anonymous", body }) });
-      const data = await r.json().catch(() => ({}));
+      const row = { node: nodeId(), name: name || "Anonymous", body };
+      let owner_hash = await ownerHash();
+      const send = () => api("comments?select=id,name,body,created_at", { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify(owner_hash ? { ...row, owner_hash } : row) });
+      let r = await send(), data = await r.json().catch(() => ({}));
+      // database not yet updated for deleting (no owner_hash column): post without it rather than fail
+      if (!r.ok && owner_hash && data.code === "PGRST204") { owner_hash = null; r = await send(); data = await r.json().catch(() => ({})); }
       if (!r.ok) { out.textContent = MESSAGES[data.message] || "That didn't post. Please try again in a moment."; return; }
+      const own = mine();
+      if (owner_hash) { own.add(data[0].id); saveMine(own); }
       const list = document.getElementById("talk-list");
       list.querySelector(".talk-empty")?.remove();
-      list.insertAdjacentHTML("beforeend", commentHTML(data[0]));
-      paintCount(list.children.length);
+      list.insertAdjacentHTML("beforeend", commentHTML(data[0], own));
+      paintCount(list.querySelectorAll("li[data-id]").length);
       form.querySelector("#talk-body").value = "";
       remember("tol-name", name);
       out.textContent = "Posted. Thank you for joining in.";
@@ -946,6 +979,36 @@ button[disabled] { opacity: .6; cursor: progress; }
     if (COMMENTS && f.id === "talk-form") { e.preventDefault(); e.stopPropagation(); postComment(f); }
     else if (FEEDBACK && f.id === "suggest") { e.preventDefault(); e.stopPropagation(); sendFeedback(f); }
   }, true);
+
+  // Delete your own comment: tap Delete, then confirm.
+  const delButton = id => `<button type="button" class="talk-del" data-del="${id}">Delete</button>`;
+  addEventListener("click", async e => {
+    const b = e.target.closest?.(".talk-del, .talk-del-yes, .talk-del-no");
+    const li = b?.closest("li[data-id]"), slot = b?.closest(".talk-own");
+    if (!COMMENTS || !li || !slot) return;
+    const id = +li.dataset.id;
+    if (b.classList.contains("talk-del")) {
+      slot.innerHTML = `<span>Delete this comment?</span><button type="button" class="talk-del-yes">Delete</button><button type="button" class="talk-del-no">Keep</button>`;
+      slot.querySelector(".talk-del-no").focus();
+      return;
+    }
+    if (b.classList.contains("talk-del-no")) { slot.innerHTML = delButton(id); slot.firstChild.focus(); return; }
+    slot.innerHTML = "<span>Deleting…</span>";
+    const own = mine(), out = document.getElementById("talk-out");
+    try {
+      const r = await api("rpc/tol_delete_comment", { method: "POST", body: JSON.stringify({ comment_id: id, secret: secret() }) });
+      if (!r.ok) throw new Error(r.status);
+      own.delete(id); saveMine(own);
+      if (await r.json() !== true) { slot.innerHTML = "<span>This comment can't be deleted any more.</span>"; return; }
+      const list = li.parentElement;
+      li.remove();
+      if (!list.children.length) list.innerHTML = EMPTY;
+      paintCount(list.querySelectorAll("li[data-id]").length);
+      if (out) out.textContent = "Your comment was deleted.";
+    } catch (err) {
+      slot.innerHTML = `<span>That didn't go through.</span>${delButton(id)}`;
+    }
+  });
 
   new MutationObserver(enhance).observe(reader, { childList: true });
   enhance();
