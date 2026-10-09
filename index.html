@@ -472,7 +472,21 @@ raise();
 /* ---------- Pan and zoom ---------- */
 const svg = document.getElementById("svg"), world = document.getElementById("world"), mapEl = document.getElementById("map");
 let view = { x: 0, y: 0, k: 1 }, anim = null, dragMoved = false;
-function apply() { world.setAttribute("transform", `translate(${view.x},${view.y}) scale(${view.k})`); scaleNodes(); keepLabelsOnScreen(); }
+function apply() { clampView(); world.setAttribute("transform", `translate(${view.x},${view.y}) scale(${view.k})`); scaleNodes(); keepLabelsOnScreen(); }
+// The tree never drifts away: zoomed out it stays on screen, zoomed in the screen stays on the tree
+const BOUNDS = { x0: -OUTER - 40, x1: OUTER + 40, y0: -OUTER - 40, y1: OUTER + 470 };
+const ANCHORS = NODES.map(n => ({ x: n.x, y: n.y })).concat([OUTER - 200, OUTER + 100, OUTER + 380].map(y => ({ x: 0, y })));
+function clampView() {
+  const { w, h } = size(), pad = 48; if (!w || !h) return;
+  // some question (or the trunk) always stays well inside the screen...
+  const cx = (w / 2 - view.x) / view.k, cy = (h / 2 - view.y) / view.k, reach = Math.min(w, h) * .38 / view.k;
+  let near = null, nd = Infinity;
+  for (const a of ANCHORS) { const d = Math.hypot(a.x - cx, a.y - cy); if (d < nd) { nd = d; near = a; } }
+  if (nd > reach) { const t = reach / nd; view.x = w / 2 - (near.x + (cx - near.x) * t) * view.k; view.y = h / 2 - (near.y + (cy - near.y) * t) * view.k; }
+  // ...and the screen never shows more than a margin of empty paper beyond the tree
+  const fit = (v, lo, hi, len) => { const a = pad - lo * view.k, b = len - pad - hi * view.k; return Math.min(Math.max(v, Math.min(a, b)), Math.max(a, b)); };
+  view.x = fit(view.x, BOUNDS.x0, BOUNDS.x1, w); view.y = fit(view.y, BOUNDS.y0, BOUNDS.y1, h);
+}
 // Zoomed out, the main questions keep a readable size and the smaller questions show as leaves,
 // naming themselves when lit up, selected or hovered. Zoom in and every name appears.
 const SIDE_K = .72; let lastK = 0;
@@ -552,7 +566,7 @@ function focusOn(n) {
   animateTo({ x: w / 2 - cx * k, y: h / 2 - cy * k, k });
 }
 function zoomAt(f, px, py) {
-  const k = Math.max(.12, Math.min(2.5, view.k * f)); const { w, h } = size();
+  const k = Math.max(homeView().k * .9, Math.min(2.5, view.k * f)); const { w, h } = size();
   px ??= w / 2; py ??= h / 2;
   view = { x: px - (px - view.x) * (k / view.k), y: py - (py - view.y) * (k / view.k), k }; apply();
 }
@@ -721,6 +735,221 @@ view = homeView(); apply(); paintAudience(); paintProgress();
 const start = location.hash.slice(1);
 if (byId[start]) select(start, false);
 else { const had = visited.has(root.id); select(root.id, false); if (!had) { visited.delete(root.id); store("tol-visited", [...visited]); root.g.classList.remove("visited", "grow"); paintProgress(); } cancelAnimationFrame(anim); view = homeView(); apply(); openWelcome(); }
+</script>
+<style>
+/* Tree of Life comments and feedback. Uses the tree page's own tokens. */
+.talk { border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 12px; }
+.talk h3 { margin-bottom: 0; }
+.talk-count { color: var(--leaf-deep); }
+.talk-note { margin: 0; color: var(--muted); font-size: var(--step--1); max-width: 60ch; }
+.talk-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.talk-list li { display: grid; gap: 4px; padding: 12px 16px; background: var(--mist); border-radius: 10px; min-width: 0; }
+.talk-list li.talk-empty { background: none; padding: 0; color: var(--muted); font-size: var(--step--1); }
+.talk-meta { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; font: var(--step--1)/1.3 var(--font-ui); color: var(--muted); }
+.talk-meta b { color: var(--ink); font-weight: 500; }
+.talk-list p { margin: 0; font: 400 var(--step-0)/1.55 var(--font-body); max-width: 64ch; overflow-wrap: anywhere; }
+.talk-form { display: grid; gap: 10px; }
+.talk-form input[type="text"], .talk-form textarea, .tol-field input {
+  width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; padding: 10px;
+  background: var(--paper); color: var(--ink); font: var(--step-0)/1.4 var(--font-ui);
+}
+.talk-form textarea { min-height: 76px; resize: vertical; }
+.talk-form input:focus-visible, .talk-form textarea:focus-visible, .tol-field input:focus-visible { outline: 2px solid var(--leaf); outline-offset: 1px; }
+.talk-form .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.talk-form output { font-size: var(--step--1); color: var(--muted); }
+.tol-field { display: grid; gap: 6px; font-size: var(--step--1); color: var(--muted); }
+.tol-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.tol-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+button[disabled] { opacity: .6; cursor: progress; }
+</style>
+<script>
+/* Tree of Life: public comments and private feedback, both stored in Supabase.
+   Feedback is also emailed to Dax through Web3Forms when that key is set.
+   Added to the public site by site-deploy/build_site.py; the tree page itself is not edited.
+   It works by watching #reader: each time a question renders, it wires up the
+   "Still have a question?" box and adds the conversation for that question. */
+(() => {
+  const CFG = {"supabaseUrl": "https://gnooccdpghgnveuhnjwv.supabase.co", "supabaseKey": "sb_publishable_W6J5oJkZsWHwUC_ANjXPyQ_yCNq7vl9", "web3formsKey": "", "words": {"exact": ["dick", "dicks", "pussy", "pussies", "fag", "fags", "dyke", "dykes", "tranny", "trannies", "kike", "kikes", "spic", "spics", "wetback", "wetbacks", "coon", "coons", "gook", "gooks", "raghead", "towelhead", "paki", "pakis", "beaner", "beaners", "sandnigger", "retard", "retards", "retarded", "bollocks", "bollock", "wanker", "wankers", "piss", "pissed", "pissing", "pisses", "pissoff", "fck", "fcking", "fcked", "fking", "fk", "fkn", "wtf", "stfu", "gtfo", "cuck", "thot", "skank", "dumbass", "jackass", "tits", "titties", "nigga", "niggas", "niggaz", "niggah"], "prefix": ["cunt", "bitch", "nigger", "faggot", "wank", "slut", "jizz", "twat", "asshole", "ashole", "arsehole", "dickhead", "cocksuck", "douchebag", "goddam", "motherfuck"], "sub": ["fuck", "fuk", "fvck", "phuck", "fukk", "shit"]}};
+  const reader = document.getElementById("reader");
+  if (!reader) return;
+  const COMMENTS = !!(CFG.supabaseUrl && CFG.supabaseKey);
+  const EMAIL = !!CFG.web3formsKey;
+  const FEEDBACK = COMMENTS || EMAIL;
+  if (!COMMENTS && !FEEDBACK) return;
+
+  /* ---------- profanity filter (mirrors tol_has_banned in setup.sql) ---------- */
+  const EXACT = new Set(CFG.words.exact), PREFIX = CFG.words.prefix, SUB = CFG.words.sub;
+  const LEET = { 0: "o", 1: "i", 3: "e", 4: "a", 5: "s", 7: "t", 8: "b", "@": "a", "$": "s", "!": "i", "|": "l" };
+  function tokens(t) {
+    let s = String(t || "").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
+    s = s.replace(/[0134578@$!|]/g, c => LEET[c]);
+    s = s.replace(/([a-z])[*#_.'’-]+(?=[a-z])/g, "$1");
+    s = s.replace(/[^a-z]+/g, " ").replace(/([a-z])\1\1+/g, "$1").trim();
+    const out = [];
+    let run = "";
+    for (const tok of s ? s.split(" ") : []) {
+      if (tok.length === 1) run += tok;
+      else { if (run.length > 1) out.push(run); run = ""; }
+      out.push(tok);
+    }
+    if (run.length > 1) out.push(run);
+    return out;
+  }
+  const hasBanned = t => tokens(t).some(x => EXACT.has(x) || PREFIX.some(p => x.startsWith(p)) || SUB.some(w => x.includes(w)));
+
+  /* ---------- helpers ---------- */
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const remember = (k, v) => { try { if (v === undefined) return localStorage.getItem(k) || ""; localStorage.setItem(k, v); } catch (e) { return ""; } };
+  const nodeId = () => decodeURIComponent(location.hash.slice(1));
+  const question = () => reader.querySelector(".entry h2")?.textContent.trim() || "";
+  function when(iso) {
+    const d = new Date(iso), mins = Math.round((Date.now() - d) / 60000);
+    if (mins < 1) return "just now";
+    if (mins < 60) return `${mins} min ago`;
+    const hrs = Math.round(mins / 60);
+    if (hrs < 24) return `${hrs} hr ago`;
+    const days = Math.round(hrs / 24);
+    if (days < 7) return days === 1 ? "yesterday" : `${days} days ago`;
+    return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: d.getFullYear() === new Date().getFullYear() ? undefined : "numeric" });
+  }
+  const api = (path, opts = {}) => fetch(`${CFG.supabaseUrl}/rest/v1/${path}`, {
+    ...opts,
+    // legacy anon keys are JWTs and go in both headers; new sb_publishable_ keys go in apikey only
+    headers: { apikey: CFG.supabaseKey, ...(CFG.supabaseKey.startsWith("eyJ") ? { Authorization: `Bearer ${CFG.supabaseKey}` } : {}), "Content-Type": "application/json", ...(opts.headers || {}) }
+  });
+
+  /* ---------- per-question enhancement ---------- */
+  function enhance() {
+    const entry = reader.querySelector("article.entry");
+    if (!entry || entry.dataset.tol) return;
+    entry.dataset.tol = "1";
+    const id = nodeId();
+    const suggest = entry.querySelector("#suggest");
+    if (FEEDBACK && suggest) {
+      const p = suggest.querySelector("p");
+      if (p) p.textContent = "Tell us the objection we haven't answered, a better source, or a mistake. It goes privately to the people who write this site, and we read every one.";
+      const ta = suggest.querySelector("textarea");
+      ta?.setAttribute("maxlength", "3000");
+      ta?.insertAdjacentHTML("afterend", `
+        <label class="tol-field" for="suggest-email">Your email, if you'd like a reply (optional)
+          <input type="email" id="suggest-email" maxlength="120" autocomplete="email" value="${esc(remember("tol-email"))}">
+        </label>
+        <input type="checkbox" class="tol-hp" id="suggest-hp" tabindex="-1" aria-hidden="true">`);
+    }
+    if (COMMENTS && /^[a-z0-9-]{1,80}$/.test(id)) {
+      const html = `
+        <section class="talk" aria-labelledby="talk-h">
+          <h3 id="talk-h">Conversation<span class="talk-count" id="talk-count"></span></h3>
+          <p class="talk-note">Public comments on this question. Please be kind; comments with profanity aren't posted.</p>
+          <ol class="talk-list" id="talk-list" aria-live="polite"><li class="talk-empty">Loading comments…</li></ol>
+          <form class="talk-form" id="talk-form" novalidate>
+            <label class="tol-sr" for="talk-name">Your name</label>
+            <input type="text" id="talk-name" maxlength="40" placeholder="Your name (optional)" autocomplete="nickname" value="${esc(remember("tol-name"))}">
+            <label class="tol-sr" for="talk-body">Your comment</label>
+            <textarea id="talk-body" maxlength="2000" placeholder="Add to the conversation…"></textarea>
+            <input type="text" class="tol-hp" id="talk-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="row"><button class="btn quiet" type="submit">Post comment</button><output id="talk-out"></output></div>
+          </form>
+        </section>`;
+      (suggest || entry.querySelector(".decide"))?.insertAdjacentHTML(suggest ? "afterend" : "beforebegin", html);
+      loadComments(id);
+    }
+  }
+
+  function commentHTML(c) {
+    return `<li><div class="talk-meta"><b>${esc(c.name)}</b><time datetime="${esc(c.created_at)}">${when(c.created_at)}</time></div><p>${esc(c.body).replace(/\n/g, "<br>")}</p></li>`;
+  }
+  function paintCount(n) { const el = document.getElementById("talk-count"); if (el) el.textContent = n ? ` · ${n}` : ""; }
+  async function loadComments(id) {
+    const list = document.getElementById("talk-list");
+    try {
+      const r = await api(`comments?select=id,name,body,created_at&node=eq.${encodeURIComponent(id)}&order=created_at.asc&limit=200`);
+      if (!r.ok) throw new Error(r.status);
+      const rows = await r.json();
+      if (nodeId() !== id || !list.isConnected) return;
+      list.innerHTML = rows.length ? rows.map(commentHTML).join("") : `<li class="talk-empty">No comments yet. You could start the conversation.</li>`;
+      paintCount(rows.length);
+    } catch (e) {
+      if (list.isConnected) list.innerHTML = `<li class="talk-empty">Comments couldn't load right now. Please try again later.</li>`;
+    }
+  }
+
+  const MESSAGES = {
+    blocked_words: "Please take out the language we don't allow here, then post again.",
+    duplicate: "That comment was already posted.",
+    busy: "Lots of people are posting right now. Please try again in a minute.",
+    too_many_links: "Please include no more than two links."
+  };
+  async function postComment(form) {
+    const out = form.querySelector("#talk-out"), btn = form.querySelector("button");
+    const name = form.querySelector("#talk-name").value.trim(), body = form.querySelector("#talk-body").value.trim();
+    if (form.querySelector("#talk-hp").value) return;
+    if (body.length < 2) { out.textContent = "Write your comment first."; return; }
+    if (hasBanned(name) || hasBanned(body)) { out.textContent = MESSAGES.blocked_words; return; }
+    btn.disabled = true; out.textContent = "Posting…";
+    try {
+      const r = await api("comments?select=id,name,body,created_at", { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify({ node: nodeId(), name: name || "Anonymous", body }) });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) { out.textContent = MESSAGES[data.message] || "That didn't post. Please try again in a moment."; return; }
+      const list = document.getElementById("talk-list");
+      list.querySelector(".talk-empty")?.remove();
+      list.insertAdjacentHTML("beforeend", commentHTML(data[0]));
+      paintCount(list.children.length);
+      form.querySelector("#talk-body").value = "";
+      remember("tol-name", name);
+      out.textContent = "Posted. Thank you for joining in.";
+    } catch (e) {
+      out.textContent = "That didn't post. Please check your connection and try again.";
+    } finally { btn.disabled = false; }
+  }
+
+  async function sendFeedback(form) {
+    const out = form.querySelector("#suggest-out"), btn = form.querySelector("button");
+    const text = form.querySelector("textarea").value.trim(), email = form.querySelector("#suggest-email")?.value.trim() || "";
+    if (form.querySelector("#suggest-hp")?.checked) return;
+    if (!text) { out.textContent = "Write your question first."; return; }
+    btn.disabled = true; out.textContent = "Sending…";
+    try {
+      const q = question(), id = nodeId();
+      const sends = [];
+      if (COMMENTS) sends.push(api("feedback", { method: "POST", headers: { Prefer: "return=minimal" },
+        body: JSON.stringify({ node: /^[a-z0-9-]{1,80}$/.test(id) ? id : null, question: q.slice(0, 300), message: text, email: email || null, page: location.href.slice(0, 300) }) })
+        .then(r => { if (!r.ok) throw new Error(r.status); }));
+      if (EMAIL) sends.push(fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: CFG.web3formsKey,
+          subject: `Tree of Life feedback: ${q}`.slice(0, 150),
+          from_name: "Tree of Life",
+          message: text,
+          question: q,
+          question_id: id,
+          page: location.href,
+          ...(email ? { email } : {}),
+          botcheck: false
+        })
+      }).then(async r => { const d = await r.json().catch(() => ({})); if (!r.ok || d.success === false) throw new Error(d.message || r.status); }));
+      const results = await Promise.allSettled(sends);
+      if (!results.some(x => x.status === "fulfilled")) throw new Error("not sent");
+      form.querySelector("textarea").value = "";
+      if (email) remember("tol-email", email);
+      out.textContent = email ? "Thank you. It's on its way, and we'll reply by email." : "Thank you. It's on its way.";
+    } catch (e) {
+      out.textContent = "That didn't send. Please try again in a moment.";
+    } finally { btn.disabled = false; }
+  }
+
+  // Run before the tree page's own "not saved yet" handler, and stop it.
+  addEventListener("submit", e => {
+    const f = e.target;
+    if (COMMENTS && f.id === "talk-form") { e.preventDefault(); e.stopPropagation(); postComment(f); }
+    else if (FEEDBACK && f.id === "suggest") { e.preventDefault(); e.stopPropagation(); sendFeedback(f); }
+  }, true);
+
+  new MutationObserver(enhance).observe(reader, { childList: true });
+  enhance();
+})();
 </script>
 </body>
 </html>
