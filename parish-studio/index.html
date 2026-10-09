@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parish Website Studio</title>
+<meta name="description" content="Make a warm, mobile-friendly website for your Catholic parish in minutes. Free, no account, nothing to install.">
+<link rel="canonical" href="https://daxtinenichols.github.io/parish-studio/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Parish Website Studio">
+<meta property="og:description" content="Make a warm, mobile-friendly website for your Catholic parish in minutes. Free, no account, nothing to install.">
+<meta property="og:url" content="https://daxtinenichols.github.io/parish-studio/">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<style>
+/* A parish volunteer fills in a calm form on the left and watches their parish's site take shape on the right; one button downloads it, ready to host free. */
+:root {
+  --paper: #faf6ee;
+  --panel: #f3ecdf;
+  --card: #fffdf8;
+  --ink: #2b2622;
+  --muted: #6c6358;
+  --line: #e5dccb;
+  --sage: #4d6d51;
+  --sage-pale: #e1e9da;
+  --gold: #a87f33;
+  --gold-pale: #f4e8cd;
+  --btn-ink: #fbf8f1;
+  --shadow: 0 24px 48px -28px rgba(80, 58, 30, 0.38);
+  --shadow-soft: 0 12px 32px -20px rgba(80, 58, 30, 0.35);
+  --font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1c1915; --panel: #25211b; --card: #221e19; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
+    --sage: #9dbf9f; --sage-pale: #2a372b; --gold: #ddb66a; --gold-pale: #3a311e;
+    --btn-ink: #1c1915; --shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.7); --shadow-soft: 0 12px 32px -20px rgba(0,0,0,.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1c1915; --panel: #25211b; --card: #221e19; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
+  --sage: #9dbf9f; --sage-pale: #2a372b; --gold: #ddb66a; --gold-pale: #3a311e;
+  --btn-ink: #1c1915; --shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.7); --shadow-soft: 0 12px 32px -20px rgba(0,0,0,.6);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; margin: 0; }
+a { color: var(--sage); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; margin: 0; line-height: 1.08; }
+p { margin: 0; }
+.wrap { max-width: 76rem; margin: 0 auto; padding-inline: 20px; }
+.eyebrow { font: 600 0.78rem var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; font: 600 1rem var(--font-body); border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: transform 200ms ease-out, background 200ms ease-out; white-space: nowrap; }
+.btn-primary { background: var(--sage); color: var(--btn-ink); box-shadow: var(--shadow-soft); }
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-quiet { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn-quiet:hover { background: var(--panel); }
+.btn-small { min-height: 40px; padding: 0 16px; font-size: 0.94rem; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+
+/* top bar */
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font: 600 1.28rem var(--font-display); color: var(--ink); text-decoration: none; }
+.brand svg { width: 28px; height: 28px; color: var(--sage); }
+.topbar nav { display: flex; gap: 22px; font-size: 0.96rem; }
+.topbar nav a { color: var(--muted); text-decoration: none; }
+.topbar nav a:hover { color: var(--ink); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; padding-block: 48px 64px; }
+.hero-text { display: grid; gap: 22px; }
+.hero h1 { font-size: clamp(2.7rem, 6vw, 4.4rem); line-height: 1; }
+.hero h1 em { color: var(--sage); }
+.lede { font-size: 1.18rem; color: var(--muted); max-width: 32rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.assure { list-style: none; margin: 8px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; font-size: 0.95rem; color: var(--muted); }
+.assure strong { display: block; color: var(--ink); font-weight: 600; }
+.mock { position: relative; justify-self: center; width: 100%; max-width: 470px; }
+.mock .screen { border-radius: 18px; background: var(--card); box-shadow: var(--shadow); overflow: hidden; border: 1px solid var(--line); }
+.mock .phone { position: absolute; right: -14px; bottom: -28px; width: 34%; border-radius: 20px; background: var(--card); border: 6px solid var(--ink); box-shadow: var(--shadow); overflow: hidden; }
+.mock svg { display: block; width: 100%; height: auto; }
+
+/* section heads */
+.section { padding-block: 72px; }
+.section-head { display: grid; gap: 12px; max-width: 40rem; margin-bottom: 32px; }
+.section-head h2 { font-size: clamp(2rem, 4vw, 2.8rem); }
+.section-head p { color: var(--muted); font-size: 1.08rem; }
+
+/* editor */
+.editor-band { background: var(--panel); border-block: 1px solid var(--line); }
+.editor { display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 32px; align-items: start; }
+.form { display: grid; gap: 12px; }
+.form-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.saved-note { font-size: 0.88rem; color: var(--muted); }
+details.step { background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
+details.step > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 16px 18px; min-height: 56px; border-radius: 16px; }
+details.step > summary::-webkit-details-marker { display: none; }
+details.step > summary:hover { background: color-mix(in srgb, var(--panel) 50%, transparent); }
+.num { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--sage-pale); color: var(--sage); font-weight: 600; font-size: 0.92rem; }
+.sum-text { flex: 1; min-width: 0; }
+.sum-text b { display: block; font-weight: 600; }
+.sum-text span { display: block; font-size: 0.9rem; color: var(--muted); }
+.chev { width: 18px; height: 18px; color: var(--muted); transition: transform 200ms ease-out; flex: none; }
+details[open] > summary .chev { transform: rotate(180deg); }
+.step-body { padding: 4px 18px 20px; display: grid; gap: 16px; }
+label.field > .lt { display: block; }
+label.field > .lt small { display: inline; }
+label.field { display: grid; gap: 6px; font-size: 0.95rem; font-weight: 600; }
+label.field small, .hint { font-weight: 400; color: var(--muted); font-size: 0.86rem; }
+input[type=text], input[type=url], input[type=email], input[type=tel], textarea, select {
+  width: 100%; font: 400 1rem var(--font-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; min-height: 46px; transition: border-color 150ms ease-out, box-shadow 150ms ease-out; }
+textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sage) 22%, transparent); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rows { display: grid; gap: 10px; }
+.row { display: grid; gap: 8px; padding: 12px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); position: relative; }
+.row input, .row select, .row textarea { background: var(--card); }
+.row-grid { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; padding-right: 40px; }
+.row-grid .wide { grid-column: 1 / -1; }
+.row .remove { position: absolute; top: 10px; right: 8px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+.row .remove:hover { background: var(--panel); color: var(--ink); }
+.row .remove svg { width: 16px; height: 16px; }
+.add { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px dashed var(--line); background: transparent; color: var(--sage); font: 600 0.95rem var(--font-body); cursor: pointer; }
+.add:hover { background: var(--card); border-style: solid; }
+.add svg { width: 16px; height: 16px; }
+.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font: 400 0.94rem var(--font-body); color: var(--ink); }
+.swatch i { width: 26px; height: 26px; border-radius: 50%; display: block; }
+.swatch[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.toggle { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); cursor: pointer; }
+.toggle input { margin-top: 4px; width: 20px; height: 20px; accent-color: var(--sage); flex: none; }
+.toggle b { display: block; font-weight: 600; }
+.toggle span { display: block; font-size: 0.9rem; color: var(--muted); }
+.photo-drop { display: grid; place-items: center; gap: 6px; text-align: center; padding: 18px; border-radius: 12px; border: 1px dashed var(--line); background: var(--paper); color: var(--muted); font-size: 0.92rem; cursor: pointer; }
+.photo-drop:hover { border-color: var(--sage); color: var(--ink); }
+.photo-drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.thumb { position: relative; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--panel); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb button { position: absolute; top: 6px; right: 6px; width: 30px; height: 30px; border-radius: 50%; border: 0; background: rgba(28,25,21,.65); color: #fff; cursor: pointer; display: grid; place-items: center; }
+.thumb button svg { width: 14px; height: 14px; }
+
+/* preview */
+.preview { position: sticky; top: 16px; display: grid; gap: 12px; }
+.preview-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
+.seg button { min-height: 38px; padding: 0 16px; border-radius: 999px; border: 0; background: transparent; font: 600 0.92rem var(--font-body); color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--sage); color: var(--btn-ink); }
+.frame-wrap { border-radius: 18px; overflow: hidden; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); height: min(78vh, 820px); display: flex; justify-content: center; transition: background 200ms; }
+.frame-wrap.phone { background: color-mix(in srgb, var(--panel) 70%, var(--line)); padding: 20px 0; }
+.frame-wrap { position: relative; justify-content: flex-start; }
+.frame-wrap.phone { justify-content: center; }
+.frame-wrap iframe { border: 0; width: 100%; height: 100%; background: #faf6ee; display: block; flex: none; transform-origin: 0 0; }
+.frame-wrap.phone iframe { transform: none !important; height: 100% !important; width: 390px !important; max-width: calc(100% - 24px); border-radius: 24px; box-shadow: var(--shadow); }
+.download-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.download-row p { font-size: 0.9rem; color: var(--muted); flex: 1 1 14rem; }
+
+/* mobile bottom bar + overlay */
+.mbar { display: none; }
+.overlay { position: fixed; inset: 0; z-index: 50; background: var(--paper); display: grid; grid-template-rows: auto 1fr; }
+.overlay[hidden] { display: none; }
+.overlay header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); gap: 8px; }
+.overlay iframe { border: 0; width: 100%; height: 100%; background: #faf6ee; }
+
+/* guide */
+.guide { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; counter-reset: g; }
+.g-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 10px; align-content: start; }
+.g-card h3 { font-size: 1.6rem; }
+.g-card .g-num { font: 600 0.8rem var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+.g-card ol { margin: 4px 0 0; padding-left: 1.2em; display: grid; gap: 6px; color: var(--ink); }
+.g-card p { color: var(--muted); }
+.options { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.opt { padding: 24px; border-radius: 16px; background: var(--panel); display: grid; gap: 10px; align-content: start; }
+.opt h3 { font-size: 1.5rem; }
+.opt .tag { justify-self: start; font: 600 0.78rem var(--font-body); padding: 4px 10px; border-radius: 999px; background: var(--sage-pale); color: var(--sage); }
+.opt ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.opt p { color: var(--muted); font-size: 0.96rem; }
+
+/* faq */
+.faq { display: grid; gap: 10px; max-width: 48rem; }
+.faq details { border-bottom: 1px solid var(--line); padding-block: 6px; }
+.faq summary { cursor: pointer; font: 500 1.35rem var(--font-display); padding-block: 10px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-family: var(--font-body); color: var(--gold); }
+.faq details[open] summary::after { content: "−"; }
+.faq p { color: var(--muted); padding-bottom: 14px; max-width: 42rem; }
+
+/* more tools */
+.more { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.tool { display: grid; grid-template-columns: 64px 1fr; gap: 18px; align-items: center; padding: 22px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform 200ms ease-out, box-shadow 200ms ease-out; }
+.tool:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+.tool svg { width: 64px; height: 64px; }
+.tool b { font: 500 1.5rem var(--font-display); display: block; }
+.tool span { color: var(--muted); font-size: 0.96rem; }
+footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem; border-top: 1px solid var(--line); }
+
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 24px; }
+  .mock { max-width: 400px; }
+  .editor { grid-template-columns: 1fr; }
+  .preview { display: none; }
+  .guide, .options, .more { grid-template-columns: 1fr; }
+  .mbar { display: flex; gap: 8px; position: fixed; z-index: 40; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 8px; border-radius: 999px; background: color-mix(in srgb, var(--card) 92%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line); box-shadow: var(--shadow); transition: opacity 200ms, transform 200ms; }
+  .mbar .btn { flex: 1; }
+  .mbar.away { opacity: 0; transform: translateY(20px); pointer-events: none; }
+  footer.site { padding-bottom: 110px; }
+}
+@media (max-width: 560px) {
+  .topbar nav { display: none; }
+  .assure { grid-template-columns: 1fr; gap: 10px; }
+  .two { grid-template-columns: 1fr; }
+  .section { padding-block: 56px; }
+  .mock .phone { right: -4px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+<div class="wrap">
+  <header class="topbar">
+    <a class="brand" href="#top" id="top">
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3v6M13 6h6"/><path d="M6 29V17l10-8 10 8v12"/><path d="M13 29v-6a3 3 0 0 1 6 0v6"/><path d="M3 29h26"/></svg>
+      Parish Website Studio
+    </a>
+    <nav aria-label="Page">
+      <a href="#make">Make your site</a>
+      <a href="#publish">Put it online</a>
+      <a href="#questions">Questions</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Free for every parish</p>
+      <h1>A warm, simple website for your parish, <em>in an afternoon.</em></h1>
+      <p class="lede">Type in your Mass times, address and a few words of welcome. Watch your site take shape as you go, then download it and put it online for free.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#make" data-start="example">Start with an example</a>
+        <a class="btn btn-quiet" href="#make" data-start="blank">Start from blank</a>
+      </div>
+      <ul class="assure">
+        <li><strong>Free, always</strong>No fees, no ads, no catch.</li>
+        <li><strong>No account</strong>Nothing to sign up for or install.</li>
+        <li><strong>Phone friendly</strong>Looks right on any screen.</li>
+      </ul>
+    </div>
+    <div class="mock" aria-hidden="true">
+      <div class="screen">
+        <svg viewBox="0 0 470 330">
+          <rect width="470" height="330" fill="#faf6ee"/>
+          <rect width="470" height="26" fill="#efe7d8"/><circle cx="16" cy="13" r="4" fill="#d9ccb4"/><circle cx="30" cy="13" r="4" fill="#d9ccb4"/><circle cx="44" cy="13" r="4" fill="#d9ccb4"/>
+          <rect x="24" y="44" width="110" height="9" rx="4" fill="#2b2622" opacity=".75"/>
+          <rect x="300" y="45" width="40" height="7" rx="3" fill="#6c6358" opacity=".5"/><rect x="350" y="45" width="40" height="7" rx="3" fill="#6c6358" opacity=".5"/><rect x="400" y="45" width="44" height="7" rx="3" fill="#6c6358" opacity=".5"/>
+          <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4e8cd"/><stop offset="1" stop-color="#e1e9da"/></linearGradient></defs>
+          <rect x="24" y="70" width="422" height="130" rx="12" fill="url(#sky)"/>
+          <g fill="#4d6d51" opacity=".85"><path d="M330 200v-62l34-26 34 26v62z"/><rect x="361" y="86" width="6" height="30"/><rect x="354" y="94" width="20" height="5"/></g>
+          <path d="M356 200v-24a8 8 0 0 1 16 0v24z" fill="#f4e8cd"/>
+          <rect x="44" y="104" width="190" height="16" rx="6" fill="#2b2622" opacity=".8"/>
+          <rect x="44" y="130" width="150" height="8" rx="4" fill="#6c6358" opacity=".55"/>
+          <rect x="44" y="156" width="96" height="26" rx="13" fill="#4d6d51"/>
+          <g fill="#fffdf8" stroke="#e5dccb"><rect x="24" y="216" width="130" height="92" rx="10"/><rect x="170" y="216" width="130" height="92" rx="10"/><rect x="316" y="216" width="130" height="92" rx="10"/></g>
+          <g fill="#a87f33" opacity=".8"><rect x="38" y="232" width="52" height="7" rx="3"/><rect x="184" y="232" width="52" height="7" rx="3"/><rect x="330" y="232" width="52" height="7" rx="3"/></g>
+          <g fill="#6c6358" opacity=".4"><rect x="38" y="252" width="90" height="6" rx="3"/><rect x="38" y="266" width="70" height="6" rx="3"/><rect x="38" y="280" width="80" height="6" rx="3"/><rect x="184" y="252" width="90" height="6" rx="3"/><rect x="184" y="266" width="76" height="6" rx="3"/><rect x="330" y="252" width="94" height="6" rx="3"/><rect x="330" y="266" width="60" height="6" rx="3"/></g>
+        </svg>
+      </div>
+      <div class="phone">
+        <svg viewBox="0 0 160 300">
+          <rect width="160" height="300" fill="#faf6ee"/>
+          <rect x="14" y="18" width="70" height="7" rx="3" fill="#2b2622" opacity=".75"/>
+          <rect x="10" y="38" width="140" height="96" rx="10" fill="url(#sky)"/>
+          <g fill="#4d6d51" opacity=".85"><path d="M96 134v-40l22-17 22 17v40z"/><rect x="116" y="60" width="4" height="20"/></g>
+          <rect x="20" y="62" width="64" height="9" rx="4" fill="#2b2622" opacity=".8"/>
+          <rect x="20" y="96" width="44" height="16" rx="8" fill="#4d6d51"/>
+          <rect x="10" y="148" width="140" height="64" rx="10" fill="#fffdf8" stroke="#e5dccb"/>
+          <rect x="22" y="160" width="40" height="6" rx="3" fill="#a87f33" opacity=".8"/>
+          <rect x="22" y="176" width="100" height="5" rx="2" fill="#6c6358" opacity=".4"/><rect x="22" y="188" width="80" height="5" rx="2" fill="#6c6358" opacity=".4"/>
+          <rect x="10" y="224" width="140" height="64" rx="10" fill="#e1e9da"/>
+          <rect x="22" y="238" width="60" height="7" rx="3" fill="#4d6d51" opacity=".8"/>
+          <rect x="22" y="254" width="96" height="5" rx="2" fill="#6c6358" opacity=".45"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+</div>
+
+<section class="editor-band section" id="make">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Make your site</p>
+      <h2>Fill in what you know. Skip what you don't.</h2>
+      <p>Anything you leave empty simply won't appear. Your work is kept on this device as you type, so you can close the page and come back.</p>
+    </div>
+    <div class="editor">
+      <form class="form" id="form" autocomplete="off" onsubmit="return false">
+        <div class="form-tools">
+          <button type="button" class="btn btn-quiet btn-small" id="load-example">Fill with an example</button>
+          <button type="button" class="btn btn-quiet btn-small" id="clear-all">Start over</button>
+          <span class="saved-note" id="saved-note" aria-live="polite"></span>
+        </div>
+
+        <details class="step" open>
+          <summary><span class="num">1</span><span class="sum-text"><b>Your parish</b><span>Name, welcome and look</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <div class="step-body">
+            <label class="field">Parish name<input type="text" name="name" placeholder="St. Brigid Catholic Church"></label>
+            <label class="field">Town or city<input type="text" name="city" placeholder="Springfield"></label>
+            <label class="field">Diocese <small>(optional)</small><input type="text" name="diocese" placeholder="Diocese of Springfield"></label>
+            <label class="field">A few words of welcome <small>Two or three warm sentences are plenty.</small><textarea name="welcome" placeholder="Whether you're a lifelong Catholic, returning after years away, or just curious, you're welcome here."></textarea></label>
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Color</b>
+              <div class="swatches" id="swatches" role="group" aria-label="Color"></div>
+            </div>
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Main photo <span class="hint">(optional: the church outside or inside)</span></b>
+              <div id="hero-photo"></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="step">
+          <summary><span class="num">2</span><span class="sum-text"><b>Mass and confession times</b><span>The part everyone looks for</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <div class="step-body">
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Masses</b><div class="rows" data-list="masses"></div></div>
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Confession</b><div class="rows" data-list="confessions"></div></div>
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Adoration and devotions <span class="hint">(optional)</span></b><div class="rows" data-list="devotions"></div></div>
+            <label class="field">Note under the times <small>(optional)</small><input type="text" name="timesNote" placeholder="Times change on holy days; check the bulletin."></label>
+          </div>
+        </details>
+
+        <details class="step">
+          <summary><span class="num">3</span><span class="sum-text"><b>Where to find you</b><span>Address, map and parking</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <div class="step-body">
+            <label class="field">Street address <small>Used for the map and directions.</small><input type="text" name="address" placeholder="215 Elm Street, Springfield, IL 62701"></label>
+            <label class="toggle"><input type="checkbox" name="showMap" checked><span><b>Show a map</b><span>A small Google map of your address, with a directions button.</span></span></label>
+            <label class="field">Parking and access <small>(optional)</small><textarea name="parking" placeholder="Free parking behind the church. Step-free entrance on the side door."></textarea></label>
+          </div>
+        </details>
+
+        <details class="step">
+          <summary><span class="num">4</span><span class="sum-text"><b>Contact and links</b><span>Office, giving, bulletin, livestream</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <div class="step-body">
+            <div class="two">
+              <label class="field">Phone<input type="tel" name="phone" placeholder="(217) 555-0142"></label>
+              <label class="field">Email<input type="email" name="email" placeholder="office@stbrigid.org"></label>
+            </div>
+            <label class="field">Office hours<input type="text" name="officeHours" placeholder="Monday to Friday, 9 am to 4 pm"></label>
+            <label class="field">Bulletin link <small>Where your weekly bulletin lives online.</small><input type="url" name="bulletin" placeholder="https://"></label>
+            <label class="field">Online giving link<input type="url" name="giving" placeholder="https://"></label>
+            <label class="field">Livestream link<input type="url" name="livestream" placeholder="https://youtube.com/…"></label>
+            <div class="two">
+              <label class="field">Facebook<input type="url" name="facebook" placeholder="https://facebook.com/…"></label>
+              <label class="field">Instagram<input type="url" name="instagram" placeholder="https://instagram.com/…"></label>
+            </div>
+          </div>
+        </details>
+
+        <details class="step">
+          <summary><span class="num">5</span><span class="sum-text"><b>People and sacraments</b><span>Staff, and how to ask for a sacrament</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <div class="step-body">
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Staff</b><div class="rows" data-list="staff"></div></div>
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Sacraments and getting involved <span class="hint">Edit, remove or add your own.</span></b><div class="rows" data-list="sacraments"></div></div>
+          </div>
+        </details>
+
+        <details class="step">
+          <summary><span class="num">6</span><span class="sum-text"><b>Events and photos</b><span>What's coming up, and parish life</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <div class="step-body">
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Upcoming events</b><div class="rows" data-list="events"></div></div>
+            <div class="field"><b style="font-weight:600;font-size:.95rem">Photo gallery <span class="hint">(up to 6)</span></b><div id="gallery-photos"></div></div>
+          </div>
+        </details>
+
+        <details class="step">
+          <summary><span class="num">7</span><span class="sum-text"><b>For newcomers</b><span>Helpful links we suggest for every parish</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <div class="step-body">
+            <p class="hint" style="font-size:.95rem">Many visitors have never been to Mass, or have been away a long time. These free guides help them feel at home. They're on by default; untick any you'd rather leave out.</p>
+            <label class="toggle"><input type="checkbox" name="linkMass" checked><span><b>Your First Mass</b><span>A gentle step-by-step guide: when to stand, sit and kneel, and what to say.</span></span></label>
+            <label class="toggle"><input type="checkbox" name="linkTree" checked><span><b>Tree of Life</b><span>Honest answers to big questions about God, Jesus and the Church, with real sources.</span></span></label>
+            <label class="toggle"><input type="checkbox" name="credit" checked><span><b>"Made with Parish Website Studio" in the footer</b><span>A small line that helps other parishes find this free tool.</span></span></label>
+          </div>
+        </details>
+      </form>
+
+      <aside class="preview" aria-label="Live preview">
+        <div class="preview-bar">
+          <div class="seg" role="group" aria-label="Preview size">
+            <button type="button" data-size="desktop" aria-pressed="true">Computer</button>
+            <button type="button" data-size="phone" aria-pressed="false">Phone</button>
+          </div>
+          <span class="saved-note">Live preview</span>
+        </div>
+        <div class="frame-wrap" id="frame-wrap"><iframe id="frame" title="Preview of your parish site"></iframe></div>
+        <div class="download-row">
+          <button type="button" class="btn btn-primary" data-download>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3v10M5.5 9l4.5 4.5L14.5 9M4 17h12"/></svg>
+            Download my site
+          </button>
+          <button type="button" class="btn btn-quiet" data-save-details>Save my details</button>
+          <p>You'll get one file called <b>index.html</b>. <a href="#publish">Here's how to put it online free.</a></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div class="mbar" id="mbar">
+  <button type="button" class="btn btn-quiet" id="open-preview">Preview</button>
+  <button type="button" class="btn btn-primary" data-download>Download</button>
+</div>
+<div class="overlay" id="overlay" hidden role="dialog" aria-modal="true" aria-label="Preview of your parish site">
+  <header>
+    <button type="button" class="btn btn-quiet btn-small" id="close-preview">Back to editing</button>
+    <button type="button" class="btn btn-primary btn-small" data-download>Download</button>
+  </header>
+  <iframe id="frame-m" title="Preview of your parish site"></iframe>
+</div>
+
+<section class="section" id="publish">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Put it online</p>
+      <h2>Three steps, no cost</h2>
+      <p>Your site is a single file. Any free web host can show it to the world. Here is the simplest way we know.</p>
+    </div>
+    <div class="guide">
+      <div class="g-card">
+        <span class="g-num">Step one</span>
+        <h3>Download your site</h3>
+        <p>Press <b>Download my site</b>. You'll get a file named <b>index.html</b>. Also press <b>Save my details</b> and keep that file somewhere safe, so you or the next volunteer can update the site later.</p>
+      </div>
+      <div class="g-card">
+        <span class="g-num">Step two</span>
+        <h3>Upload it to a free host</h3>
+        <p>Pick one of the two options below. Both are free for a small site like this, and both give you a web address right away.</p>
+      </div>
+      <div class="g-card">
+        <span class="g-num">Step three</span>
+        <h3>Share the address</h3>
+        <p>Put it in the bulletin, on the parish sign, and on your Google Maps listing so people searching "Mass near me" find your times.</p>
+      </div>
+    </div>
+    <div class="options">
+      <div class="opt">
+        <span class="tag">Easiest</span>
+        <h3>Netlify Drop</h3>
+        <ol>
+          <li>Put <b>index.html</b> into its own folder on your computer.</li>
+          <li>Go to <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">app.netlify.com/drop</a> and drag that folder onto the page.</li>
+          <li>Make a free account when it asks, so your site stays online. You can rename the address in its settings.</li>
+        </ol>
+        <p>To update: drag the new folder onto your site's <b>Deploys</b> page.</p>
+      </div>
+      <div class="opt">
+        <span class="tag">Also free</span>
+        <h3>GitHub Pages</h3>
+        <ol>
+          <li>Make a free account at <a href="https://github.com/signup" target="_blank" rel="noopener">github.com</a>.</li>
+          <li>Create a new public repository named <b>yourname.github.io</b> (using your account name).</li>
+          <li>Choose <b>uploading an existing file</b>, add <b>index.html</b>, and press <b>Commit changes</b>.</li>
+        </ol>
+        <p>Your site appears at that same address within a few minutes. To update, upload the new file the same way. <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank" rel="noopener">GitHub's own guide</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="questions" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Questions</p>
+      <h2>Good to know</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Does anyone else see what I type?</summary><p>No. Everything stays in your own browser on this device. Nothing is sent to us or anyone else until you upload the finished file yourself.</p></details>
+      <details><summary>How do I change the Mass times later?</summary><p>Come back to this page on the same device and your details will still be here. On a different device, press <b>Open saved details</b> and choose the details file you saved. Change what you need, download again, and upload the new file the way you did the first time.</p></details>
+      <details><summary>Can we use our own web address, like stbrigid.org?</summary><p>Yes. Both Netlify and GitHub Pages let you connect a domain you own, free of charge. Buying the domain itself usually costs around $10 to $20 a year from any registrar.</p></details>
+      <details><summary>Do we need permission from the diocese?</summary><p>Policies differ. Many dioceses have guidance for parish websites, so it's worth checking with your pastor and your diocesan communications office before you share the address.</p></details>
+      <details><summary>Why are the newcomer guides suggested?</summary><p>People often look up a parish right before their first visit. A short, kind guide to the Mass and a place to explore honest questions can make that first step easier. They're free, ad-free, and you can turn either off in step 7.</p></details>
+      <details><summary>What about photos of people?</summary><p>Only post photos of people who have agreed to it, and never post photos of children without their parents' permission. Large photos are shrunk automatically so the site stays quick.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">More free tools</p>
+      <h2>For the people your parish welcomes</h2>
+    </div>
+    <div class="more">
+      <a class="tool" href="/first-mass/">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--sage-pale)"/><path d="M20 50V30a12 12 0 0 1 24 0v20" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/><path d="M26 50V33a6 6 0 0 1 12 0v17" fill="var(--gold-pale)" stroke="var(--gold)" stroke-width="1.8"/><path d="M16 50h32" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <div><b>Your First Mass</b><span>A gentle, step-by-step guide for anyone going to Mass for the first time.</span></div>
+      </a>
+      <a class="tool" href="/">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--sage-pale)"/><path d="M32 52V30M32 38l-9-8M32 34l8-7" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/><circle cx="32" cy="24" r="10" fill="var(--sage)" opacity=".35"/><circle cx="22" cy="29" r="6" fill="var(--sage)" opacity=".3"/><circle cx="42" cy="27" r="6" fill="var(--gold)" opacity=".45"/></svg>
+        <div><b>Tree of Life</b><span>Big questions about God, Jesus and the Church, one honest step at a time.</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer class="site">Parish Website Studio is free for every parish. Your details never leave your device.</footer>
+</div>
+
+<input type="file" id="open-details-file" accept=".json,application/json" hidden>
+
+<script>
+(() => {
+  "use strict";
+  const SITE = "https://daxtinenichols.github.io";
+  const STORE = "parish-studio-v1";
+  const MAX_PHOTOS = 6;
+
+  const COLORS = [
+    { id: "sage", name: "Sage", accent: "#4d6d51", pale: "#e1e9da" },
+    { id: "marian", name: "Marian blue", accent: "#3f5f80", pale: "#e0e7ef" },
+    { id: "wine", name: "Deep red", accent: "#8a3b32", pale: "#f2e1dc" },
+    { id: "gold", name: "Gold", accent: "#8a6624", pale: "#f4e8cd" },
+  ];
+  const DAYS = ["Saturday vigil", "Sunday", "Monday to Friday", "Monday to Saturday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Holy days"];
+
+  const LISTS = {
+    masses: { add: "Add a Mass", fields: [{ k: "day", type: "select", options: DAYS, label: "Day" }, { k: "time", ph: "9:00 am", label: "Time" }, { k: "note", ph: "Note, e.g. Spanish (optional)", wide: true, label: "Note" }] },
+    confessions: { add: "Add a time", fields: [{ k: "day", type: "select", options: DAYS, label: "Day" }, { k: "time", ph: "3:30 to 4:30 pm", label: "Time" }, { k: "note", ph: "Note (optional)", wide: true, label: "Note" }] },
+    devotions: { add: "Add a devotion", fields: [{ k: "name", ph: "Eucharistic Adoration", label: "Name" }, { k: "when", ph: "Fridays, 3 to 6 pm", label: "When" }] },
+    staff: { add: "Add a person", fields: [{ k: "name", ph: "Fr. Thomas Reyes", label: "Name" }, { k: "role", ph: "Pastor", label: "Role" }] },
+    sacraments: { add: "Add an item", fields: [{ k: "title", ph: "Baptism", wide: true, label: "Title" }, { k: "text", type: "textarea", ph: "How to ask, who to call", wide: true, label: "Details" }] },
+    events: { add: "Add an event", fields: [{ k: "title", ph: "Parish picnic", label: "Event" }, { k: "when", ph: "Sunday, June 14, after the 10:30", label: "When" }, { k: "text", type: "textarea", ph: "A sentence or two (optional)", wide: true, label: "Details" }] },
+  };
+
+  const DEFAULT_SACRAMENTS = [
+    { title: "Becoming Catholic", text: "Curious about the faith, or ready to take a step? Our OCIA group meets weekly from September. Call the office and we'll set up a friendly chat." },
+    { title: "Baptism", text: "We'd love to welcome your child. Please call the office a couple of months ahead to arrange a short preparation session." },
+    { title: "Marriage", text: "Congratulations! Please contact us at least six months before your hoped-for date." },
+    { title: "Anointing of the sick", text: "If someone is seriously ill or near death, call the office at any hour and a priest will come." },
+    { title: "Joining the parish", text: "Everyone is welcome at Mass. To register as a parishioner, ask at the office or after any Sunday Mass." },
+  ];
+
+  const blank = () => ({
+    name: "", city: "", diocese: "", welcome: "", color: "sage", heroPhoto: "",
+    masses: [{ day: "Saturday vigil", time: "", note: "" }, { day: "Sunday", time: "", note: "" }],
+    confessions: [{ day: "Saturday", time: "", note: "" }],
+    devotions: [], timesNote: "",
+    address: "", showMap: true, parking: "",
+    phone: "", email: "", officeHours: "", bulletin: "", giving: "", livestream: "", facebook: "", instagram: "",
+    staff: [{ name: "", role: "Pastor" }],
+    sacraments: DEFAULT_SACRAMENTS.map(s => ({ ...s })),
+    events: [], gallery: [],
+    linkMass: true, linkTree: true, credit: true,
+  });
+
+  // A fictional parish so people can see a finished site straight away.
+  const example = () => ({
+    ...blank(),
+    name: "St. Brigid Catholic Church", city: "Springfield", diocese: "",
+    welcome: "Whether you're a lifelong Catholic, coming back after years away, or simply curious, you are welcome here. Come as you are. We'd love to meet you after Mass.",
+    masses: [
+      { day: "Saturday vigil", time: "5:00 pm", note: "" },
+      { day: "Sunday", time: "8:00 am", note: "" },
+      { day: "Sunday", time: "10:30 am", note: "Choir, livestreamed" },
+      { day: "Sunday", time: "1:00 pm", note: "En español" },
+      { day: "Monday to Friday", time: "7:30 am", note: "" },
+      { day: "Holy days", time: "7:30 am and 7:00 pm", note: "" },
+    ],
+    confessions: [{ day: "Saturday", time: "3:30 to 4:30 pm", note: "" }, { day: "Wednesday", time: "6:00 to 7:00 pm", note: "" }],
+    devotions: [{ name: "Eucharistic Adoration", when: "Fridays, 8 am to 5 pm" }, { name: "Rosary", when: "Weekdays after the 7:30 am Mass" }],
+    timesNote: "This is an example parish. Replace these with your own times.",
+    address: "Springfield, Illinois", parking: "Free parking behind the church. The side door on Elm Street has a ramp and no steps.",
+    phone: "(217) 555-0142", email: "office@example.org", officeHours: "Monday to Friday, 9 am to 4 pm",
+    staff: [{ name: "Fr. Thomas Reyes", role: "Pastor" }, { name: "Deacon Paul Kim", role: "Deacon" }, { name: "Maria Lopez", role: "Parish secretary" }, { name: "Anne Walsh", role: "Director of religious education" }],
+    events: [
+      { title: "Coffee and donuts", when: "Every Sunday after the 10:30", text: "In the parish hall. Newcomers especially welcome." },
+      { title: "Parish picnic", when: "Sunday, June 14, after the 10:30 Mass", text: "Bring a dish to share. Games for the kids." },
+    ],
+  });
+
+  let data = load() || example();
+  let ready = false;
+
+  function load() {
+    try { const s = localStorage.getItem(STORE); return s ? { ...blank(), ...JSON.parse(s) } : null; } catch (e) { return null; }
+  }
+  let saveTimer;
+  function save() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      const note = document.getElementById("saved-note");
+      try { localStorage.setItem(STORE, JSON.stringify(data)); note.textContent = "Saved on this device"; }
+      catch (e) {
+        try { localStorage.setItem(STORE, JSON.stringify({ ...data, heroPhoto: "", gallery: [] })); note.textContent = "Saved (photos are too big to keep; use Save my details)"; }
+        catch (e2) { note.textContent = ""; }
+      }
+    }, 400);
+  }
+
+  /* ---------- helpers ---------- */
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const safeUrl = u => {
+    u = String(u || "").trim();
+    if (!u) return "";
+    if (!/^[a-z]+:/i.test(u)) u = "https://" + u;
+    return /^(https?:|mailto:|tel:)/i.test(u) ? u : "";
+  };
+  const ICON = {
+    x: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>',
+    plus: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>',
+  };
+
+  /* ---------- form binding ---------- */
+  const form = document.getElementById("form");
+
+  function fillSimple() {
+    form.querySelectorAll("input[name], textarea[name]").forEach(el => {
+      if (el.type === "checkbox") el.checked = !!data[el.name];
+      else el.value = data[el.name] || "";
+    });
+  }
+  form.addEventListener("input", e => {
+    const el = e.target;
+    if (el.name && !el.closest(".row")) {
+      data[el.name] = el.type === "checkbox" ? el.checked : el.value;
+      changed();
+    }
+  });
+  form.addEventListener("change", e => {
+    const el = e.target;
+    if (el.type === "checkbox" && el.name) { data[el.name] = el.checked; changed(); }
+  });
+
+  function renderSwatches() {
+    const box = document.getElementById("swatches");
+    box.innerHTML = COLORS.map(c => `<button type="button" class="swatch" data-color="${c.id}" aria-pressed="${data.color === c.id}"><i style="background:${c.accent}"></i>${c.name}</button>`).join("");
+  }
+  document.getElementById("swatches").addEventListener("click", e => {
+    const b = e.target.closest("[data-color]");
+    if (!b) return;
+    data.color = b.dataset.color; renderSwatches(); changed();
+  });
+
+  function renderList(key) {
+    const box = form.querySelector(`[data-list="${key}"]`);
+    const spec = LISTS[key];
+    const rows = data[key] || [];
+    box.innerHTML = rows.map((r, i) => `
+      <div class="row" data-i="${i}">
+        <div class="row-grid">${spec.fields.map(f => {
+          const cls = f.wide ? ' class="wide"' : "";
+          const aria = `aria-label="${esc(f.label)}"`;
+          if (f.type === "select") return `<select data-k="${f.k}" ${aria}${cls}>${f.options.map(o => `<option${o === r[f.k] ? " selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
+          if (f.type === "textarea") return `<textarea data-k="${f.k}" ${aria} placeholder="${esc(f.ph)}"${cls} style="min-height:72px">${esc(r[f.k])}</textarea>`;
+          return `<input type="text" data-k="${f.k}" ${aria} placeholder="${esc(f.ph)}" value="${esc(r[f.k])}"${cls}>`;
+        }).join("")}</div>
+        <button type="button" class="remove" aria-label="Remove">${ICON.x}</button>
+      </div>`).join("") + `<button type="button" class="add">${ICON.plus}${spec.add}</button>`;
+  }
+  form.querySelectorAll("[data-list]").forEach(box => {
+    const key = box.dataset.list;
+    box.addEventListener("input", e => {
+      const row = e.target.closest(".row"); if (!row) return;
+      data[key][+row.dataset.i][e.target.dataset.k] = e.target.value; changed();
+    });
+    box.addEventListener("change", e => {
+      const row = e.target.closest(".row"); if (!row || e.target.tagName !== "SELECT") return;
+      data[key][+row.dataset.i][e.target.dataset.k] = e.target.value; changed();
+    });
+    box.addEventListener("click", e => {
+      if (e.target.closest(".add")) {
+        const last = data[key][data[key].length - 1] || {};
+        const r = {}; LISTS[key].fields.forEach(f => r[f.k] = f.type === "select" ? (last[f.k] || f.options[1]) : "");
+        data[key].push(r); renderList(key); changed();
+        const rows = box.querySelectorAll(".row"); rows[rows.length - 1]?.querySelector("input,textarea")?.focus();
+      } else if (e.target.closest(".remove")) {
+        data[key].splice(+e.target.closest(".row").dataset.i, 1); renderList(key); changed();
+      }
+    });
+  });
+
+  /* ---------- photos ---------- */
+  function shrink(file, max) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const s = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        res(c.toDataURL("image/jpeg", 0.8));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); rej(); };
+      img.src = url;
+    });
+  }
+  function photoPicker(boxId, multi) {
+    const box = document.getElementById(boxId);
+    const render = () => {
+      const pics = multi ? data.gallery : (data.heroPhoto ? [data.heroPhoto] : []);
+      const full = multi ? pics.length >= MAX_PHOTOS : pics.length >= 1;
+      box.innerHTML = (pics.length ? `<div class="thumbs" style="margin-bottom:8px">${pics.map((p, i) => `<div class="thumb"><img src="${p}" alt=""><button type="button" data-rm="${i}" aria-label="Remove photo">${ICON.x}</button></div>`).join("")}</div>` : "") +
+        (full ? "" : `<label class="photo-drop"><input type="file" accept="image/*"${multi ? " multiple" : ""}><b style="color:var(--ink);font-weight:600">${multi ? "Add photos" : "Choose a photo"}</b>Large photos are shrunk automatically.</label>`);
+    };
+    box.addEventListener("change", async e => {
+      if (e.target.type !== "file") return;
+      const files = [...e.target.files].slice(0, multi ? MAX_PHOTOS - data.gallery.length : 1);
+      for (const f of files) {
+        try {
+          const d = await shrink(f, multi ? 1200 : 1800);
+          if (multi) data.gallery.push(d); else data.heroPhoto = d;
+        } catch (err) { /* not an image we can read */ }
+      }
+      render(); changed();
+    });
+    box.addEventListener("click", e => {
+      const b = e.target.closest("[data-rm]"); if (!b) return;
+      if (multi) data.gallery.splice(+b.dataset.rm, 1); else data.heroPhoto = "";
+      render(); changed();
+    });
+    return render;
+  }
+  const renderHero = photoPicker("hero-photo", false);
+  const renderGallery = photoPicker("gallery-photos", true);
+
+  // keep each label's words (and its small hint) together above the input
+  form.querySelectorAll("label.field").forEach(l => {
+    const lt = document.createElement("span"); lt.className = "lt";
+    while (l.firstChild && !/^(INPUT|TEXTAREA|SELECT)$/.test(l.firstChild.nodeName)) lt.appendChild(l.firstChild);
+    l.prepend(lt);
+    const sm = lt.querySelector("small");
+    if (sm && !/^\(/.test(sm.textContent.trim())) { sm.style.display = "block"; sm.style.marginTop = "2px"; }
+  });
+
+  function renderAll() {
+    fillSimple(); renderSwatches(); Object.keys(LISTS).forEach(renderList); renderHero(); renderGallery(); refresh();
+  }
+
+  /* ---------- preview ---------- */
+  const frame = document.getElementById("frame");
+  const frameM = document.getElementById("frame-m");
+  let previewTimer;
+  function refresh() {
+    clearTimeout(previewTimer);
+    previewTimer = setTimeout(() => {
+      const html = buildSite(data, true);
+      if (getComputedStyle(document.querySelector(".preview")).display !== "none") swap(frame, html);
+      if (!document.getElementById("overlay").hidden) swap(frameM, html);
+    }, 250);
+  }
+  function swap(f, html) {
+    const y = f.contentWindow ? f.contentWindow.scrollY : 0;
+    f.onload = () => { try { f.contentWindow.scrollTo(0, y); } catch (e) {} };
+    f.srcdoc = html;
+  }
+  function changed() { save(); refresh(); }
+
+  document.querySelector(".seg").addEventListener("click", e => {
+    const b = e.target.closest("[data-size]"); if (!b) return;
+    document.querySelectorAll(".seg button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    document.getElementById("frame-wrap").classList.toggle("phone", b.dataset.size === "phone");
+    fit();
+  });
+  // "Computer" shows the site as a 1280px-wide screen, scaled down to fit
+  const wrapEl = document.getElementById("frame-wrap");
+  function fit() {
+    if (wrapEl.classList.contains("phone")) { frame.style.cssText = ""; return; }
+    const s = Math.min(1, wrapEl.clientWidth / 1280);
+    frame.style.width = "1280px";
+    frame.style.height = (wrapEl.clientHeight / s) + "px";
+    frame.style.transform = `scale(${s})`;
+  }
+  new ResizeObserver(fit).observe(wrapEl);
+  const overlay = document.getElementById("overlay");
+  document.getElementById("open-preview").addEventListener("click", () => {
+    overlay.hidden = false; document.body.style.overflow = "hidden"; swap(frameM, buildSite(data, true));
+    document.getElementById("close-preview").focus();
+  });
+  const closeOverlay = () => { overlay.hidden = true; document.body.style.overflow = ""; document.getElementById("open-preview").focus(); };
+  document.getElementById("close-preview").addEventListener("click", closeOverlay);
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !overlay.hidden) closeOverlay(); });
+  window.addEventListener("resize", refresh);
+
+  // hide the floating phone bar once the reader is past the editor
+  const mbar = document.getElementById("mbar");
+  const band = document.getElementById("make");
+  const hero = document.querySelector(".hero");
+  const io = new IntersectionObserver(() => {
+    const r = band.getBoundingClientRect();
+    const inEditor = r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4;
+    mbar.classList.toggle("away", !inEditor);
+  }, { threshold: [0, 0.1, 0.5, 0.9, 1] });
+  io.observe(band); io.observe(hero);
+  window.addEventListener("scroll", () => {
+    const r = band.getBoundingClientRect();
+    mbar.classList.toggle("away", !(r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4));
+  }, { passive: true });
+
+  /* ---------- buttons ---------- */
+  function downloadFile(name, text, type) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], { type }));
+    a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+  document.querySelectorAll("[data-download]").forEach(b => b.addEventListener("click", () => downloadFile("index.html", buildSite(data, false), "text/html")));
+  const slug = () => (data.name || "parish").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "parish";
+  document.querySelectorAll("[data-save-details]").forEach(b => b.addEventListener("click", () => downloadFile(`${slug()}-details.json`, JSON.stringify({ parishStudio: 1, ...data }), "application/json")));
+
+  // "Open saved details" lives next to the other form tools
+  const openBtn = document.createElement("button");
+  openBtn.type = "button"; openBtn.className = "btn btn-quiet btn-small"; openBtn.textContent = "Open saved details";
+  document.getElementById("clear-all").after(openBtn);
+  const fileIn = document.getElementById("open-details-file");
+  openBtn.addEventListener("click", () => fileIn.click());
+  fileIn.addEventListener("change", async () => {
+    const f = fileIn.files[0]; if (!f) return;
+    try {
+      const d = JSON.parse(await f.text());
+      if (!d || typeof d !== "object") throw 0;
+      delete d.parishStudio; data = { ...blank(), ...d }; renderAll(); save();
+      document.getElementById("saved-note").textContent = "Details opened";
+    } catch (e) { document.getElementById("saved-note").textContent = "That file couldn't be read"; }
+    fileIn.value = "";
+  });
+  document.getElementById("load-example").addEventListener("click", () => {
+    if (hasWork() && !confirm("Replace what you've typed with the example?")) return;
+    data = example(); renderAll(); save();
+  });
+  document.getElementById("clear-all").addEventListener("click", () => {
+    if (hasWork() && !confirm("Clear everything and start from blank?")) return;
+    data = blank(); renderAll(); save();
+  });
+  document.querySelectorAll("[data-start]").forEach(a => a.addEventListener("click", () => {
+    const want = a.dataset.start;
+    if (want === "blank" && data.name === example().name) { data = blank(); renderAll(); save(); }
+    if (want === "example" && !data.name) { data = example(); renderAll(); save(); }
+  }));
+  function hasWork() { return !!(data.name && data.name !== example().name) || !!data.heroPhoto || data.gallery.length > 0; }
+
+  /* ================================================================
+     The parish site itself: one self-contained HTML file.
+     ================================================================ */
+  function groupTimes(rows) {
+    const out = new Map();
+    rows.filter(r => (r.time || "").trim()).forEach(r => {
+      if (!out.has(r.day)) out.set(r.day, []);
+      out.get(r.day).push(r);
+    });
+    return [...out.entries()].sort((a, b) => DAYS.indexOf(a[0]) - DAYS.indexOf(b[0]));
+  }
+  function timesCard(title, rows) {
+    const g = groupTimes(rows);
+    if (!g.length) return "";
+    return `<div class="card times"><h3>${title}</h3><dl>${g.map(([day, list]) => `<div class="t-row"><dt>${esc(day)}</dt><dd>${list.map(r => `<span>${esc(r.time)}${r.note ? ` <em>${esc(r.note)}</em>` : ""}</span>`).join("")}</dd></div>`).join("")}</dl></div>`;
+  }
+
+  function buildSite(d, preview) {
+    const c = COLORS.find(x => x.id === d.color) || COLORS[0];
+    const name = (d.name || "").trim() || "Your parish";
+    const city = (d.city || "").trim();
+    const masses = timesCard("Mass", d.masses || []);
+    const conf = timesCard("Confession", d.confessions || []);
+    const devs = (d.devotions || []).filter(x => x.name);
+    const devCard = devs.length ? `<div class="card times"><h3>Adoration and devotions</h3><dl>${devs.map(x => `<div class="t-row"><dt>${esc(x.name)}</dt><dd><span>${esc(x.when)}</span></dd></div>`).join("")}</dl></div>` : "";
+    const hasTimes = masses || conf || devCard;
+    const addr = (d.address || "").trim();
+    const mapQ = encodeURIComponent(addr);
+    const dirUrl = addr ? `https://www.google.com/maps/dir/?api=1&destination=${mapQ}` : "";
+    const staff = (d.staff || []).filter(s => s.name);
+    const sacr = (d.sacraments || []).filter(s => s.title);
+    const events = (d.events || []).filter(e => e.title);
+    const gallery = d.gallery || [];
+    const links = [
+      ["Bulletin", safeUrl(d.bulletin)], ["Give online", safeUrl(d.giving)], ["Watch Mass online", safeUrl(d.livestream)],
+    ].filter(l => l[1]);
+    const social = [["Facebook", safeUrl(d.facebook)], ["Instagram", safeUrl(d.instagram)]].filter(l => l[1]);
+    const newcomer = [];
+    if (d.linkMass) newcomer.push({ href: SITE + "/first-mass/", title: "Your First Mass", text: "Never been to Mass, or it's been a while? A gentle, step-by-step guide to what happens and what to do." });
+    if (d.linkTree) newcomer.push({ href: SITE + "/", title: "Tree of Life", text: "Big questions about God, Jesus and the Church, answered honestly, one step at a time, with real sources." });
+
+    const nav = [
+      hasTimes && ["times", "Mass times"],
+      (addr || d.parking) && ["visit", "Visit"],
+      sacr.length && ["sacraments", "Sacraments"],
+      events.length && ["events", "Events"],
+      (d.phone || d.email || d.officeHours || staff.length) && ["contact", "Contact"],
+    ].filter(Boolean);
+
+    const desc = `${name}${city ? " in " + city : ""}: Mass and confession times, directions, and how to get in touch.${d.welcome ? " " + d.welcome : ""}`.slice(0, 300);
+
+    const ld = { "@context": "https://schema.org", "@type": "CatholicChurch", name };
+    if (addr) ld.address = addr;
+    if (d.phone) ld.telephone = d.phone;
+    if (d.email) ld.email = d.email;
+    const sameAs = social.map(s => s[1]); if (sameAs.length) ld.sameAs = sameAs;
+    const ldJson = JSON.stringify(ld).replace(/</g, "\\u003c");
+
+    const heroArt = d.heroPhoto
+      ? `<div class="hero-photo"><img src="${d.heroPhoto}" alt="${esc(name)}"></div>`
+      : `<div class="hero-art" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf3e2"/><stop offset="1" stop-color="var(--pale)"/></linearGradient></defs><rect width="400" height="300" rx="24" fill="url(#g)"/><circle cx="300" cy="78" r="46" fill="#f6e3b6" opacity=".7"/><path d="M0 250c70-26 130-30 200-18s140 6 200-14v82H0z" fill="var(--accent)" opacity=".12"/><g fill="var(--accent)" opacity=".9"><path d="M140 262V164l60-46 60 46v98z"/><rect x="195" y="62" width="10" height="64"/><rect x="183" y="76" width="34" height="9" rx="2"/></g><path d="M186 262v-40a14 14 0 0 1 28 0v40z" fill="#fbf3e2"/><circle cx="200" cy="170" r="13" fill="#fbf3e2" opacity=".9"/><path d="M20 262h360" stroke="var(--accent)" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/></svg></div>`;
+
+    return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(name)}${city ? " | Catholic Church in " + esc(city) : ""}</title>
+<meta property="og:title" content="${esc(name)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:type" content="website">
+${preview ? '<base target="_blank">' : ""}
+<script type="application/ld+json">${ldJson}<\/script>
+<style>
+:root{--paper:#faf6ee;--panel:#f3ecdf;--card:#fffdf8;--ink:#2b2622;--muted:#6c6358;--line:#e5dccb;--gold:#a87f33;--accent:${c.accent};--pale:${c.pale};--shadow:0 20px 44px -28px rgba(80,58,30,.4);--serif:"Cormorant Garamond","Iowan Old Style",Georgia,serif;--sans:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+.wrap{max-width:68rem;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.brand{font:600 1.2rem var(--serif);color:var(--ink);text-decoration:none;line-height:1.15;padding-block:8px}
+nav.links{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+nav.links a{color:var(--muted);text-decoration:none;font-size:.95rem;padding:8px 10px;border-radius:999px}
+nav.links a:hover{color:var(--ink);background:var(--panel)}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-block:56px 64px}
+.eyebrow{font:600 .78rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.hero h1{font-size:clamp(2.6rem,6vw,4.2rem);margin:12px 0 18px}
+.hero .welcome{font-size:1.15rem;color:var(--muted);max-width:32rem}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font:600 1rem var(--sans);text-decoration:none;border:1px solid transparent;transition:transform .2s ease-out,background .2s}
+.btn-main{background:var(--accent);color:#fbf8f1;box-shadow:var(--shadow)}.btn-main:hover{transform:translateY(-1px)}
+.btn-soft{border-color:var(--line);color:var(--ink)}.btn-soft:hover{background:var(--panel)}
+.hero-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:var(--shadow);display:block}
+.hero-art svg{width:100%;height:auto;display:block}
+section{padding:64px 0}
+section.band{background:var(--panel)}
+.head{display:grid;gap:8px;margin-bottom:28px;max-width:40rem}
+.head h2{font-size:clamp(2rem,4vw,2.7rem)}
+.head p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.card h3{font-size:1.55rem;margin-bottom:12px}
+.times dl{margin:0;display:grid;gap:12px}
+.t-row{display:grid;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--line)}.t-row:last-child{border-bottom:0;padding-bottom:0}
+.t-row dt{font-weight:600}
+.t-row dd{margin:0;display:grid;gap:2px;color:var(--ink)}
+.t-row em{font-style:normal;color:var(--muted);font-size:.92rem}
+.t-row em::before{content:"· "}
+.note{margin-top:18px;color:var(--muted);font-size:.95rem}
+.visit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:28px;align-items:start}
+.visit .map{border-radius:16px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:var(--panel)}
+.visit .map iframe{border:0;width:100%;height:100%;display:block}
+.visit-info{display:grid;gap:16px}
+.addr{font-size:1.2rem}
+.newcomer{background:var(--pale);border-radius:20px;padding:36px;display:grid;gap:22px}
+.newcomer h2{font-size:clamp(1.9rem,3.6vw,2.5rem)}
+.nc-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.nc{display:grid;gap:6px;padding:20px 22px;border-radius:14px;background:var(--card);text-decoration:none;color:var(--ink);transition:transform .2s ease-out,box-shadow .2s}
+.nc:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.nc b{font:500 1.4rem var(--serif);color:var(--accent)}
+.nc span{color:var(--muted);font-size:.96rem}
+.nc i{font-style:normal;font-weight:600;color:var(--accent);font-size:.93rem}
+.list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;display:grid;gap:6px;align-content:start}
+.item h3{font-size:1.4rem}
+.item .when{color:var(--gold);font-weight:600;font-size:.93rem}
+.item p{color:var(--muted)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block}
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.c-lines{display:grid;gap:14px}
+.c-lines div{display:grid}
+.c-lines small{color:var(--muted);font-size:.88rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.c-lines a,.c-lines span{font-size:1.15rem}
+.staff{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.staff li{display:flex;justify-content:space-between;gap:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.staff li:last-child{border-bottom:0}
+.staff span{color:var(--muted);text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+footer{padding:40px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:.92rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px}
+footer a{color:var(--muted)}
+@media (max-width:820px){.hero,.visit,.contact{grid-template-columns:1fr}.hero{padding-block:32px 48px;gap:32px}nav.links{display:none}section{padding:48px 0}.newcomer{padding:26px 22px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="brand" href="#top" target="_self">${esc(name)}</a>${nav.length ? `<nav class="links">${nav.map(n => `<a href="#${n[0]}" target="_self">${n[1]}</a>`).join("")}</nav>` : ""}</div></header>
+<main id="top">
+<div class="wrap hero">
+  <div>
+    <p class="eyebrow">${esc(city ? "Catholic Church · " + city : "Catholic Church")}</p>
+    <h1>${esc(name)}</h1>
+    ${d.welcome ? `<p class="welcome">${esc(d.welcome)}</p>` : ""}
+    <div class="cta">${hasTimes ? '<a class="btn btn-main" href="#times" target="_self">Mass times</a>' : ""}${dirUrl ? `<a class="btn btn-soft" href="${esc(dirUrl)}" target="_blank" rel="noopener">Get directions</a>` : ""}</div>
+  </div>
+  ${heroArt}
+</div>
+${hasTimes ? `<section class="band" id="times"><div class="wrap"><div class="head"><p class="eyebrow">Join us</p><h2>Mass and confession times</h2></div><div class="grid">${masses}${conf}${devCard}</div>${d.timesNote ? `<p class="note">${esc(d.timesNote)}</p>` : ""}${links.length ? `<div class="chips" style="margin-top:22px">${links.map(l => `<a class="btn btn-soft" href="${esc(l[1])}" target="_blank" rel="noopener">${l[0]}</a>`).join("")}</div>` : ""}</div></section>` : ""}
+${newcomer.length ? `<section><div class="wrap"><div class="newcomer"><div class="head" style="margin:0"><p class="eyebrow">New here?</p><h2>You're welcome, just as you are</h2><p>Coming to Mass for the first time, or coming back after a long time? These free guides can help.</p></div><div class="nc-links">${newcomer.map(n => `<a class="nc" href="${n.href}" target="_blank" rel="noopener"><b>${n.title}</b><span>${n.text}</span><i>Open the guide →</i></a>`).join("")}</div></div></div></section>` : ""}
+${addr || d.parking ? `<section id="visit"${newcomer.length ? ' style="padding-top:0"' : ""}><div class="wrap"><div class="head"><p class="eyebrow">Visit</p><h2>Finding us</h2></div><div class="visit"><div class="visit-info">${addr ? `<p class="addr">${esc(addr)}</p>` : ""}${d.parking ? `<p style="color:var(--muted)">${esc(d.parking)}</p>` : ""}${dirUrl ? `<div><a class="btn btn-main" href="${esc(dirUrl)}" target="_blank" rel="noopener">Get directions</a></div>` : ""}</div>${addr && d.showMap ? `<div class="map"><iframe title="Map to ${esc(name)}" loading="lazy" src="https://maps.google.com/maps?q=${mapQ}&output=embed"></iframe></div>` : ""}</div></div></section>` : ""}
+${sacr.length ? `<section class="band" id="sacraments"><div class="wrap"><div class="head"><p class="eyebrow">Sacraments and parish life</p><h2>How can we help?</h2></div><div class="list">${sacr.map(s => `<div class="item"><h3>${esc(s.title)}</h3>${s.text ? `<p>${esc(s.text)}</p>` : ""}</div>`).join("")}</div></div></section>` : ""}
+${events.length ? `<section id="events"><div class="wrap"><div class="head"><p class="eyebrow">Coming up</p><h2>Events</h2></div><div class="list">${events.map(e => `<div class="item">${e.when ? `<span class="when">${esc(e.when)}</span>` : ""}<h3>${esc(e.title)}</h3>${e.text ? `<p>${esc(e.text)}</p>` : ""}</div>`).join("")}</div></div></section>` : ""}
+${gallery.length ? `<section${events.length ? ' style="padding-top:0"' : ""}><div class="wrap"><div class="head"><p class="eyebrow">Parish life</p><h2>Photos</h2></div><div class="gallery">${gallery.map(g => `<img src="${g}" alt="" loading="lazy">`).join("")}</div></div></section>` : ""}
+${d.phone || d.email || d.officeHours || staff.length ? `<section class="band" id="contact"><div class="wrap"><div class="head"><p class="eyebrow">Contact</p><h2>Get in touch</h2></div><div class="contact"><div class="card c-lines">${d.phone ? `<div><small>Phone</small><a href="tel:${esc(d.phone.replace(/[^\d+]/g, ""))}" target="_self">${esc(d.phone)}</a></div>` : ""}${d.email ? `<div><small>Email</small><a href="mailto:${esc(d.email.trim())}" target="_self">${esc(d.email)}</a></div>` : ""}${d.officeHours ? `<div><small>Office hours</small><span>${esc(d.officeHours)}</span></div>` : ""}${social.length ? `<div class="chips">${social.map(s => `<a class="btn btn-soft" href="${esc(s[1])}" target="_blank" rel="noopener">${s[0]}</a>`).join("")}</div>` : ""}</div>${staff.length ? `<div class="card"><h3>Parish staff</h3><ul class="staff">${staff.map(s => `<li><b>${esc(s.name)}</b><span>${esc(s.role)}</span></li>`).join("")}</ul></div>` : ""}</div></div></section>` : ""}
+</main>
+<footer><div class="wrap"><span>${esc(name)}${d.diocese ? " · " + esc(d.diocese) : ""}${addr ? " · " + esc(addr) : ""}</span>${d.credit ? `<span>Made free with <a href="${SITE}/parish-studio/" target="_blank" rel="noopener">Parish Website Studio</a></span>` : ""}</div></footer>
+</body>
+</html>
+`;
+  }
+
+  renderAll();
+  ready = true;
+})();
+</script>
+</body>
+</html>
