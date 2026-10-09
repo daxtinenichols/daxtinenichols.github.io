@@ -709,15 +709,16 @@ function paintProgress() {
   document.getElementById("progress-text").textContent = `${visited.size} of ${NODES.length} explored`;
   document.getElementById("progress-bar").style.width = (100 * visited.size / NODES.length).toFixed(1) + "%";
 }
-function select(id, fromMap) {
+// hist: "push" adds a history step so Back returns to the last question; "replace" for the first load; "none" when the address already changed
+function select(id, fromMap, hist = "push") {
   const n = byId[id]; if (!n) return;
   const fresh = !visited.has(id);
   current = id; visited.add(id); store("tol-visited", [...visited]); store("tol-last", id);
   const onPath = new Set(pathTo(n).map(x => x.id));
   NODES.forEach(x => { tog(x, "selected", x === n); x.g.classList.toggle("visited", visited.has(x.id)); x.g.setAttribute("aria-selected", String(x === n)); if (x.branch) x.branch.classList.toggle("on-path", onPath.has(x.id)); });
   if (fresh) { n.g.classList.remove("grow"); void n.g.getBBox(); n.g.classList.add("grow"); }
+  if (hist !== "none" && location.hash.slice(1) !== id) try { history[hist === "replace" ? "replaceState" : "pushState"](null, "", "#" + id); } catch (e) {}
   render(n); focusOn(n); paintProgress();
-  try { history.replaceState(null, "", "#" + id); } catch (e) {}
   if (fromMap && innerWidth <= 860) reader.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -744,8 +745,12 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !welcome.hidden) cl
 
 view = homeView(); apply(); paintAudience(); paintProgress();
 const start = location.hash.slice(1);
-if (byId[start]) select(start, false);
-else { const had = visited.has(root.id); select(root.id, false); if (!had) { visited.delete(root.id); store("tol-visited", [...visited]); root.g.classList.remove("visited", "grow"); paintProgress(); } cancelAnimationFrame(anim); view = homeView(); apply(); openWelcome(); }
+if (byId[start]) select(start, false, "replace");
+else { const had = visited.has(root.id); select(root.id, false, "replace"); if (!had) { visited.delete(root.id); store("tol-visited", [...visited]); root.g.classList.remove("visited", "grow"); paintProgress(); } cancelAnimationFrame(anim); view = homeView(); apply(); openWelcome(); }
+// Back, Forward, or an edited address: follow the hash
+function followHash() { const id = decodeURIComponent(location.hash.slice(1)); if (byId[id] && id !== current) { closeWelcome(); select(id, false, "none"); } }
+addEventListener("popstate", followHash);
+addEventListener("hashchange", followHash);
 </script>
 <style>
 /* Tree of Life comments and feedback. Uses the tree page's own tokens. */
