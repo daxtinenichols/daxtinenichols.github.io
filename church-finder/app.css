@@ -183,6 +183,10 @@ body.in-results { height: 100vh; height: 100dvh; overflow: hidden; }
 .pin .body { fill: var(--rose); stroke: var(--card); stroke-width: 1.6; }
 .pin.has-times .body { fill: var(--sage); }
 .pin .cross { stroke: var(--card); stroke-width: 1.8; stroke-linecap: round; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--rose); border: 2px solid var(--card); box-shadow: 0 1px 3px rgba(60, 40, 20, .35); transition: transform .2s; }
+.dot.has-times { background: var(--sage); }
+.dot.hot, .dot:hover { transform: scale(1.5); }
+body.no-db [data-add], body.no-db .add-hint { display: none; }
 .me-dot { width: 18px; height: 18px; border-radius: 50%; background: #4a78a8; border: 3px solid #fff; box-shadow: 0 0 0 6px rgba(74, 120, 168, .25); }
 
 /* ---------- church page ---------- */

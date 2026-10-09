@@ -57,9 +57,14 @@
     const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * r) * Math.cos(b.lat * r) * Math.sin(dLon / 2) ** 2;
     return 2 * R * Math.asin(Math.sqrt(h));
   }
+  // Miles in the US and UK, whatever the visitor's browser says; km elsewhere unless the visitor's locale uses miles.
+  const inMilesLand = (p) => p && ((p.lat > 24 && p.lat < 50 && p.lon > -125 && p.lon < -66) || (p.lat > 51 && p.lon < -130) ||
+    (p.lat > 18 && p.lat < 23 && p.lon > -161 && p.lon < -154) || (p.lat > 49.8 && p.lat < 59 && p.lon > -8.7 && p.lon < 1.8));
+  let unitsAt = null;
   function fmtDist(d) {
-    const v = MILES ? d * 0.621371 : d;
-    const u = MILES ? "mi" : "km";
+    const miles = MILES || inMilesLand(unitsAt);
+    const v = miles ? d * 0.621371 : d;
+    const u = miles ? "mi" : "km";
     return v < 0.1 ? `nearby` : `${v < 10 ? v.toFixed(1) : Math.round(v)} ${u}`;
   }
 
@@ -199,6 +204,7 @@
   const DB = !!(CFG.supabaseUrl && CFG.supabaseKey);
   const dbHeaders = () => ({ apikey: CFG.supabaseKey, ...(CFG.supabaseKey.startsWith("eyJ") ? { Authorization: `Bearer ${CFG.supabaseKey}` } : {}) });
   const updCache = new Map();
+  let dbReady = DB; // false once we learn the table isn't there yet; the page then hides the "add" buttons
   async function fetchUpdates(ids) {
     if (!DB) return {};
     const need = ids.filter((id) => !updCache.has(id));
@@ -207,7 +213,7 @@
         const rows = await getJSON(`${CFG.supabaseUrl}/rest/v1/church_updates?select=church,kind,value,created_at&church=in.(${need.join(",")})&order=created_at.asc&limit=1000`, { headers: dbHeaders() });
         for (const id of need) updCache.set(id, []);
         for (const r of rows) updCache.get(r.church)?.push(r);
-      } catch { for (const id of need) updCache.set(id, []); }
+      } catch (e) { for (const id of need) updCache.set(id, []); if (/^40[04]$/.test(e.message)) { dbReady = false; document.body.classList.add("no-db"); } }
     }
     return Object.fromEntries(ids.map((id) => [id, updCache.get(id) || []]));
   }
@@ -255,7 +261,8 @@
   let map, layer, meMarker, miniMap;
   const markers = new Map();
   const view = { here: null, label: "", filters: new Set(), rows: [], church: null };
-  function pinIcon(row, cls = "") {
+  function pinIcon(row, cls = "", small = false) {
+    if (small) return L.divIcon({ className: `dot${row.flags & 1 ? " has-times" : ""}`, iconSize: [12, 12], iconAnchor: [6, 6] });
     return L.divIcon({
       className: `pin${row.flags & 1 ? " has-times" : ""}${cls}`, iconSize: [26, 26], iconAnchor: [13, 24],
       html: '<svg viewBox="0 0 26 26"><path class="body" d="M13 25s-9-7.4-9-14a9 9 0 0 1 18 0c0 6.6-9 14-9 14z"/><path class="cross" d="M13 6.2v8.6M9.6 9.4h6.8"/></svg>',
@@ -309,13 +316,14 @@
     if (view.filters.has("access")) inView = inView.filter((r) => r.flags & 2);
     if (view.filters.has("eastern")) inView = inView.filter((r) => r.rite);
     for (const r of inView) r.d = km(ref, r);
+    unitsAt = ref;
     inView.sort((a, b) => a.d - b.d);
     view.rows = inView;
 
     // markers: only what is on screen
     layer.clearLayers(); markers.clear();
     for (const r of inView.slice(0, 700)) {
-      const m = L.marker([r.lat, r.lon], { icon: pinIcon(r), title: r.name, riseOnHover: true }).addTo(layer);
+      const m = L.marker([r.lat, r.lon], { icon: pinIcon(r, "", z < 13), title: r.name, riseOnHover: true }).addTo(layer);
       m.on("click", () => go(churchURL(r.id, r.flags)));
       markers.set(r.id, m);
     }
@@ -405,6 +413,7 @@
       m.on("click", () => r.id !== c.id && go(churchURL(r.id, r.flags)));
       markers.set(r.id, m);
     }
+    unitsAt = c;
     const near = (await churchesAround(c.lat, c.lon, 1)).filter((r) => r.id !== c.id).map((r) => ({ ...r, d: km(c, r) })).sort((a, b) => a.d - b.d).slice(0, 5);
     const ul = $("#nearby");
     if (ul) ul.innerHTML = near.map((r) => `<li><a href="${churchURL(r.id, r.flags)}" data-go><b>${esc(r.name)}</b><span>${fmtDist(r.d)}</span></a></li>`).join("") || "<li class='muted'>None listed nearby yet.</li>";
@@ -465,7 +474,7 @@
           <p class="muted">Times can change on holidays and in summer.${c.web ? ` The <a href="${esc(webURL(c.web))}" target="_blank" rel="noopener">parish website</a> has the latest bulletin.` : c.phone ? " A quick call to the parish will confirm." : ""}</p>
           <div class="help-row"><button class="btn soft small" type="button" data-add="mass">${ICON.plus} Add or correct a time</button></div>`
         : `<div class="missing">
-            <p><b>We don't have Mass times for this church yet.</b> If you know them, adding them takes a minute and helps the next person who comes looking.</p>
+            <p><b>We don't have Mass times for this church yet.</b><span class="add-hint"> If you know them, adding them takes a minute and helps the next person who comes looking.</span></p>
             <div class="help-row" style="margin-top:0">
               <button class="btn primary small" type="button" data-add="mass">${ICON.plus} Add Mass times</button>
               ${c.web ? `<a class="btn ghost small" href="${esc(webURL(c.web))}" target="_blank" rel="noopener">Check the parish website</a>` : c.phone ? `<a class="btn ghost small" href="tel:${esc(c.phone.replace(/[^\d+]/g, ""))}">Call the parish</a>` : ""}
@@ -801,7 +810,7 @@
   // list hover lights up the marker
   $("#list").addEventListener("mouseover", (e) => {
     const li = e.target.closest(".item");
-    $$(".pin.hot").forEach((p) => p.classList.remove("hot"));
+    $$(".pin.hot, .dot.hot").forEach((p) => p.classList.remove("hot"));
     if (li) markers.get(li.dataset.id)?.getElement()?.classList.add("hot");
   });
   $$("form.search").forEach(wireSearch);

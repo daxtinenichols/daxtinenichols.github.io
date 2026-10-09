@@ -199,7 +199,7 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--s
 .faq p { color: var(--muted); padding-bottom: 14px; max-width: 42rem; }
 
 /* more tools */
-.more { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.more { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .tool { display: grid; grid-template-columns: 64px 1fr; gap: 18px; align-items: center; padding: 22px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform 200ms ease-out, box-shadow 200ms ease-out; }
 .tool:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
 .tool svg { width: 64px; height: 64px; }
@@ -385,6 +385,7 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
             <p class="hint" style="font-size:.95rem">Many visitors have never been to Mass, or have been away a long time. These free guides help them feel at home. They're on by default; untick any you'd rather leave out.</p>
             <label class="toggle"><input type="checkbox" name="linkMass" checked><span><b>Your First Mass</b><span>A gentle step-by-step guide: when to stand, sit and kneel, and what to say.</span></span></label>
             <label class="toggle"><input type="checkbox" name="linkTree" checked><span><b>Tree of Life</b><span>Honest answers to big questions about God, Jesus and the Church, with real sources.</span></span></label>
+            <label class="toggle"><input type="checkbox" name="linkFinder" checked><span><b>Church Finder</b><span>For travellers: Mass and confession times at Catholic churches near them.</span></span></label>
             <label class="toggle"><input type="checkbox" name="credit" checked><span><b>"Made with Parish Website Studio" in the footer</b><span>A small line that helps other parishes find this free tool.</span></span></label>
           </div>
         </details>
@@ -505,6 +506,10 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
         <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--sage-pale)"/><path d="M32 52V30M32 38l-9-8M32 34l8-7" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/><circle cx="32" cy="24" r="10" fill="var(--sage)" opacity=".35"/><circle cx="22" cy="29" r="6" fill="var(--sage)" opacity=".3"/><circle cx="42" cy="27" r="6" fill="var(--gold)" opacity=".45"/></svg>
         <div><b>Tree of Life</b><span>Big questions about God, Jesus and the Church, one honest step at a time.</span></div>
       </a>
+      <a class="tool" href="/church-finder/">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--sage-pale)"/><path d="M32 50s-12-11.5-12-21a12 12 0 0 1 24 0c0 9.5-12 21-12 21z" fill="var(--gold-pale)" stroke="var(--sage)" stroke-width="2.2" stroke-linejoin="round"/><path d="M32 22v10M28 26h8" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg>
+        <div><b>Church Finder</b><span>Mass and confession times at Catholic churches near you.</span></div>
+      </a>
     </div>
   </div>
 </section>
@@ -557,7 +562,7 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
     staff: [{ name: "", role: "Pastor" }],
     sacraments: DEFAULT_SACRAMENTS.map(s => ({ ...s })),
     events: [], gallery: [],
-    linkMass: true, linkTree: true, credit: true,
+    linkMass: true, linkTree: true, linkFinder: true, credit: true,
   });
 
   // A fictional parish so people can see a finished site straight away.
@@ -886,6 +891,7 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
     const social = [["Facebook", safeUrl(d.facebook)], ["Instagram", safeUrl(d.instagram)]].filter(l => l[1]);
     const newcomer = [];
     if (d.linkMass) newcomer.push({ href: SITE + "/first-mass/", title: "Your First Mass", text: "Never been to Mass, or it's been a while? A gentle, step-by-step guide to what happens and what to do." });
+    if (d.linkFinder) newcomer.push({ href: SITE + "/church-finder/", title: "Church Finder", text: "Away from home? Find Mass and confession times at Catholic churches wherever you are.", cta: "Find a church" });
     if (d.linkTree) newcomer.push({ href: SITE + "/", title: "Tree of Life", text: "Big questions about God, Jesus and the Church, answered honestly, one step at a time, with real sources." });
 
     const nav = [
@@ -1010,7 +1016,7 @@ footer a{color:var(--muted)}
   ${heroArt}
 </div>
 ${hasTimes ? `<section class="band" id="times"><div class="wrap"><div class="head"><p class="eyebrow">Join us</p><h2>Mass and confession times</h2></div><div class="grid">${masses}${conf}${devCard}</div>${d.timesNote ? `<p class="note">${esc(d.timesNote)}</p>` : ""}${links.length ? `<div class="chips" style="margin-top:22px">${links.map(l => `<a class="btn btn-soft" href="${esc(l[1])}" target="_blank" rel="noopener">${l[0]}</a>`).join("")}</div>` : ""}</div></section>` : ""}
-${newcomer.length ? `<section><div class="wrap"><div class="newcomer"><div class="head" style="margin:0"><p class="eyebrow">New here?</p><h2>You're welcome, just as you are</h2><p>Coming to Mass for the first time, or coming back after a long time? These free guides can help.</p></div><div class="nc-links">${newcomer.map(n => `<a class="nc" href="${n.href}" target="_blank" rel="noopener"><b>${n.title}</b><span>${n.text}</span><i>Open the guide →</i></a>`).join("")}</div></div></div></section>` : ""}
+${newcomer.length ? `<section><div class="wrap"><div class="newcomer"><div class="head" style="margin:0"><p class="eyebrow">New here?</p><h2>You're welcome, just as you are</h2><p>Coming to Mass for the first time, or coming back after a long time? These free guides can help.</p></div><div class="nc-links">${newcomer.map(n => `<a class="nc" href="${n.href}" target="_blank" rel="noopener"><b>${n.title}</b><span>${n.text}</span><i>${n.cta || "Open the guide"} →</i></a>`).join("")}</div></div></div></section>` : ""}
 ${addr || d.parking ? `<section id="visit"${newcomer.length ? ' style="padding-top:0"' : ""}><div class="wrap"><div class="head"><p class="eyebrow">Visit</p><h2>Finding us</h2></div><div class="visit"><div class="visit-info">${addr ? `<p class="addr">${esc(addr)}</p>` : ""}${d.parking ? `<p style="color:var(--muted)">${esc(d.parking)}</p>` : ""}${dirUrl ? `<div><a class="btn btn-main" href="${esc(dirUrl)}" target="_blank" rel="noopener">Get directions</a></div>` : ""}</div>${addr && d.showMap ? `<div class="map"><iframe title="Map to ${esc(name)}" loading="lazy" src="https://maps.google.com/maps?q=${mapQ}&output=embed"></iframe></div>` : ""}</div></div></section>` : ""}
 ${sacr.length ? `<section class="band" id="sacraments"><div class="wrap"><div class="head"><p class="eyebrow">Sacraments and parish life</p><h2>How can we help?</h2></div><div class="list">${sacr.map(s => `<div class="item"><h3>${esc(s.title)}</h3>${s.text ? `<p>${esc(s.text)}</p>` : ""}</div>`).join("")}</div></div></section>` : ""}
 ${events.length ? `<section id="events"><div class="wrap"><div class="head"><p class="eyebrow">Coming up</p><h2>Events</h2></div><div class="list">${events.map(e => `<div class="item">${e.when ? `<span class="when">${esc(e.when)}</span>` : ""}<h3>${esc(e.title)}</h3>${e.text ? `<p>${esc(e.text)}</p>` : ""}</div>`).join("")}</div></div></section>` : ""}
