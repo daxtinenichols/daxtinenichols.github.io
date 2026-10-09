@@ -16,4 +16,4 @@ This is the public copy of the sites, published by GitHub Pages from `main`. The
 
 ## Credits
 
-Church data in the Church Finder comes from OpenStreetMap, (c) OpenStreetMap contributors, under the [Open Database License](https://www.openstreetmap.org/copyright). Paintings and church photos come from [Wikimedia Commons](https://commons.wikimedia.org/).
+Church data in the Church Finder comes from OpenStreetMap, (c) OpenStreetMap contributors, under the [Open Database License](https://www.openstreetmap.org/copyright), and its town names from [GeoNames](https://www.geonames.org/) (CC BY 4.0). Paintings and church photos come from [Wikimedia Commons](https://commons.wikimedia.org/).
