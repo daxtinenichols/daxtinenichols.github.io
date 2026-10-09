@@ -128,7 +128,8 @@ button, select { font: inherit; color: inherit; }
 .hint { position: absolute; left: 16px; top: 14px; margin: 0; font-size: var(--step--1); color: var(--muted); max-width: 34ch; background: color-mix(in srgb, var(--paper) 90%, transparent); padding: 6px 12px; border-radius: 10px; pointer-events: none; }
 
 /* Reader */
-.reader { border-left: 1px solid var(--line); background: var(--paper); overflow-y: auto; min-height: 0; }
+.reader { position: relative; border-left: 1px solid var(--line); background: var(--paper); overflow-y: auto; min-height: 0; }
+@media (min-width: 861px) { body { overflow: hidden; } }
 .entry { padding-block: 22px 0; padding-inline: clamp(18px, 4vw, 36px); display: grid; gap: 20px; }
 .trail { display: flex; flex-wrap: wrap; gap: 2px 6px; font-size: var(--step--1); color: var(--muted); }
 .trail button { background: none; border: 0; padding: 0; cursor: pointer; color: var(--muted); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
@@ -766,6 +767,8 @@ else { const had = visited.has(root.id); select(root.id, false); if (!had) { vis
 .talk-form .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .talk-form output { font-size: var(--step--1); color: var(--muted); }
 .tol-field { display: grid; gap: 6px; font-size: var(--step--1); color: var(--muted); }
+/* keep the hidden fields below inside their own box so they never stretch the page */
+.talk, #suggest { position: relative; }
 .tol-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .tol-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 button[disabled] { opacity: .6; cursor: progress; }
