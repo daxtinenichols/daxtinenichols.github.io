@@ -25,6 +25,7 @@
   const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
   const getJSON = async (url, opts) => { const r = await fetch(url, opts); if (!r.ok) throw new Error(r.status); return r.json(); };
   const ICON = {
+    check: '<svg viewBox="0 0 24 24"><path d="M12 2.8l7.5 3v5.4c0 4.6-3.2 8.6-7.5 10-4.3-1.4-7.5-5.4-7.5-10V5.8z"/><path d="M8.6 12.2l2.4 2.4 4.5-4.6"/></svg>',
     pin: '<svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
     dir: '<svg viewBox="0 0 24 24"><path d="M12 2.8 21.2 12 12 21.2 2.8 12z"/><path d="M9.5 14v-2.5a1.5 1.5 0 0 1 1.5-1.5h4.5M13.5 8l2 2-2 2"/></svg>',
     phone: '<svg viewBox="0 0 24 24"><path d="M5 4h3.5l1.8 4.5-2.3 1.4a11 11 0 0 0 5.1 5.1l1.4-2.3L19 14.5V18a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',
@@ -430,7 +431,7 @@
   /* ---------- church page ---------- */
   // US churches have their own page at c/<id>.html (made by build_pages.py); every church also opens at ?c=<id>.
   const churchURL = (id, flags = 0) => (flags & 8 ? `c/${id}.html` : `?c=${id}`);
-  const churchFromURL = () => new URLSearchParams(location.search).get("c") || (location.pathname.match(/\/c\/([nwr]\d+)\.html$/) || [])[1];
+  const churchFromURL = () => new URLSearchParams(location.search).get("c") || (location.pathname.match(/\/c\/([a-z]\d+)\.html$/) || [])[1];
   const fullAddress = (c) => [c.street, c.city, [c.state, c.post].filter(Boolean).join(" ")].filter(Boolean).join(", ");
   const isApple = /iPhone|iPad|Macintosh/.test(navigator.userAgent) && "ontouchend" in document;
   const dirURL = (c) => isApple
@@ -478,10 +479,14 @@
   }
 
   function render(el, c, ups) {
-    const osm = c.mass ? parseOsmTimes(c.mass) : { items: [], confessions: [], ok: true };
-    const masses = [...osm.items.map((x) => ({ ...x, by: "" })), ...visitorTimes(ups, "mass")];
-    const confessions = [...osm.confessions, ...visitorTimes(ups, "confession")];
-    const adoration = visitorTimes(ups, "adoration");
+    // Times from an official source (the diocese or the parish's own site) take the place of OpenStreetMap's.
+    const off = c.times || null;
+    const isOsm = /^[nwr]\d/.test(c.id);
+    const osm = !off && c.mass ? parseOsmTimes(c.mass) : { items: [], confessions: [], ok: true };
+    const masses = [...(off ? off.mass || [] : osm.items).map((x) => ({ ...x, by: "" })), ...visitorTimes(ups, "mass")];
+    const confessions = [...(off ? off.confession || [] : osm.confessions), ...visitorTimes(ups, "confession")];
+    const adoration = [...(off?.adoration || []), ...visitorTimes(ups, "adoration")];
+    const fromSrc = c.src ? `<p class="src-line">${ICON.check}<span>From <a href="${esc(c.src.u)}" target="_blank" rel="noopener">${esc(c.src.n)}</a>, checked ${esc(new Date(c.src.d + "T12:00").toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" }))}.</span></p>` : "";
     const next = nextOf(masses);
     const addr = fullAddress(c);
     const kind = c.rite ? `${KIND[c.kind] || "Church"} · ${c.rite}` : `${KIND[c.kind] || "Church"} · Roman Catholic`;
@@ -500,6 +505,8 @@
       facts.push([icon, `${esc(u.value)} <span class="by">added by a visitor, ${monthYear(u.created_at)}</span>`]);
     }
     if (adoration.length) facts.push([ICON.candle, `<b>Adoration</b>${scheduleTable(adoration)}`]);
+    if (off?.monthly?.length) facts.push([ICON.clock, `<b>Once a month</b>${scheduleTable(off.monthly)}`]);
+    if (off?.other?.length) facts.push([ICON.clock, `<b>Other services</b>${scheduleTable(off.other)}`]);
     if (c.desc) facts.push([ICON.info, esc(c.desc)]);
 
     el.innerHTML = `
@@ -508,6 +515,7 @@
       <h1>${esc(c.name)}</h1>
       ${c.name_en ? `<p class="name-en">${esc(c.name_en)}</p>` : ""}
       ${addr ? `<p class="addr">${esc(addr)}</p>` : `<p class="addr muted">Street address not listed yet</p>`}
+      ${c.closed ? `<p class="closed-note">${ICON.info}<span>${esc(c.closed)}</span></p>` : ""}
       <div class="actions">
         <a class="btn primary" href="${dirURL(c)}" target="_blank" rel="noopener">${ICON.dir} Directions</a>
         ${c.phone ? `<a class="btn ghost" href="tel:${esc(c.phone.split(/[;,]/)[0].replace(/[^\d+]/g, ""))}">${ICON.phone} Call</a>` : ""}
@@ -522,6 +530,7 @@
           ${next ? `<p class="next-mass">Next Mass: ${esc(next)}</p>` : ""}
           ${scheduleTable(masses)}
           ${!osm.ok ? `<p class="muted" style="margin-top:14px">As written on OpenStreetMap:</p><p class="raw-times">${esc(c.mass)}</p>` : ""}
+          ${fromSrc}
           <p class="muted">Times can change on holidays and in summer.${c.web ? ` The <a href="${esc(webURL(c.web))}" target="_blank" rel="noopener">parish website</a> has the latest bulletin.` : c.phone ? " A quick call to the parish will confirm." : ""}</p>
           <div class="help-row"><button class="btn soft small" type="button" data-add="mass">${ICON.plus} Add or correct a time</button></div>`
         : `<div class="missing">
@@ -535,9 +544,11 @@
 
       <section class="block" aria-labelledby="h-conf">
         <h2 id="h-conf">Confession</h2>
-        ${confessions.length ? scheduleTable(confessions) : `<p class="muted">Times not listed yet. Many parishes hear confessions on Saturday afternoons or by appointment, so the parish office can tell you.</p>`}
+        ${confessions.length ? scheduleTable(confessions) + (off?.confession?.length ? fromSrc : "") : `<p class="muted">Times not listed yet. Many parishes hear confessions on Saturday afternoons or by appointment, so the parish office can tell you.</p>`}
         <div class="help-row"><button class="btn soft small" type="button" data-add="confession">${ICON.plus} ${confessions.length ? "Add a time" : "Add confession times"}</button></div>
       </section>
+
+      <section class="block about" id="about" aria-labelledby="h-about" hidden></section>
 
       ${facts.length ? `<section class="block" aria-labelledby="h-know"><h2 id="h-know">Good to know</h2><ul class="facts">${facts.map(([i, t]) => `<li>${i}<div>${t}</div></li>`).join("")}</ul></section>` : ""}
 
@@ -566,25 +577,70 @@
         <div class="help-row">
           <button class="btn soft small" type="button" data-add="note">Add a detail</button>
           <button class="btn soft small" type="button" data-add="problem">Report a problem</button>
-          <a class="btn ghost small" href="${osmURL(c.id)}" target="_blank" rel="noopener">Edit on OpenStreetMap</a>
+          ${isOsm ? `<a class="btn ghost small" href="${osmURL(c.id)}" target="_blank" rel="noopener">Edit on OpenStreetMap</a>` : ""}
         </div>
-        <p class="source">Location and details from <a href="${osmURL(c.id)}" target="_blank" rel="noopener">OpenStreetMap</a>${c.inferred ? ", listed here as Catholic because of its name" : ""}. Anything marked “added by a visitor” came from someone like you.</p>
+        <p class="source">${isOsm ? `Location and details from <a href="${osmURL(c.id)}" target="_blank" rel="noopener">OpenStreetMap</a>${c.inferred ? ", listed here as Catholic because of its name" : ""}` : `Location and details from <a href="${esc(c.src?.u || "")}" target="_blank" rel="noopener">${esc(c.src?.n || "the diocese")}</a>`}${c.src && isOsm ? `; times from ${esc(c.src.n)}` : ""}. Anything marked “added by a visitor” came from someone like you.</p>
       </section>`;
   }
 
   const LANGS = { en: "English", es: "Spanish", pl: "Polish", it: "Italian", fr: "French", de: "German", pt: "Portuguese", vi: "Vietnamese", ko: "Korean", tl: "Tagalog", la: "Latin", uk: "Ukrainian", zh: "Chinese", ar: "Arabic", ht: "Haitian Creole", ga: "Irish", lt: "Lithuanian", sk: "Slovak", hu: "Hungarian", hr: "Croatian", cs: "Czech", sl: "Slovenian", ml: "Malayalam", ja: "Japanese", ru: "Russian", sw: "Swahili", igb: "Igbo", ig: "Igbo", asl: "American Sign Language", sgn: "Sign language" };
   const langName = (code) => LANGS[code] || code;
 
+  // Wikidata and Wikipedia are read live in the visitor's browser, so every church linked there gets its
+  // photo, history and a short introduction without adding anything to our own data.
+  const WD = "https://www.wikidata.org/w/api.php?format=json&origin=*&action=wbgetentities";
+  async function wikiFacts(c) {
+    if (!c.wikidata || !/^Q\d+$/.test(c.wikidata)) return null;
+    const j = await getJSON(`${WD}&ids=${c.wikidata}&props=claims|sitelinks&sitefilter=enwiki`);
+    const ent = j.entities?.[c.wikidata];
+    if (!ent) return null;
+    const vals = (p) => (ent.claims?.[p] || []).filter((x) => x.rank !== "deprecated").map((x) => x.mainsnak?.datavalue?.value).filter(Boolean);
+    const ids = (p) => vals(p).map((v) => v.id).filter(Boolean).slice(0, 3);
+    const want = { architect: ids("P84"), style: ids("P149"), heritage: ids("P1435") };
+    const all = [...new Set(Object.values(want).flat())];
+    const names = {};
+    if (all.length) {
+      const k = await getJSON(`${WD}&ids=${all.join("|")}&props=labels&languages=en`).catch(() => ({}));
+      for (const id of all) { const l = k.entities?.[id]?.labels?.en?.value; if (l) names[id] = l; }
+    }
+    const year = vals("P571").map((v) => (v.time || "").match(/^[+-]0*(\d{3,4})-/)?.[1]).find(Boolean) || "";
+    return {
+      photo: vals("P18")[0] || "", year,
+      architect: want.architect.map((i) => names[i]).filter(Boolean),
+      style: want.style.map((i) => names[i]).filter(Boolean),
+      heritage: want.heritage.map((i) => names[i]).filter(Boolean),
+      wiki: ent.sitelinks?.enwiki?.title || "",
+    };
+  }
+  async function loadAbout(c, facts) {
+    const box = $("#about");
+    let title = facts?.wiki || "";
+    if (!title && /^en:/.test(c.wikipedia || "")) title = c.wikipedia.slice(3);
+    let intro = null;
+    if (title) intro = await getJSON(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title.replace(/ /g, "_"))}`).catch(() => null);
+    const bits = [];
+    if (facts?.year) bits.push(`Built ${esc(facts.year)}`);
+    if (facts?.architect?.length) bits.push(`Architect: ${esc(facts.architect.join(", "))}`);
+    if (facts?.style?.length) bits.push(esc(facts.style.join(", ")));
+    const heritage = (facts?.heritage || []).filter((h) => !/^Q\d+$/.test(h));
+    const text = intro?.type === "standard" && intro.extract ? intro.extract : "";
+    if (!box || view.church !== c || (!text && !bits.length && !heritage.length)) return;
+    const short = text.length > 600 ? text.slice(0, 600).replace(/\s+\S*$/, "") + "…" : text;
+    box.innerHTML = `<h2 id="h-about">About this church</h2>
+      ${bits.length ? `<p class="about-facts">${bits.join(" · ")}</p>` : ""}
+      ${heritage.length ? `<p class="about-heritage">${ICON.check}<span>${esc(heritage.join(", "))}</span></p>` : ""}
+      ${short ? `<p>${esc(short)}</p>` : ""}
+      <p class="src-line"><span>${short ? `From <a href="https://en.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, "_"))}" target="_blank" rel="noopener">Wikipedia</a> (CC BY-SA)` : ""}${short && bits.length ? " and " : ""}${bits.length || heritage.length ? `${short ? "" : "From "}<a href="https://www.wikidata.org/wiki/${esc(c.wikidata)}" target="_blank" rel="noopener">Wikidata</a>` : ""}.</span></p>`;
+    box.hidden = false;
+  }
   async function loadPhoto(c) {
     const fig = $("#photo");
     if (!fig) return;
     let file = c.commons && /^File:/i.test(c.commons) ? c.commons.replace(/^File:/i, "") : "";
-    if (!file && c.wikidata && /^Q\d+$/.test(c.wikidata)) {
-      try {
-        const j = await getJSON(`https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=${c.wikidata}&property=P18&format=json&origin=*`);
-        file = j.claims?.P18?.[0]?.mainsnak?.datavalue?.value || "";
-      } catch { /* no photo */ }
-    }
+    const facts = await wikiFacts(c).catch(() => null);
+    if (view.church !== c) return;
+    loadAbout(c, facts).catch(() => {});
+    if (!file && facts?.photo) file = facts.photo;
     if (!file || view.church !== c) return;
     const src = `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=960`;
     const img = new Image();
