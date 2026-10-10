@@ -11,6 +11,7 @@
   if (QS.get("api") && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) CFG.url = QS.get("api"); // local testing only
   const BASE = location.origin + location.pathname;
   const QR_LIB = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js";
+  const QR_SRI = "sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1"; // pinned: the page holds sign-in keys
 
   const DEFAULT_ROLES = ["Lector", "Eucharistic minister", "Altar server", "Usher", "Greeter", "Cantor", "Musician", "Sacristan", "Adoration monitor", "Adorer"];
   const EXTRA_ROLES = ["Gift bearers", "Livestream", "Hospitality", "Nursery"];
@@ -71,6 +72,8 @@
     "cannot-remove-yourself": "You can't remove yourself. Ask another coordinator to do it.",
     "bad-dates": "Please check the dates.",
     "in-the-past": "That day has already passed.",
+    "busy": "A lot of parishes are being set up right now. Please try again in an hour.",
+    "confirm-name": "The name you typed doesn't match your parish's name, so nothing was deleted.",
   };
   async function rpc(fn, args) {
     let r;
@@ -212,7 +215,7 @@
   function needQr() {
     if (window.qrcode) return Promise.resolve();
     return (qrLoading ||= new Promise((ok, fail) => {
-      const s = document.createElement("script"); s.src = QR_LIB; s.onload = ok; s.onerror = () => { qrLoading = null; fail(new Error("We couldn't load the QR code maker. Check your connection.")); };
+      const s = document.createElement("script"); s.src = QR_LIB; s.integrity = QR_SRI; s.crossOrigin = "anonymous"; s.onload = ok; s.onerror = () => { qrLoading = null; fail(new Error("We couldn't load the QR code maker. Check your connection.")); };
       document.head.appendChild(s);
     }));
   }
@@ -320,7 +323,7 @@
         <div class="feature">${featureIcon("heart")}<h3>Free, and stays free</h3><p>No ads, no fees, no passwords to forget. Volunteers only see names, never each other's phone numbers.</p></div>
       </section>
       ${toolsHtml()}
-      <footer class="foot">Made with care for the Church. Part of the <a href="/">Tree of Life</a> family of free tools.</footer>`;
+      <footer class="foot">Made with care for the Church. Part of the <a href="/">Tree of Life</a> family of free tools.<br>A one-person project, built with the help of Claude, an AI model. <a href="/about/">About</a> &middot; <a href="/about/#privacy">Privacy</a></footer>`;
   }
   function featureIcon(kind) {
     const p = {
@@ -724,7 +727,14 @@
         <p>Right now volunteers see requests when they open the scheduler, and you can send any request or sign-in link from your own phone with one tap.</p>
         <p class="muted small">Automatic emails and texts are not switched on yet. When they are, people who added an email or mobile number will get them without you doing anything.</p>
       </div>
-      ${toolsHtml("Other free tools")}`;
+      <div class="section-head"><h2>Privacy</h2></div>
+      <div class="card stack">
+        <p>Only people with a link to this parish can see it. Volunteers see names only; coordinators also see emails and mobile numbers. Remove a person to delete their details.</p>
+        <p class="muted small">Closing the scheduler for good? Deleting the parish removes every person, Mass, ministry and schedule in it at once, and it can't be undone. <a href="/about/#privacy">How we handle your data</a></p>
+        <div><button class="btn quiet" type="button" data-act="delete-parish" style="color:var(--rose)">Delete this parish</button></div>
+      </div>
+      ${toolsHtml("Other free tools")}
+      <footer class="foot">A one-person project, built with the help of Claude, an AI model. <a href="/about/">About</a> &middot; <a href="/about/#privacy">Privacy</a></footer>`;
   }
   function openEventEditor(e, preset) {
     const ev = e || { id: "", title: preset?.title || "Sunday Mass", start_time: preset?.time || "10:00", minutes: 60, days: preset?.days || [0], on_date: null, note: "", slots: null };
@@ -1006,6 +1016,13 @@
     async "delete-role"(el) {
       if (!confirm("Remove this ministry? It will be taken off every Mass and every person.")) return;
       await act(el, () => rpc("sched_delete_role", { p_key: S.key, p_id: el.dataset.id }), async () => { closeSheet(); await load(); render(); });
+    },
+    async "delete-parish"(el) {
+      const typed = prompt(`This deletes ${D.parish.name} and everyone and everything in it, for good. To confirm, type the parish's name:`);
+      if (typed === null) return;
+      await act(el, () => rpc("sched_delete_parish", { p_key: S.key, p_confirm: typed }), async () => {
+        S.key = null; D = null; S.data = null; store.set("sched.key", null); renderWelcome(); toast("The parish was deleted.");
+      });
     },
     async "save-parish"(el) {
       const n = $("#s-name").value.trim(); if (n.length < 2) return toast("Please enter your parish's name.");
