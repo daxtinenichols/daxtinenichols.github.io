@@ -324,6 +324,7 @@ h3 { margin: 0 0 12px; font: 500 var(--step--1) var(--font-sc); letter-spacing: 
     <h2 id="about-title">About the Tree of Life</h2>
     <p>The Tree of Life is a free website that maps the big questions about God, starting from “Does God exist?” and branching out toward the full Catholic faith. Choose where you’re coming from, follow the questions that interest you, and read honest answers with real sources.</p>
     <p>It is part of the Tree of Life project, a set of free tools that help people find and grow in the Catholic faith: this question tree, a <a href="https://daxtinenichols.github.io/first-mass/" target="_blank" rel="noopener">first-Mass guide</a>, a <a href="https://daxtinenichols.github.io/church-finder/" target="_blank" rel="noopener">worldwide Catholic church finder</a>, a <a href="https://daxtinenichols.github.io/parish-studio/" target="_blank" rel="noopener">website builder for parishes</a>, and a <a href="https://daxtinenichols.github.io/parish-scheduler/" target="_blank" rel="noopener" title="Parish Scheduler">volunteer scheduler</a>.</p>
+    <p>A one-person project, built with the help of Claude, an AI model made by Anthropic. Claude researched and drafted the articles and wrote the code; every answer links its sources so you can check them. It is not an official Church source. <a href="https://daxtinenichols.github.io/about/" target="_blank" rel="noopener">About, privacy and credits</a></p>
     <p class="about-more">Named for the tree on the first and last pages of the Bible.</p>
     <div class="foot">
       <button class="linkish" id="about-close" type="button">Back to the tree</button>
@@ -906,7 +907,7 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !welcome.hidden) cl
 
 /* ---------- About ---------- */
 const about = document.getElementById("about"); let aboutFromWelcome = false;
-function openAbout() { aboutFromWelcome = !welcome.hidden; welcome.hidden = true; about.hidden = false; document.getElementById("about-close").focus(); }
+function openAbout() { aboutFromWelcome = !welcome.hidden; welcome.hidden = true; about.hidden = false; about.scrollTop = 0; document.getElementById("about-close").focus({ preventScroll: true }); }
 function closeAbout() { about.hidden = true; if (aboutFromWelcome) { welcome.hidden = false; document.getElementById("welcome-about").focus(); } else document.getElementById("about-open").focus(); }
 document.getElementById("about-open").addEventListener("click", openAbout);
 document.getElementById("welcome-about").addEventListener("click", openAbout);
@@ -954,6 +955,9 @@ addEventListener("hashchange", followHash);
 .tol-field { display: grid; gap: 6px; font-size: var(--step--1); color: var(--muted); }
 /* keep the hidden fields below inside their own box so they never stretch the page */
 .talk, #suggest { position: relative; }
+.tol-hint { margin: 0; font-size: var(--step--1); color: var(--muted); }
+.tol-hint a { color: inherit; text-underline-offset: 3px; }
+.tol-hint a:hover { color: var(--ink); }
 .tol-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .tol-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 button[disabled] { opacity: .6; cursor: progress; }
@@ -1046,6 +1050,7 @@ button[disabled] { opacity: .6; cursor: progress; }
         <label class="tol-field" for="suggest-email">Your email, if you'd like a reply (optional)
           <input type="email" id="suggest-email" maxlength="120" autocomplete="email" value="${esc(remember("tol-email"))}">
         </label>
+        <p class="tol-hint">Your email is never shown or shared. <a href="/about/#privacy">Privacy</a></p>
         <input type="checkbox" class="tol-hp" id="suggest-hp" tabindex="-1" aria-hidden="true">`);
     }
     if (COMMENTS && /^[a-z0-9-]{1,80}$/.test(id)) {
@@ -1643,22 +1648,27 @@ html.tol-search-on, html.tol-search-on body { overflow: hidden; }
 .fam-eyebrow { margin: 0 0 14px; font-size: 0.74rem; font-weight: 600; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted, #6f665c); }
 .fam ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
 .fam li { display: flex; }
-.fam a { flex: 1; display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 14px 18px 14px 14px; border-radius: 16px; background: var(--fam-panel); color: inherit; text-decoration: none; transition: transform 200ms ease-out, box-shadow 200ms ease-out; }
-.fam a:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -20px rgba(80, 58, 30, 0.45); }
-.fam a:focus-visible { outline: 2px solid var(--leaf-deep, var(--sage, #4b7651)); outline-offset: 3px; }
+.fam li > a { flex: 1; display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 14px 18px 14px 14px; border-radius: 16px; background: var(--fam-panel); color: inherit; text-decoration: none; transition: transform 200ms ease-out, box-shadow 200ms ease-out; }
+.fam li > a:hover { transform: translateY(-1px); box-shadow: 0 14px 28px -20px rgba(80, 58, 30, 0.45); }
+.fam li > a:focus-visible { outline: 2px solid var(--leaf-deep, var(--sage, #4b7651)); outline-offset: 3px; }
 .fam-ico { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--paper, #fbf8f3); }
 .fam-ico svg { width: 26px; height: 26px; }
 .fam-txt { min-width: 0; }
 .fam-txt b { display: block; font-family: var(--font-display, Georgia, serif); font-size: 1.18rem; font-weight: 500; line-height: 1.2; }
 .fam-txt span { display: block; margin-top: 3px; font-size: 0.92rem; line-height: 1.4; color: var(--muted, #6f665c); }
 .fam-go { flex: none; margin-left: auto; color: var(--muted, #6f665c); transition: transform 200ms ease-out; }
-.fam a:hover .fam-go { transform: translateX(3px); }
-@media (prefers-reduced-motion: reduce) { .fam a, .fam-go { transition: none; } .fam a:hover, .fam a:hover .fam-go { transform: none; } }
+.fam li > a:hover .fam-go { transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) { .fam li > a, .fam-go { transition: none; } .fam li > a:hover, .fam li > a:hover .fam-go { transform: none; } }
+/* a quiet link to the About page under the cards */
+.fam-about { margin: 16px 0 0; font-size: 0.92rem; line-height: 1.5; }
+.fam-about a { color: var(--muted, #6f665c); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.fam-about a:hover { color: var(--ink, #2b2622); text-decoration-thickness: 2px; }
+.fam-about a:focus-visible { outline: 2px solid var(--leaf-deep, var(--sage, #4b7651)); outline-offset: 3px; border-radius: 4px; }
 /* in the Tree of Life reader, match its own section headings */
 #reader .fam { margin-top: 32px; }
 #reader .fam-eyebrow { font: 500 var(--step--1) var(--font-sc); letter-spacing: 0.1em; text-transform: none; }
 </style>
-<template id="fam-tpl"><nav class="fam" aria-label="More from us"><p class="fam-eyebrow">More from us</p><ul><li><a href="/first-mass/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 1.6v5.2M13.6 3.8h4.8" stroke="#a87f33" stroke-width="1.7" stroke-linecap="round"/><path d="M6.5 29V17.5a9.5 9.5 0 0 1 19 0V29z" fill="#d9ccb4"/><path d="M10.5 29V18a5.5 5.5 0 0 1 11 0v11z" fill="#f1d59c"/><path d="M14.6 29l.7-8h1.4l.7 8z" fill="#fff7e2"/><rect x="4" y="28.2" width="24" height="2.6" rx="1.2" fill="#b99572"/></svg></span><span class="fam-txt"><b>Your First Mass</b><span>A gentle walkthrough for anyone going to a Catholic Mass for the first time.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/parish-studio/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 1.8v5.4M13.7 4h4.6" stroke="#a87f33" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15.2V29h18V15.2L16 9.6z" fill="#e1e9da"/><path d="M4.5 16.2L16 9.2l11.5 7" fill="none" stroke="#4d6d51" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16.8" r="2.1" fill="#f1d59c"/><path d="M13.2 29v-5.2a2.8 2.8 0 0 1 5.6 0V29z" fill="#f1d59c"/><rect x="4" y="28.2" width="24" height="2.6" rx="1.2" fill="#b99572"/></svg></span><span class="fam-txt"><b>Parish Website Studio</b><span>Help your parish get a free, warm website in an afternoon.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/church-finder/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 30s-9-8.6-9-16a9 9 0 0 1 18 0c0 7.4-9 16-9 16z" fill="#e1e9da" stroke="#4d6d51" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8.2v9.6M12.4 11.6h7.2" stroke="#a87f33" stroke-width="2" stroke-linecap="round"/></svg></span><span class="fam-txt"><b>Church Finder</b><span>Find a Catholic church near you, with Mass times and directions.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/parish-scheduler/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="7" width="24" height="22" rx="4" fill="#e4ecdf" stroke="#4d6d51" stroke-width="2"/><path d="M4 13h24" stroke="#4d6d51" stroke-width="2"/><path d="M10 4v5M22 4v5" stroke="#4d6d51" stroke-width="2" stroke-linecap="round"/><path d="M16 16v9M12.5 19.5h7" stroke="#a87f33" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="fam-txt"><b>Parish Scheduler</b><span>A free volunteer schedule for your parish: swaps, sick days and replacements in a tap.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li></ul></nav></template>
+<template id="fam-tpl"><nav class="fam" aria-label="More from us"><p class="fam-eyebrow">More from us</p><ul><li><a href="/first-mass/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 1.6v5.2M13.6 3.8h4.8" stroke="#a87f33" stroke-width="1.7" stroke-linecap="round"/><path d="M6.5 29V17.5a9.5 9.5 0 0 1 19 0V29z" fill="#d9ccb4"/><path d="M10.5 29V18a5.5 5.5 0 0 1 11 0v11z" fill="#f1d59c"/><path d="M14.6 29l.7-8h1.4l.7 8z" fill="#fff7e2"/><rect x="4" y="28.2" width="24" height="2.6" rx="1.2" fill="#b99572"/></svg></span><span class="fam-txt"><b>Your First Mass</b><span>A gentle walkthrough for anyone going to a Catholic Mass for the first time.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/parish-studio/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 1.8v5.4M13.7 4h4.6" stroke="#a87f33" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15.2V29h18V15.2L16 9.6z" fill="#e1e9da"/><path d="M4.5 16.2L16 9.2l11.5 7" fill="none" stroke="#4d6d51" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16.8" r="2.1" fill="#f1d59c"/><path d="M13.2 29v-5.2a2.8 2.8 0 0 1 5.6 0V29z" fill="#f1d59c"/><rect x="4" y="28.2" width="24" height="2.6" rx="1.2" fill="#b99572"/></svg></span><span class="fam-txt"><b>Parish Website Studio</b><span>Help your parish get a free, warm website in an afternoon.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/church-finder/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 30s-9-8.6-9-16a9 9 0 0 1 18 0c0 7.4-9 16-9 16z" fill="#e1e9da" stroke="#4d6d51" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8.2v9.6M12.4 11.6h7.2" stroke="#a87f33" stroke-width="2" stroke-linecap="round"/></svg></span><span class="fam-txt"><b>Church Finder</b><span>Find a Catholic church near you, with Mass times and directions.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/parish-scheduler/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="7" width="24" height="22" rx="4" fill="#e4ecdf" stroke="#4d6d51" stroke-width="2"/><path d="M4 13h24" stroke="#4d6d51" stroke-width="2"/><path d="M10 4v5M22 4v5" stroke="#4d6d51" stroke-width="2" stroke-linecap="round"/><path d="M16 16v9M12.5 19.5h7" stroke="#a87f33" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="fam-txt"><b>Parish Scheduler</b><span>A free volunteer schedule for your parish: swaps, sick days and replacements in a tap.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li></ul><p class="fam-about"><a href="/about/">About, privacy and credits</a></p></nav></template>
 <script>
 // The Tree of Life redraws its reader for every question, so add "More from us" to the end of each one.
 (function () {

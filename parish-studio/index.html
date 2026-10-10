@@ -520,7 +520,7 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
 </section>
 
 <div class="wrap">
-  <footer class="site">Parish Website Studio is free for every parish. Your details never leave your device.</footer>
+  <footer class="site">Parish Website Studio is free for every parish. Your details never leave your device.<br>A one-person project, built with the help of Claude, an AI model. <a href="/about/">About</a> &middot; <a href="/about/#privacy">Privacy</a></footer>
 </div>
 
 <input type="file" id="open-details-file" accept=".json,application/json" hidden>
@@ -598,8 +598,15 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
   let data = load() || example();
   let ready = false;
 
+  // Photos are only ever images this page made itself; anything else in a saved or opened file is dropped.
+  function okImg(s) { return typeof s === "string" && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(s) ? s : ""; }
+  function clean(d) {
+    d.heroPhoto = okImg(d.heroPhoto);
+    d.gallery = (Array.isArray(d.gallery) ? d.gallery : []).map(okImg).filter(Boolean).slice(0, MAX_PHOTOS);
+    return d;
+  }
   function load() {
-    try { const s = localStorage.getItem(STORE); return s ? { ...blank(), ...JSON.parse(s) } : null; } catch (e) { return null; }
+    try { const s = localStorage.getItem(STORE); return s ? clean({ ...blank(), ...JSON.parse(s) }) : null; } catch (e) { return null; }
   }
   let saveTimer;
   function save() {
@@ -718,7 +725,7 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
     const render = () => {
       const pics = multi ? data.gallery : (data.heroPhoto ? [data.heroPhoto] : []);
       const full = multi ? pics.length >= MAX_PHOTOS : pics.length >= 1;
-      box.innerHTML = (pics.length ? `<div class="thumbs" style="margin-bottom:8px">${pics.map((p, i) => `<div class="thumb"><img src="${p}" alt=""><button type="button" data-rm="${i}" aria-label="Remove photo">${ICON.x}</button></div>`).join("")}</div>` : "") +
+      box.innerHTML = (pics.length ? `<div class="thumbs" style="margin-bottom:8px">${pics.map((p, i) => `<div class="thumb"><img src="${esc(p)}" alt=""><button type="button" data-rm="${i}" aria-label="Remove photo">${ICON.x}</button></div>`).join("")}</div>` : "") +
         (full ? "" : `<label class="photo-drop"><input type="file" accept="image/*"${multi ? " multiple" : ""}><b style="color:var(--ink);font-weight:600">${multi ? "Add photos" : "Choose a photo"}</b>Large photos are shrunk automatically.</label>`);
     };
     box.addEventListener("change", async e => {
@@ -837,7 +844,7 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
     try {
       const d = JSON.parse(await f.text());
       if (!d || typeof d !== "object") throw 0;
-      delete d.parishStudio; data = { ...blank(), ...d }; renderAll(); save();
+      delete d.parishStudio; data = clean({ ...blank(), ...d }); renderAll(); save();
       document.getElementById("saved-note").textContent = "Details opened";
     } catch (e) { document.getElementById("saved-note").textContent = "That file couldn't be read"; }
     fileIn.value = "";
@@ -917,7 +924,7 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
     const ldJson = JSON.stringify(ld).replace(/</g, "\\u003c");
 
     const heroArt = d.heroPhoto
-      ? `<div class="hero-photo"><img src="${d.heroPhoto}" alt="${esc(name)}"></div>`
+      ? `<div class="hero-photo"><img src="${esc(d.heroPhoto)}" alt="${esc(name)}"></div>`
       : `<div class="hero-art" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf3e2"/><stop offset="1" stop-color="var(--pale)"/></linearGradient></defs><rect width="400" height="300" rx="24" fill="url(#g)"/><circle cx="300" cy="78" r="46" fill="#f6e3b6" opacity=".7"/><path d="M0 250c70-26 130-30 200-18s140 6 200-14v82H0z" fill="var(--accent)" opacity=".12"/><g fill="var(--accent)" opacity=".9"><path d="M140 262V164l60-46 60 46v98z"/><rect x="195" y="62" width="10" height="64"/><rect x="183" y="76" width="34" height="9" rx="2"/></g><path d="M186 262v-40a14 14 0 0 1 28 0v40z" fill="#fbf3e2"/><circle cx="200" cy="170" r="13" fill="#fbf3e2" opacity=".9"/><path d="M20 262h360" stroke="var(--accent)" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/></svg></div>`;
 
     return `<!doctype html>
@@ -1025,7 +1032,7 @@ ${newcomer.length ? `<section><div class="wrap"><div class="newcomer"><div class
 ${addr || d.parking ? `<section id="visit"${newcomer.length ? ' style="padding-top:0"' : ""}><div class="wrap"><div class="head"><p class="eyebrow">Visit</p><h2>Finding us</h2></div><div class="visit"><div class="visit-info">${addr ? `<p class="addr">${esc(addr)}</p>` : ""}${d.parking ? `<p style="color:var(--muted)">${esc(d.parking)}</p>` : ""}${dirUrl ? `<div><a class="btn btn-main" href="${esc(dirUrl)}" target="_blank" rel="noopener">Get directions</a></div>` : ""}</div>${addr && d.showMap ? `<div class="map"><iframe title="Map to ${esc(name)}" loading="lazy" src="https://maps.google.com/maps?q=${mapQ}&output=embed"></iframe></div>` : ""}</div></div></section>` : ""}
 ${sacr.length ? `<section class="band" id="sacraments"><div class="wrap"><div class="head"><p class="eyebrow">Sacraments and parish life</p><h2>How can we help?</h2></div><div class="list">${sacr.map(s => `<div class="item"><h3>${esc(s.title)}</h3>${s.text ? `<p>${esc(s.text)}</p>` : ""}</div>`).join("")}</div></div></section>` : ""}
 ${events.length ? `<section id="events"><div class="wrap"><div class="head"><p class="eyebrow">Coming up</p><h2>Events</h2></div><div class="list">${events.map(e => `<div class="item">${e.when ? `<span class="when">${esc(e.when)}</span>` : ""}<h3>${esc(e.title)}</h3>${e.text ? `<p>${esc(e.text)}</p>` : ""}</div>`).join("")}</div></div></section>` : ""}
-${gallery.length ? `<section${events.length ? ' style="padding-top:0"' : ""}><div class="wrap"><div class="head"><p class="eyebrow">Parish life</p><h2>Photos</h2></div><div class="gallery">${gallery.map(g => `<img src="${g}" alt="" loading="lazy">`).join("")}</div></div></section>` : ""}
+${gallery.length ? `<section${events.length ? ' style="padding-top:0"' : ""}><div class="wrap"><div class="head"><p class="eyebrow">Parish life</p><h2>Photos</h2></div><div class="gallery">${gallery.map(g => `<img src="${esc(g)}" alt="" loading="lazy">`).join("")}</div></div></section>` : ""}
 ${d.phone || d.email || d.officeHours || staff.length ? `<section class="band" id="contact"><div class="wrap"><div class="head"><p class="eyebrow">Contact</p><h2>Get in touch</h2></div><div class="contact"><div class="card c-lines">${d.phone ? `<div><small>Phone</small><a href="tel:${esc(d.phone.replace(/[^\d+]/g, ""))}" target="_self">${esc(d.phone)}</a></div>` : ""}${d.email ? `<div><small>Email</small><a href="mailto:${esc(d.email.trim())}" target="_self">${esc(d.email)}</a></div>` : ""}${d.officeHours ? `<div><small>Office hours</small><span>${esc(d.officeHours)}</span></div>` : ""}${social.length ? `<div class="chips">${social.map(s => `<a class="btn btn-soft" href="${esc(s[1])}" target="_blank" rel="noopener">${s[0]}</a>`).join("")}</div>` : ""}</div>${staff.length ? `<div class="card"><h3>Parish staff</h3><ul class="staff">${staff.map(s => `<li><b>${esc(s.name)}</b><span>${esc(s.role)}</span></li>`).join("")}</ul></div>` : ""}</div></div></section>` : ""}
 </main>
 <footer><div class="wrap"><span>${esc(name)}${d.diocese ? " · " + esc(d.diocese) : ""}${addr ? " · " + esc(addr) : ""}</span>${d.credit ? `<span>Made free with <a href="${SITE}/parish-studio/" target="_blank" rel="noopener">Parish Website Studio</a></span>` : ""}</div></footer>

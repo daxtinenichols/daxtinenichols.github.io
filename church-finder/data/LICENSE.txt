@@ -1,0 +1,7 @@
+The church data files in this folder are derived from OpenStreetMap and are made available
+under the Open Database License (ODbL) 1.0: https://opendatacommons.org/licenses/odbl/1-0/
+(c) OpenStreetMap contributors, https://www.openstreetmap.org/copyright
+
+Town names come from GeoNames (https://www.geonames.org/), licensed CC BY 4.0.
+Official Mass times are credited to their diocese on each church, with the date checked.
+Details marked as added by a visitor were submitted through the site.

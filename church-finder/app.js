@@ -292,7 +292,7 @@
       renderer: canvas, radius: mode === "small" ? 5 : 7, weight: 2, color: cssVar("--card"), opacity: 1,
       fillColor: r.flags & 1 ? cssVar("--sage") : cssVar("--rose"), fillOpacity: 1,
     });
-    if (matchMedia("(hover: hover)").matches) m.bindTooltip(r.name, { direction: "top", offset: [0, -6] });
+    if (matchMedia("(hover: hover)").matches) m.bindTooltip(() => document.createTextNode(r.name), { direction: "top", offset: [0, -6] });
     m._base = mode === "small" ? 5 : 7;
     return m;
   }
@@ -472,7 +472,8 @@
     const mm = $("#mini-map");
     if (mm && getComputedStyle(mm).display !== "none") {
       if (miniMap) miniMap.remove();
-      miniMap = L.map(mm, { zoomControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false, keyboard: false, attributionControl: false }).setView([c.lat, c.lon], 16);
+      miniMap = L.map(mm, { zoomControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false, keyboard: false }).setView([c.lat, c.lon], 16);
+      miniMap.attributionControl.setPrefix(false);
       baseLayer(miniMap);
       L.marker([c.lat, c.lon], { icon: pinIcon({ flags: c.mass ? 1 : 0 }, " sel"), interactive: false }).addTo(miniMap);
     }
@@ -651,9 +652,19 @@
       if (view.church !== c) return;
       fig.hidden = false;
       fig.replaceChildren(img);
-      fig.insertAdjacentHTML("afterend", `<p class="photo-credit" id="photo-credit">Photo from <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file)}" target="_blank" rel="noopener">Wikimedia Commons</a></p>`);
+      fig.insertAdjacentHTML("afterend", `<p class="photo-credit" id="photo-credit">Photo from <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(file)}" target="_blank" rel="noopener">Wikimedia Commons</a> (author and license on the file page)</p>`);
+      photoCredit(file).then((t) => { const p = $("#photo-credit"); if (t && p && view.church === c) { p.firstChild.textContent = `Photo: ${t}, via `; p.lastChild.textContent = "."; } }).catch(() => {});
     };
     img.src = src;
+  }
+
+  // Author and license of a Commons file, as plain text (CC BY-SA photos must credit both).
+  async function photoCredit(file) {
+    const j = await getJSON(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=imageinfo&iiprop=extmetadata&iiextmetadatafilter=Artist%7CLicenseShortName&titles=${encodeURIComponent("File:" + file)}`);
+    const meta = Object.values(j?.query?.pages || {})[0]?.imageinfo?.[0]?.extmetadata || {};
+    const plain = (h) => (new DOMParser().parseFromString(String(h || ""), "text/html").body.textContent || "").replace(/\s+/g, " ").trim().slice(0, 120);
+    const who = plain(meta.Artist?.value), lic = plain(meta.LicenseShortName?.value);
+    return [who, lic].filter(Boolean).join(", ");
   }
 
   /* ---------- add details sheet ---------- */
@@ -741,7 +752,7 @@
     const t = p.type || p.osm_value;
     return { house: 17, street: 16, district: 14, locality: 14, city: 13, town: 13, village: 14, hamlet: 14, postcode: 13, county: 10, state: 8, country: 5 }[t] || 13;
   }
-  async function geocode(q, limit = 6) {
+  async function geocode(q, limit = 6, fallback = false) {
     const bias = map && map.getZoom() >= 8 ? `&lat=${map.getCenter().lat.toFixed(3)}&lon=${map.getCenter().lng.toFixed(3)}` : "";
     try {
       const j = await getJSON(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=${limit}&lang=en${bias}`);
@@ -757,6 +768,7 @@
         };
       });
     } catch {
+      if (!fallback) return []; // Nominatim's policy forbids autocomplete; only used when Search is pressed
       const j = await getJSON(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=${limit}&q=${encodeURIComponent(q)}`).catch(() => []);
       return j.map((r) => ({ name: r.name || r.display_name.split(",")[0], sub: r.display_name.split(",").slice(1, 4).join(","), lat: +r.lat, lon: +r.lon, zoom: 13 }));
     }
@@ -807,7 +819,7 @@
       const q = input.value.trim();
       if (!q) return input.focus();
       if (sel >= 0 && items[sel]) return pick(items[sel]);
-      const res = items.length ? items : await geocode(q, 1).catch(() => []);
+      const res = items.length ? items : await geocode(q, 1, true).catch(() => []);
       if (res[0]) pick(res[0]); else toast("We couldn't find that place. Try a town or zip code.");
     });
     async function pick(it) {

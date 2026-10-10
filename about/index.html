@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About, privacy and credits · Tree of Life project</title>
+<meta name="description" content="Who makes the Tree of Life project's free Catholic tools, how they were built, what each tool stores about you, and the credits and copyright notices for the texts and data they use.">
+<link rel="canonical" href="https://daxtinenichols.github.io/about/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="About, privacy and credits">
+<meta property="og:description" content="Who makes these free Catholic tools, how they were built, what they store about you, and the credits for the texts and data they use.">
+<meta property="og:url" content="https://daxtinenichols.github.io/about/">
+<meta name="twitter:card" content="summary">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root {
+  --paper: #faf6ee; --panel: #f3ecdf; --ink: #2b2622; --muted: #6c6358; --line: #e5dccb;
+  --sage: #4d6d51; --sage-pale: #e1e9da; --gold: #a87f33; --gold-pale: #f4e8cd;
+  --font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1c1915; --panel: #25211b; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
+    --sage: #9dbf9f; --sage-pale: #2a372b; --gold: #ddb66a; --gold-pale: #3a311e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1c1915; --panel: #25211b; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
+  --sage: #9dbf9f; --sage-pale: #2a372b; --gold: #ddb66a; --gold-pale: #3a311e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 17.5px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 44rem; margin: 0 auto; padding: 0 20px 96px; }
+a { color: var(--sage); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.1; margin: 0; text-wrap: balance; }
+p, ul { margin: 0; }
+.top { padding: 28px 0 0; font-size: 0.95rem; }
+.top a { text-decoration: none; color: var(--muted); }
+.top a:hover { color: var(--sage); }
+header.hero { padding: 48px 0 8px; display: grid; gap: 16px; }
+.mark { width: 44px; height: 44px; }
+.eyebrow { font: 600 0.78rem var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+h1 { font-size: clamp(2.6rem, 8vw, 3.6rem); }
+.lede { font-size: 1.15rem; color: var(--muted); }
+nav.toc { margin: 32px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+nav.toc a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; background: var(--panel); color: var(--ink); text-decoration: none; font-size: 0.95rem; }
+nav.toc a:hover { background: var(--sage-pale); }
+section { padding-top: 64px; display: grid; gap: 16px; scroll-margin-top: 16px; }
+section h2 { font-size: clamp(2rem, 5.5vw, 2.5rem); }
+section h3 { font-size: 1.45rem; margin-top: 12px; }
+.note { background: var(--panel); border-radius: 14px; padding: 22px 24px; display: grid; gap: 12px; }
+.note.claude { background: var(--sage-pale); }
+ul.plain { padding-left: 1.2em; display: grid; gap: 8px; }
+.tools { display: grid; gap: 12px; }
+.tool { border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 6px; }
+.tool b { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; }
+.muted { color: var(--muted); }
+.small { font-size: 0.92rem; color: var(--muted); }
+.legal p { font-size: 0.95rem; }
+footer { margin-top: 72px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 0.92rem; color: var(--muted); display: grid; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a href="/">&larr; Tree of Life</a></div>
+
+  <header class="hero">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 30V14" stroke="#8c7a66" stroke-width="2.4" stroke-linecap="round" fill="none"/><path d="M16 19c-5 0-8-3-9-8 5 0 8 3 9 8z" fill="#6f9a6c"/><path d="M16 15c5 0 8-3 9-8-5 0-8 3-9 8z" fill="#4b7651"/><circle cx="16" cy="7" r="3.2" fill="#d6a546"/></svg>
+    <p class="eyebrow">The Tree of Life project</p>
+    <h1>About, privacy and credits</h1>
+    <p class="lede">Five free tools that help people find and grow in the Catholic faith. Here is who makes them, how they were built, what they keep about you, and whose work they rely on.</p>
+    <nav class="toc" aria-label="On this page">
+      <a href="#who">Who makes this</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#not-official">Not an official source</a>
+      <a href="#credits">Credits</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="who" aria-labelledby="who-h">
+    <h2 id="who-h">One person, with Claude</h2>
+    <div class="note claude">
+      <p>This is a one-person project. Every tool here is planned, chosen and published by one Catholic, in spare time, with no organization, company or money behind it.</p>
+      <p>Most of the work is done with Claude, an AI model made by Anthropic. Claude wrote the code, researched and drafted the articles, and gathered the church data. A person decides what gets made, reviews it, and chooses what goes live.</p>
+      <p>AI can make mistakes, so every answer links its sources for you to check. If something is wrong, please <a href="#contact">tell us</a> and it will be fixed.</p>
+    </div>
+    <p>The tools are the <a href="/">Tree of Life</a>, <a href="/first-mass/">Your First Mass</a>, the <a href="/church-finder/">Church Finder</a>, the <a href="/parish-studio/">Parish Website Studio</a> and the <a href="/parish-scheduler/">Parish Scheduler</a>. All of them are free, with no ads, nothing to pay for and no tracking.</p>
+  </section>
+
+  <section id="privacy" aria-labelledby="privacy-h">
+    <h2 id="privacy-h">Privacy</h2>
+    <p>We collect as little as we can. There are no ads, no analytics, no tracking cookies, and nothing is sold or shared for marketing. Some things are kept in your own browser (its “local storage”) so the tools remember your place; you can clear them any time in your browser settings.</p>
+
+    <div class="tools">
+      <div class="tool">
+        <b>Tree of Life</b>
+        <p>Your browser remembers which questions you have read, and the name and email you last typed, so you don't have to type them again. If you post a <strong>comment</strong>, its text and the name you give are public. If you send <strong>private feedback</strong>, only we can read it; an email address is optional and used only to reply to you. You can delete your own comments from the same browser.</p>
+      </div>
+      <div class="tool">
+        <b>Church Finder</b>
+        <p>Searching happens in your browser. When you type a town, the text is sent to a public place-name search (<a href="https://photon.komoot.io/">Photon</a>, or <a href="https://nominatim.openstreetmap.org/">Nominatim</a> as a backup). If you let it use your location, that stays on your device. Details you add about a church are public; an email you leave with them is never shown and is used only if we need to ask you about it.</p>
+      </div>
+      <div class="tool">
+        <b>Parish Scheduler</b>
+        <p>Stores what a parish puts into it: the parish name, each volunteer's name, roles and schedule, and an email or mobile number if one is entered. Only people with a personal link to that parish can see it. A coordinator can remove a person, and can delete the whole parish with everything in it. Nothing is ever sent to volunteers automatically.</p>
+      </div>
+      <div class="tool">
+        <b>Parish Website Studio</b>
+        <p>Everything you type stays on your device and in the file you download. Nothing is sent to us.</p>
+      </div>
+      <div class="tool">
+        <b>Your First Mass</b>
+        <p>Your browser remembers which step you reached. Nothing else is kept.</p>
+      </div>
+    </div>
+
+    <h3>Services the pages use</h3>
+    <ul class="plain">
+      <li><a href="https://pages.github.com/">GitHub Pages</a> hosts the sites. Like any web host it sees visitors' internet addresses; see <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub's privacy statement</a>.</li>
+      <li><a href="https://supabase.com/privacy">Supabase</a> stores comments, feedback, church updates and the scheduler's data.</li>
+      <li>Fonts come from <a href="https://policies.google.com/privacy">Google Fonts</a>; maps from <a href="https://openfreemap.org/">OpenFreeMap</a> and <a href="https://www.openstreetmap.org/">OpenStreetMap</a>; paintings, photos and church facts from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>, <a href="https://www.wikidata.org/">Wikidata</a> and <a href="https://www.wikipedia.org/">Wikipedia</a>; small code libraries from cdnjs and unpkg. Each of these sees your internet address when your browser loads from it.</li>
+    </ul>
+
+    <h3>Keeping and deleting</h3>
+    <p>Comments stay until you or we remove them. Private feedback and church updates are kept only as long as they help improve the tools. To have anything about you removed, or to see what we hold, <a href="#contact">write to us</a>. The tools are not meant for children under 13, and we do not knowingly collect their information.</p>
+  </section>
+
+  <section id="not-official" aria-labelledby="official-h">
+    <h2 id="official-h">Not an official source</h2>
+    <p>These tools are not run by, or endorsed by, the Catholic Church, the Holy See, any bishops' conference, diocese or parish. The articles try to present Catholic teaching faithfully and link the Church's own documents; where they differ, the Church's documents are the authority.</p>
+    <p>Mass and confession times can change. Always check with the parish, especially on holy days and holidays.</p>
+  </section>
+
+  <section id="credits" aria-labelledby="credits-h" class="legal">
+    <h2 id="credits-h">Credits and copyright notices</h2>
+    <p>Scripture texts in this work are taken from the <em>New American Bible, revised edition</em> &copy; 2010, 1991, 1986, 1970 Confraternity of Christian Doctrine, Washington, D.C. and are used by permission of the copyright owner. All Rights Reserved. No part of the New American Bible may be reproduced in any form without permission in writing from the copyright owner.</p>
+    <p>Excerpts from the English translation of the <em>Catechism of the Catholic Church</em> for use in the United States of America &copy; 1994, United States Catholic Conference, Inc. &ndash; Libreria Editrice Vaticana. English translation of the <em>Catechism of the Catholic Church: Modifications from the Editio Typica</em> &copy; 1997, United States Catholic Conference, Inc. &ndash; Libreria Editrice Vaticana.</p>
+    <p>Excerpts from the English translation of <em>The Roman Missal</em> &copy; 2010, International Commission on English in the Liturgy Corporation. All rights reserved.</p>
+    <p>Quotations from papal and Vatican documents &copy; Libreria Editrice Vaticana, linked to their full text at <a href="https://www.vatican.va/">vatican.va</a>. Other quotations are short excerpts with their sources linked, or come from public-domain translations.</p>
+    <p>Paintings are public-domain works shown from <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>; each caption links to its file page, which gives the author and license. Church photos and facts in the Church Finder come from Wikimedia Commons, Wikidata (CC0) and Wikipedia (text under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>), with a link to each source.</p>
+    <p>Church locations and details &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, available under the <a href="https://opendatacommons.org/licenses/odbl/">Open Database License</a>. The Church Finder's church data files are shared under the same license. Town names from <a href="https://www.geonames.org/">GeoNames</a>, under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Map tiles by <a href="https://openfreemap.org/">OpenFreeMap</a>; maps drawn with <a href="https://leafletjs.com/">Leaflet</a> and <a href="https://maplibre.org/">MapLibre</a>. Official Mass times are credited to their diocese on each church, with the date they were checked.</p>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <p>The quickest way to reach us is the <strong>“Still have a question?”</strong> box under any question on the <a href="/">Tree of Life</a>. It goes privately to us, not to the public comments. Leave an email if you would like a reply. For a church's details, use “Add a detail” or “Report a problem” on that church in the <a href="/church-finder/">Church Finder</a>.</p>
+  </section>
+
+  <footer>
+    <p>Last updated 10 October 2026.</p>
+    <p><a href="/">Tree of Life</a> &middot; <a href="/first-mass/">Your First Mass</a> &middot; <a href="/church-finder/">Church Finder</a> &middot; <a href="/parish-studio/">Parish Website Studio</a> &middot; <a href="/parish-scheduler/">Parish Scheduler</a></p>
+  </footer>
+</div>
+</body>
+</html>
