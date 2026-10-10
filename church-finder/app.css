@@ -319,3 +319,17 @@ body.in-results .foot { display: none; }
   .sheet { top: auto; bottom: 0; transform: translateX(-50%); width: 100vw; border-radius: 20px 20px 0 0; max-height: 92vh; padding: 24px 16px calc(24px + env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+
+/* Donate button: plain link to Ko-fi, no script. Self-contained colours so it looks the same on every site. */
+.kofi-btn{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px 0 13px;border-radius:999px;background:#f5ead8;border:1px solid #e4d0aa;color:#5c4019;font-family:inherit;font-size:15px;font-weight:600;line-height:1;letter-spacing:.01em;text-decoration:none;white-space:nowrap;flex:none;transition:background-color .2s ease-out,border-color .2s ease-out,box-shadow .2s ease-out}
+a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
+.kofi-btn:hover{background:#f0dfc2;border-color:#d4b682;box-shadow:0 4px 14px rgba(120,84,30,.12)}
+.kofi-btn:focus-visible{outline:2px solid #a87f33;outline-offset:3px}
+.kofi-btn .kofi-heart{fill:#b4533d}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kofi-btn{background:#352b1d;border-color:#5a4529;color:#f0ddb6}:root:not([data-theme="light"]) .kofi-btn:hover{background:#3f3322;border-color:#76603b}:root:not([data-theme="light"]) .kofi-btn .kofi-heart{fill:#e08a6f}}
+:root[data-theme="dark"] .kofi-btn{background:#352b1d;border-color:#5a4529;color:#f0ddb6}
+:root[data-theme="dark"] .kofi-btn .kofi-heart{fill:#e08a6f}
+@media (prefers-reduced-motion:reduce){.kofi-btn{transition:none}}
+.kofi-note{font-size:.92em}
+@media (max-width:820px){.top .kofi-btn{margin-left:auto;min-height:40px;padding:0 13px 0 11px}}
+@media (max-width:820px){body:not(.at-home) .top .kofi-btn{width:40px;padding:0;gap:0;justify-content:center}body:not(.at-home) .top .kofi-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.search-top{min-width:0}}
