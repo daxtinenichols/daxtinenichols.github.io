@@ -173,7 +173,7 @@
     return `<table class="sched"><tbody>${days.map((d) => {
       const list = groups.get(d).sort((a, b) => (a.time || "").localeCompare(b.time || ""));
       return `<tr><th scope="row">${esc(label[d] || d)}${d === "Monday to Friday" ? '<div class="note">Monday to Friday</div>' : ""}</th><td>${list.map((it) =>
-        `<div>${it.time ? esc(fmtTime(it.time)) : ""}${it.note ? ` <span class="note">${esc(it.note)}</span>` : ""}${it.by ? `<span class="by">${esc(it.by)}</span>` : ""}</div>`).join("")}</td></tr>`;
+        `<div>${it.time ? esc(fmtTime(it.time)) : ""}${it.end ? ` to ${esc(fmtTime(it.end))}` : ""}${it.note ? ` <span class="note">${esc(it.note)}</span>` : ""}${it.by ? `<span class="by">${esc(it.by)}</span>` : ""}</div>`).join("")}</td></tr>`;
     }).join("")}</tbody></table>`;
   }
 
@@ -499,6 +499,8 @@
     if (c.wheelchair) facts.push([ICON.access, { yes: "Wheelchair accessible", limited: "Partly wheelchair accessible", no: "Not wheelchair accessible, according to OpenStreetMap" }[c.wheelchair] || `Wheelchair access: ${esc(c.wheelchair)}`]);
     if (c.langs?.length) facts.push([ICON.lang, `Services in ${esc(c.langs.map(langName).join(", "))}`]);
     if (c.open) facts.push([ICON.clock, `Open for prayer: <span class="muted">${esc(c.open)}</span>`]);
+    if (c.parish || c.pastor) facts.push([ICON.mitre, [c.parish ? `Part of <b>${esc(c.parish)}</b>` : "", c.pastor ? `Pastor: <b>${esc(c.pastor)}</b>` : ""].filter(Boolean).join(". ") + (c.src ? ` <span class="by">from ${esc(c.src.n)}</span>` : "")]);
+    if (c.linked?.length) facts.push([ICON.info, `<b>${c.linked.length === 1 ? "Its sister church" : "Its sister churches"}</b>, same parish and priest:<ul class="linked">${c.linked.map((l) => `<li><a href="${churchURL(l.id, l.page ? 8 : 0)}" data-go>${esc(l.name)}</a>${l.town ? ` <span class="muted">${esc(l.town)}</span>` : ""}</li>`).join("")}</ul>`]);
     if (c.diocese) facts.push([ICON.mitre, `${/diocese|archdiocese|eparchy/i.test(c.diocese) ? "" : "Diocese: "}${esc(c.diocese)}`]);
     if (c.email) facts.push([ICON.mail, `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>`]);
     for (const u of notes) {
