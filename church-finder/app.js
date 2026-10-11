@@ -176,7 +176,7 @@
       let j = i;
       while (j + 1 < single.length && FULL.indexOf(single[j + 1]) === FULL.indexOf(single[j]) + 1 && sig(single[j + 1]) === sig(single[i])) j++;
       if (j - i >= 1) {
-        const name = `${single[i]} to ${single[j]}`;
+        const name = j - i === 1 ? `${single[i]} and ${single[j]}` : `${single[i]} to ${single[j]}`;
         groups.set(name, groups.get(single[i]));
         for (let k = i; k <= j; k++) groups.delete(single[k]);
         DAY_SORT[name] = DAY_ORDER.indexOf(single[i]) - 0.5;
@@ -415,7 +415,9 @@
 
     const near = view.label ? `Churches near ${view.label}` : view.here && ref === view.here ? "Churches near you" : "Churches in this area";
     $("#list-title").textContent = near;
-    $("#list-sub").textContent = inView.length ? `${inView.length.toLocaleString()} on the map, ${view.sort === "next" ? "soonest Mass first" : "nearest first"}` : "";
+    const nf = view.filters.size + !!view.when + !!view.tod + !!view.lang;
+    $("#list-sub").innerHTML = (inView.length ? `${inView.length.toLocaleString()} on the map, ${view.sort === "next" ? "soonest Mass first" : "nearest first"}` : "")
+      + (nf ? `${inView.length ? ". " : ""}${nf === 1 ? "1 filter" : `${nf} filters`} on <button class="linkish" type="button" data-clear-filters>Clear</button>` : "");
     const top = inView.slice(0, 60);
     if (!top.length) {
       const idx = await loadIndex();
@@ -1007,6 +1009,12 @@
     }
     const b = e.target.closest("button");
     if (!b) return;
+    if (b.hasAttribute("data-clear-filters")) {
+      view.filters.clear(); view.when = view.tod = view.lang = "";
+      $$(".filters [data-filter]").forEach((x) => x.setAttribute("aria-pressed", "false"));
+      for (const s of ["#f-when", "#f-tod", "#f-lang"]) { const el = $(s); if (el) { el.value = ""; el.classList.remove("on"); } }
+      return refreshList();
+    }
     if (b.hasAttribute("data-near-me")) nearMe(b);
     else if (b.hasAttribute("data-back")) {
       if (history.state && history.state.list) history.back();
