@@ -14,14 +14,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <style>
-/* A parish volunteer fills in a calm form on the left and watches their parish's site take shape on the right; one button downloads it, ready to host free. */
+/* A parish volunteer picks a look, fills in a calm form on the left and watches their parish's site take shape on the right; one button downloads it, ready to host free. */
 :root {
   --paper: #faf6ee;
   --panel: #f3ecdf;
@@ -61,7 +58,7 @@ a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; margin: 0; line-height: 1.08; }
 p { margin: 0; }
-.wrap { max-width: 76rem; margin: 0 auto; padding-inline: 20px; }
+.wrap { max-width: 78rem; margin: 0 auto; padding-inline: 20px; }
 .eyebrow { font: 600 0.78rem var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; font: 600 1rem var(--font-body); border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: transform 200ms ease-out, background 200ms ease-out; white-space: nowrap; }
 .btn-primary { background: var(--sage); color: var(--btn-ink); box-shadow: var(--shadow-soft); }
@@ -88,22 +85,26 @@ p { margin: 0; }
 .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .assure { list-style: none; margin: 8px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; font-size: 0.95rem; color: var(--muted); }
 .assure strong { display: block; color: var(--ink); font-weight: 600; }
-.mock { position: relative; justify-self: center; width: 100%; max-width: 470px; }
-.mock .screen { border-radius: 18px; background: var(--card); box-shadow: var(--shadow); overflow: hidden; border: 1px solid var(--line); }
-.mock .phone { position: absolute; right: -14px; bottom: -28px; width: 34%; border-radius: 20px; background: var(--card); border: 6px solid var(--ink); box-shadow: var(--shadow); overflow: hidden; }
-.mock svg { display: block; width: 100%; height: auto; }
+.fan { position: relative; justify-self: center; width: 100%; max-width: 500px; aspect-ratio: 5 / 4; }
+.fan .pg { position: absolute; width: 64%; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--line); background: var(--card); transition: transform 300ms ease-out; }
+.fan .pg svg { display: block; width: 100%; height: auto; }
+.fan .pg:nth-child(1) { left: 0; top: 14%; transform: rotate(-5deg); }
+.fan .pg:nth-child(2) { right: 0; top: 12%; transform: rotate(5deg); }
+.fan .pg:nth-child(3) { left: 18%; top: 0; z-index: 2; }
+.fan .tag { position: absolute; z-index: 3; bottom: 2%; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-size: 0.92rem; color: var(--muted); box-shadow: var(--shadow-soft); white-space: nowrap; }
+.fan .tag b { color: var(--ink); font-weight: 600; }
 
 /* section heads */
 .section { padding-block: 72px; }
-.section-head { display: grid; gap: 12px; max-width: 40rem; margin-bottom: 32px; }
+.section-head { display: grid; gap: 12px; max-width: 42rem; margin-bottom: 32px; }
 .section-head h2 { font-size: clamp(2rem, 4vw, 2.8rem); }
 .section-head p { color: var(--muted); font-size: 1.08rem; }
 
 /* editor */
 .editor-band { background: var(--panel); border-block: 1px solid var(--line); }
-.editor { display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 32px; align-items: start; }
+.editor { display: grid; grid-template-columns: minmax(0, 470px) minmax(0, 1fr); gap: 32px; align-items: start; }
 .form { display: grid; gap: 12px; }
-.form-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.form-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; align-items: center; }
 .saved-note { font-size: 0.88rem; color: var(--muted); }
 details.step { background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
 details.step > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 16px 18px; min-height: 56px; border-radius: 16px; }
@@ -118,7 +119,8 @@ details[open] > summary .chev { transform: rotate(180deg); }
 .step-body { padding: 4px 18px 20px; display: grid; gap: 16px; }
 label.field > .lt { display: block; }
 label.field > .lt small { display: inline; }
-label.field { display: grid; gap: 6px; font-size: 0.95rem; font-weight: 600; }
+label.field, div.field { display: grid; gap: 6px; font-size: 0.95rem; font-weight: 600; }
+.field > b { font-weight: 600; font-size: .95rem; }
 label.field small, .hint { font-weight: 400; color: var(--muted); font-size: 0.86rem; }
 input[type=text], input[type=url], input[type=email], input[type=tel], textarea, select {
   width: 100%; font: 400 1rem var(--font-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; min-height: 46px; transition: border-color 150ms ease-out, box-shadow 150ms ease-out; }
@@ -132,26 +134,82 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--s
 .row-grid .wide { grid-column: 1 / -1; }
 .row .remove { position: absolute; top: 10px; right: 8px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
 .row .remove:hover { background: var(--panel); color: var(--ink); }
-.row .remove svg { width: 16px; height: 16px; }
+.row .remove svg, .icon-btn svg { width: 16px; height: 16px; }
 .add { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px dashed var(--line); background: transparent; color: var(--sage); font: 600 0.95rem var(--font-body); cursor: pointer; }
 .add:hover { background: var(--card); border-style: solid; }
 .add svg { width: 16px; height: 16px; }
-.swatches { display: flex; gap: 10px; flex-wrap: wrap; }
-.swatch { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font: 400 0.94rem var(--font-body); color: var(--ink); }
+
+/* look: templates, colors, choices */
+.tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tpl-card { display: grid; gap: 8px; align-content: start; text-align: left; padding: 8px 8px 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; font: inherit; transition: border-color 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; }
+.tpl-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+.tpl-card[aria-pressed="true"] { border-color: var(--sage); box-shadow: 0 0 0 2px var(--sage); }
+.tpl-thumb { position: relative; aspect-ratio: 16 / 11; border-radius: 9px; overflow: hidden; background: var(--panel); }
+.tpl-thumb iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 880px; border: 0; transform-origin: 0 0; pointer-events: none; background: #faf6ee; }
+.tpl-card .tn { display: flex; align-items: center; gap: 8px; padding-inline: 4px; font-weight: 600; font-size: .95rem; }
+.tpl-card .tn i { margin-left: auto; width: 22px; height: 22px; border-radius: 50%; background: var(--sage); color: var(--btn-ink); display: none; place-items: center; font-style: normal; }
+.tpl-card[aria-pressed="true"] .tn i { display: grid; }
+.tpl-card .tn i svg { width: 12px; height: 12px; }
+.tpl-card .tb { padding-inline: 4px; font-weight: 400; font-size: .84rem; color: var(--muted); line-height: 1.4; }
+.swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+.swatch { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font: 400 0.92rem var(--font-body); color: var(--ink); }
 .swatch i { width: 26px; height: 26px; border-radius: 50%; display: block; }
 .swatch[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
-.toggle { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); cursor: pointer; }
+.swatch input[type=color] { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; border: 0; padding: 0; }
+.swatch .rainbow { background: conic-gradient(#8a3b32, #a87f33, #4d6d51, #3f5f80, #5e3d5c, #8a3b32); }
+.pills { display: inline-flex; flex-wrap: wrap; padding: 4px; gap: 4px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); justify-self: start; }
+.pills label { position: relative; }
+.pills input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.pills span { display: inline-flex; align-items: center; min-height: 38px; padding: 0 16px; border-radius: 999px; font-weight: 600; font-size: .92rem; color: var(--muted); }
+.pills input:checked + span { background: var(--sage); color: var(--btn-ink); }
+.pills input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+.toggle { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); cursor: pointer; font-weight: 400; }
 .toggle input { margin-top: 4px; width: 20px; height: 20px; accent-color: var(--sage); flex: none; }
 .toggle b { display: block; font-weight: 600; }
 .toggle span { display: block; font-size: 0.9rem; color: var(--muted); }
-.photo-drop { display: grid; place-items: center; gap: 6px; text-align: center; padding: 18px; border-radius: 12px; border: 1px dashed var(--line); background: var(--paper); color: var(--muted); font-size: 0.92rem; cursor: pointer; }
+.photo-drop { position: relative; display: grid; place-items: center; gap: 6px; text-align: center; padding: 18px; border-radius: 12px; border: 1px dashed var(--line); background: var(--paper); color: var(--muted); font-size: 0.92rem; font-weight: 400; cursor: pointer; }
 .photo-drop:hover { border-color: var(--sage); color: var(--ink); }
 .photo-drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-.thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
 .thumb { position: relative; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--panel); }
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .thumb button { position: absolute; top: 6px; right: 6px; width: 30px; height: 30px; border-radius: 50%; border: 0; background: rgba(28,25,21,.65); color: #fff; cursor: pointer; display: grid; place-items: center; }
 .thumb button svg { width: 14px; height: 14px; }
+
+/* churches */
+.churches { display: grid; gap: 10px; }
+details.church { border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+details.church > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 12px 14px; min-height: 52px; border-radius: 14px; }
+details.church > summary::-webkit-details-marker { display: none; }
+.ch-n { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--gold-pale); color: var(--gold); }
+.ch-n svg { width: 18px; height: 18px; }
+.church-body { padding: 4px 14px 16px; display: grid; gap: 14px; }
+.church-body .row, .church-body .toggle, .church-body .photo-drop { background: var(--card); }
+.church-body input, .church-body textarea, .church-body select { background: var(--card); }
+.church-body .row input, .church-body .row select, .church-body .row textarea { background: var(--paper); }
+.church-foot { display: flex; justify-content: flex-end; }
+.link-btn { border: 0; background: transparent; color: var(--muted); font: 600 .9rem var(--font-body); cursor: pointer; min-height: 40px; padding: 0 8px; text-decoration: underline; text-underline-offset: 3px; }
+.link-btn:hover { color: var(--ink); }
+
+/* arrange sections */
+.sec-list { display: grid; gap: 8px; }
+.sec-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 8px 8px 8px 12px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); font-weight: 400; }
+.sec-row.off .sec-name { color: var(--muted); }
+.sec-name { min-width: 0; font-weight: 600; font-size: .95rem; }
+.sec-name small { display: block; font-weight: 400; color: var(--muted); font-size: .82rem; }
+.sec-btns { display: flex; gap: 2px; }
+.icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+.icon-btn:hover:not(:disabled) { background: var(--panel); color: var(--ink); }
+.icon-btn:disabled { opacity: .3; cursor: default; }
+.sw { position: relative; display: inline-block; width: 44px; height: 26px; flex: none; }
+.sw input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
+.sw span { position: absolute; inset: 0; border-radius: 999px; background: var(--line); transition: background 200ms ease-out; }
+.sw span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform 200ms ease-out; }
+.sw input:checked + span { background: var(--sage); }
+.sw input:checked + span::after { transform: translateX(18px); }
+.sw input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+.sec-edit { grid-column: 1 / -1; display: grid; gap: 8px; padding: 2px 4px 6px; }
+.sec-edit input, .sec-edit textarea { background: var(--card); }
 
 /* preview */
 .preview { position: sticky; top: 16px; display: grid; gap: 12px; }
@@ -159,10 +217,8 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--s
 .seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
 .seg button { min-height: 38px; padding: 0 16px; border-radius: 999px; border: 0; background: transparent; font: 600 0.92rem var(--font-body); color: var(--muted); cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--sage); color: var(--btn-ink); }
-.frame-wrap { border-radius: 18px; overflow: hidden; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); height: min(78vh, 820px); display: flex; justify-content: center; transition: background 200ms; }
-.frame-wrap.phone { background: color-mix(in srgb, var(--panel) 70%, var(--line)); padding: 20px 0; }
-.frame-wrap { position: relative; justify-content: flex-start; }
-.frame-wrap.phone { justify-content: center; }
+.frame-wrap { position: relative; border-radius: 18px; overflow: hidden; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); height: min(80vh, 860px); display: flex; justify-content: flex-start; transition: background 200ms; }
+.frame-wrap.phone { background: color-mix(in srgb, var(--panel) 70%, var(--line)); padding: 20px 0; justify-content: center; }
 .frame-wrap iframe { border: 0; width: 100%; height: 100%; background: #faf6ee; display: block; flex: none; transform-origin: 0 0; }
 .frame-wrap.phone iframe { transform: none !important; height: 100% !important; width: 390px !important; max-width: calc(100% - 24px); border-radius: 24px; box-shadow: var(--shadow); }
 .download-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
@@ -176,11 +232,10 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--s
 .overlay iframe { border: 0; width: 100%; height: 100%; background: #faf6ee; }
 
 /* guide */
-.guide { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; counter-reset: g; }
+.guide { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .g-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 10px; align-content: start; }
 .g-card h3 { font-size: 1.6rem; }
 .g-card .g-num { font: 600 0.8rem var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
-.g-card ol { margin: 4px 0 0; padding-left: 1.2em; display: grid; gap: 6px; color: var(--ink); }
 .g-card p { color: var(--muted); }
 .options { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .opt { padding: 24px; border-radius: 16px; background: var(--panel); display: grid; gap: 10px; align-content: start; }
@@ -207,9 +262,9 @@ input:focus, textarea:focus, select:focus { outline: none; border-color: var(--s
 .tool span { color: var(--muted); font-size: 0.96rem; }
 footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem; border-top: 1px solid var(--line); }
 
-@media (max-width: 960px) {
+@media (max-width: 1020px) {
   .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 24px; }
-  .mock { max-width: 400px; }
+  .fan { max-width: 420px; }
   .editor { grid-template-columns: 1fr; }
   .preview { display: none; }
   .guide, .options, .more { grid-template-columns: 1fr; }
@@ -223,7 +278,9 @@ footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem;
   .assure { grid-template-columns: 1fr; gap: 10px; }
   .two { grid-template-columns: 1fr; }
   .section { padding-block: 56px; }
-  .mock .phone { right: -4px; }
+  .step-body { padding-inline: 14px; }
+  .tpl-grid { gap: 10px; }
+  .fan .tag { font-size: .84rem; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 
@@ -259,52 +316,22 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
     <div class="hero-text">
       <p class="eyebrow">Free for every parish</p>
       <h1>A warm, simple website for your parish, <em>in an afternoon.</em></h1>
-      <p class="lede">Type in your Mass times, address and a few words of welcome. Watch your site take shape as you go, then download it and put it online for free.</p>
+      <p class="lede">Pick a look you like, type in your Mass times and a few words of welcome, and watch your site take shape. One church or several, it all fits. Then download it and put it online for free.</p>
       <div class="actions">
         <a class="btn btn-primary" href="#make" data-start="example">Start with an example</a>
         <a class="btn btn-quiet" href="#make" data-start="blank">Start from blank</a>
       </div>
       <ul class="assure">
-        <li><strong>Free, always</strong>No fees, no ads, no catch.</li>
-        <li><strong>No account</strong>Nothing to sign up for or install.</li>
-        <li><strong>Phone friendly</strong>Looks right on any screen.</li>
+        <li><strong>Six templates</strong>Switch looks any time, your words stay.</li>
+        <li><strong>One church or several</strong>Times for every church in the parish.</li>
+        <li><strong>Free, no account</strong>Nothing to sign up for or install.</li>
       </ul>
     </div>
-    <div class="mock" aria-hidden="true">
-      <div class="screen">
-        <svg viewBox="0 0 470 330">
-          <rect width="470" height="330" fill="#faf6ee"/>
-          <rect width="470" height="26" fill="#efe7d8"/><circle cx="16" cy="13" r="4" fill="#d9ccb4"/><circle cx="30" cy="13" r="4" fill="#d9ccb4"/><circle cx="44" cy="13" r="4" fill="#d9ccb4"/>
-          <rect x="24" y="44" width="110" height="9" rx="4" fill="#2b2622" opacity=".75"/>
-          <rect x="300" y="45" width="40" height="7" rx="3" fill="#6c6358" opacity=".5"/><rect x="350" y="45" width="40" height="7" rx="3" fill="#6c6358" opacity=".5"/><rect x="400" y="45" width="44" height="7" rx="3" fill="#6c6358" opacity=".5"/>
-          <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4e8cd"/><stop offset="1" stop-color="#e1e9da"/></linearGradient></defs>
-          <rect x="24" y="70" width="422" height="130" rx="12" fill="url(#sky)"/>
-          <g fill="#4d6d51" opacity=".85"><path d="M330 200v-62l34-26 34 26v62z"/><rect x="361" y="86" width="6" height="30"/><rect x="354" y="94" width="20" height="5"/></g>
-          <path d="M356 200v-24a8 8 0 0 1 16 0v24z" fill="#f4e8cd"/>
-          <rect x="44" y="104" width="190" height="16" rx="6" fill="#2b2622" opacity=".8"/>
-          <rect x="44" y="130" width="150" height="8" rx="4" fill="#6c6358" opacity=".55"/>
-          <rect x="44" y="156" width="96" height="26" rx="13" fill="#4d6d51"/>
-          <g fill="#fffdf8" stroke="#e5dccb"><rect x="24" y="216" width="130" height="92" rx="10"/><rect x="170" y="216" width="130" height="92" rx="10"/><rect x="316" y="216" width="130" height="92" rx="10"/></g>
-          <g fill="#a87f33" opacity=".8"><rect x="38" y="232" width="52" height="7" rx="3"/><rect x="184" y="232" width="52" height="7" rx="3"/><rect x="330" y="232" width="52" height="7" rx="3"/></g>
-          <g fill="#6c6358" opacity=".4"><rect x="38" y="252" width="90" height="6" rx="3"/><rect x="38" y="266" width="70" height="6" rx="3"/><rect x="38" y="280" width="80" height="6" rx="3"/><rect x="184" y="252" width="90" height="6" rx="3"/><rect x="184" y="266" width="76" height="6" rx="3"/><rect x="330" y="252" width="94" height="6" rx="3"/><rect x="330" y="266" width="60" height="6" rx="3"/></g>
-        </svg>
-      </div>
-      <div class="phone">
-        <svg viewBox="0 0 160 300">
-          <rect width="160" height="300" fill="#faf6ee"/>
-          <rect x="14" y="18" width="70" height="7" rx="3" fill="#2b2622" opacity=".75"/>
-          <rect x="10" y="38" width="140" height="96" rx="10" fill="url(#sky)"/>
-          <g fill="#4d6d51" opacity=".85"><path d="M96 134v-40l22-17 22 17v40z"/><rect x="116" y="60" width="4" height="20"/></g>
-          <rect x="20" y="62" width="64" height="9" rx="4" fill="#2b2622" opacity=".8"/>
-          <rect x="20" y="96" width="44" height="16" rx="8" fill="#4d6d51"/>
-          <rect x="10" y="148" width="140" height="64" rx="10" fill="#fffdf8" stroke="#e5dccb"/>
-          <rect x="22" y="160" width="40" height="6" rx="3" fill="#a87f33" opacity=".8"/>
-          <rect x="22" y="176" width="100" height="5" rx="2" fill="#6c6358" opacity=".4"/><rect x="22" y="188" width="80" height="5" rx="2" fill="#6c6358" opacity=".4"/>
-          <rect x="10" y="224" width="140" height="64" rx="10" fill="#e1e9da"/>
-          <rect x="22" y="238" width="60" height="7" rx="3" fill="#4d6d51" opacity=".8"/>
-          <rect x="22" y="254" width="96" height="5" rx="2" fill="#6c6358" opacity=".45"/>
-        </svg>
-      </div>
+    <div class="fan" aria-hidden="true">
+      <div class="pg"><svg viewBox="0 0 320 230"><rect width="320" height="230" fill="#faf6ee"/><rect width="320" height="34" fill="#2c2f3f"/><rect x="16" y="13" width="80" height="8" rx="4" fill="#f6efe2" opacity=".85"/><rect y="34" width="320" height="104" fill="#3a4258"/><rect x="24" y="66" width="150" height="14" rx="5" fill="#f6efe2" opacity=".9"/><rect x="24" y="90" width="110" height="7" rx="3" fill="#f6efe2" opacity=".6"/><rect x="40" y="124" width="240" height="30" rx="8" fill="#fffdf8" stroke="#e5dccb"/><g fill="#a87f33" opacity=".8"><rect x="54" y="135" width="40" height="7" rx="3"/><rect x="110" y="135" width="40" height="7" rx="3"/><rect x="166" y="135" width="40" height="7" rx="3"/></g><g fill="#fffdf8" stroke="#e5dccb"><rect x="20" y="170" width="88" height="48" rx="6"/><rect x="116" y="170" width="88" height="48" rx="6"/><rect x="212" y="170" width="88" height="48" rx="6"/></g></svg></div>
+      <div class="pg"><svg viewBox="0 0 320 230"><rect width="320" height="230" fill="#f8f1ea"/><rect x="18" y="16" width="70" height="8" rx="4" fill="#2b2622" opacity=".7"/><rect x="18" y="52" width="130" height="16" rx="6" fill="#2b2622" opacity=".8"/><rect x="18" y="76" width="100" height="7" rx="3" fill="#6c6358" opacity=".5"/><rect x="18" y="98" width="70" height="22" rx="11" fill="#9a4f32"/><rect x="178" y="44" width="124" height="96" rx="30" fill="#f3dfd3"/><rect x="170" y="36" width="124" height="96" rx="28" fill="#9a4f32" opacity=".75"/><rect y="152" width="320" height="78" fill="#f3e3d8"/><g fill="#fffdf8"><rect x="18" y="166" width="88" height="50" rx="14"/><rect x="116" y="166" width="88" height="50" rx="14"/><rect x="214" y="166" width="88" height="50" rx="14"/></g></svg></div>
+      <div class="pg"><svg viewBox="0 0 320 230"><rect width="320" height="230" fill="#faf6ee"/><rect x="120" y="14" width="80" height="9" rx="4" fill="#2b2622" opacity=".75"/><path d="M60 34h200" stroke="#e5dccb"/><g fill="#6c6358" opacity=".5"><rect x="88" y="40" width="30" height="6" rx="3"/><rect x="128" y="40" width="30" height="6" rx="3"/><rect x="168" y="40" width="30" height="6" rx="3"/><rect x="208" y="40" width="24" height="6" rx="3"/></g><path d="M60 54h200" stroke="#e5dccb"/><rect x="85" y="74" width="150" height="15" rx="6" fill="#2b2622" opacity=".8"/><rect x="105" y="97" width="110" height="7" rx="3" fill="#6c6358" opacity=".5"/><rect x="125" y="114" width="70" height="20" rx="4" fill="#8a3b32"/><defs><linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4e8cd"/><stop offset="1" stop-color="#f2e1dc"/></linearGradient></defs><rect x="30" y="148" width="260" height="70" rx="6" fill="url(#fsky)"/><g fill="#8a3b32" opacity=".85"><path d="M140 218v-38l20-15 20 15v38z"/><rect x="158" y="148" width="4" height="18"/></g></svg></div>
+      <span class="tag"><b>Six looks.</b> Same details, one click to switch.</span>
     </div>
   </section>
 </div>
@@ -313,49 +340,65 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Make your site</p>
-      <h2>Fill in what you know. Skip what you don't.</h2>
-      <p>Anything you leave empty simply won't appear. Your work is kept on this device as you type, so you can close the page and come back.</p>
+      <h2>Pick a look. Fill in what you know.</h2>
+      <p>Start with a template, then add your times and details. Anything you leave empty simply won't appear. Your work is kept on this device as you type, so you can close the page and come back.</p>
     </div>
     <div class="editor">
       <form class="form" id="form" autocomplete="off" onsubmit="return false">
         <div class="form-tools">
-          <button type="button" class="btn btn-quiet btn-small" id="load-example">Fill with an example</button>
+          <button type="button" class="btn btn-quiet btn-small" data-example="one">Example: one church</button>
+          <button type="button" class="btn btn-quiet btn-small" data-example="many">Example: three churches</button>
+          <button type="button" class="btn btn-quiet btn-small" id="open-details">Open saved details</button>
           <button type="button" class="btn btn-quiet btn-small" id="clear-all">Start over</button>
           <span class="saved-note" id="saved-note" aria-live="polite"></span>
         </div>
 
-        <details class="step" open>
-          <summary><span class="num">1</span><span class="sum-text"><b>Your parish</b><span>Name, welcome and look</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+        <details class="step" open id="step-look">
+          <summary><span class="num">1</span><span class="sum-text"><b>Choose a look</b><span>Template, color and text size</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
           <div class="step-body">
-            <label class="field">Parish name<input type="text" name="name" placeholder="St. Brigid Catholic Church"></label>
-            <label class="field">Town or city<input type="text" name="city" placeholder="Springfield"></label>
-            <label class="field">Diocese <small>(optional)</small><input type="text" name="diocese" placeholder="Diocese of Springfield"></label>
-            <label class="field">A few words of welcome <small>Two or three warm sentences are plenty.</small><textarea name="welcome" placeholder="Whether you're a lifelong Catholic, returning after years away, or just curious, you're welcome here."></textarea></label>
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Color</b>
+            <div class="field"><b>Template <span class="hint">Each one shows your own details. Switch any time; nothing you typed is lost.</span></b>
+              <div class="tpl-grid" id="tpl-grid" role="group" aria-label="Template"></div>
+            </div>
+            <div class="field"><b>Color</b>
               <div class="swatches" id="swatches" role="group" aria-label="Color"></div>
             </div>
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Main photo <span class="hint">(optional: the church outside or inside)</span></b>
-              <div id="hero-photo"></div>
+            <label class="field">Heading style<select name="headingFont" id="heading-font"></select></label>
+            <div class="field"><b>Text size <span class="hint">Larger is kinder to older eyes.</span></b>
+              <div class="pills" role="radiogroup" aria-label="Text size">
+                <label><input type="radio" name="textSize" value="standard"><span>Standard</span></label>
+                <label><input type="radio" name="textSize" value="large"><span>Larger</span></label>
+              </div>
             </div>
           </div>
         </details>
 
         <details class="step">
-          <summary><span class="num">2</span><span class="sum-text"><b>Mass and confession times</b><span>The part everyone looks for</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <summary><span class="num">2</span><span class="sum-text"><b>Your parish</b><span>Name, welcome, photo and notices</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
           <div class="step-body">
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Masses</b><div class="rows" data-list="masses"></div></div>
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Confession</b><div class="rows" data-list="confessions"></div></div>
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Adoration and devotions <span class="hint">(optional)</span></b><div class="rows" data-list="devotions"></div></div>
-            <label class="field">Note under the times <small>(optional)</small><input type="text" name="timesNote" placeholder="Times change on holy days; check the bulletin."></label>
+            <label class="field">Parish name<input type="text" name="name" placeholder="St. Brigid Catholic Church"></label>
+            <label class="field">Town or area <small>For a parish with several churches, name the area, like "Walton, Delhi and Downsville".</small><input type="text" name="city" placeholder="Springfield"></label>
+            <label class="field">Diocese <small>(optional)</small><input type="text" name="diocese" placeholder="Diocese of Springfield"></label>
+            <label class="field">A few words of welcome <small>Two or three warm sentences are plenty.</small><textarea name="welcome" placeholder="Whether you're a lifelong Catholic, returning after years away, or just curious, you're welcome here."></textarea></label>
+            <div class="field"><b>Main photo <span class="hint">(optional: the church outside or inside)</span></b>
+              <div data-photo-slot="heroPhoto"></div>
+            </div>
+            <label class="field">Notice at the top <small>(optional) A short line in a band above everything, like "Christmas Mass times are posted below."</small><input type="text" name="announcement" placeholder="Holy Week schedule: see Mass times"></label>
+            <label class="field">Link for the notice <small>(optional)</small><input type="url" name="announcementLink" placeholder="https://"></label>
           </div>
         </details>
 
         <details class="step">
-          <summary><span class="num">3</span><span class="sum-text"><b>Where to find you</b><span>Address, map and parking</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <summary><span class="num">3</span><span class="sum-text"><b>Churches and times</b><span>Mass, confession, address, one church or several</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
           <div class="step-body">
-            <label class="field">Street address <small>Used for the map and directions.</small><input type="text" name="address" placeholder="215 Elm Street, Springfield, IL 62701"></label>
-            <label class="toggle"><input type="checkbox" name="showMap" checked><span><b>Show a map</b><span>A small Google map of your address, with a directions button.</span></span></label>
-            <label class="field">Parking and access <small>(optional)</small><textarea name="parking" placeholder="Free parking behind the church. Step-free entrance on the side door."></textarea></label>
+            <p class="hint" style="font-size:.92rem">Does your parish have more than one church? Add each one with its own address and times. Visitors will see them all on one page.</p>
+            <div class="churches" id="churches"></div>
+            <div class="field" id="layout-field"><b>Show the times <span class="hint">For parishes with more than one church.</span></b>
+              <div class="pills" role="radiogroup" aria-label="Show the times">
+                <label><input type="radio" name="timesLayout" value="church"><span>Church by church</span></label>
+                <label><input type="radio" name="timesLayout" value="day"><span>All together, by day</span></label>
+              </div>
+            </div>
+            <label class="field">Note under the times <small>(optional)</small><input type="text" name="timesNote" placeholder="Times change on holy days; check the bulletin."></label>
           </div>
         </details>
 
@@ -378,23 +421,35 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
         </details>
 
         <details class="step">
-          <summary><span class="num">5</span><span class="sum-text"><b>People and sacraments</b><span>Staff, and how to ask for a sacrament</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <summary><span class="num">5</span><span class="sum-text"><b>People, sacraments and groups</b><span>Staff, how to ask for a sacrament, ministries</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
           <div class="step-body">
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Staff</b><div class="rows" data-list="staff"></div></div>
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Sacraments and getting involved <span class="hint">Edit, remove or add your own.</span></b><div class="rows" data-list="sacraments"></div></div>
+            <div class="field"><b>Staff</b><div class="rows" data-list="staff" data-spec="staff"></div></div>
+            <div class="field"><b>Sacraments <span class="hint">Edit, remove or add your own.</span></b><div class="rows" data-list="sacraments" data-spec="sacraments"></div></div>
+            <div class="field"><b>Groups and ministries <span class="hint">(optional) Choir, youth group, food pantry, Knights of Columbus…</span></b><div class="rows" data-list="ministries" data-spec="ministries"></div></div>
           </div>
         </details>
 
         <details class="step">
-          <summary><span class="num">6</span><span class="sum-text"><b>Events and photos</b><span>What's coming up, and parish life</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <summary><span class="num">6</span><span class="sum-text"><b>Events, photos and your story</b><span>What's coming up, parish life, history</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
           <div class="step-body">
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Upcoming events</b><div class="rows" data-list="events"></div></div>
-            <div class="field"><b style="font-weight:600;font-size:.95rem">Photo gallery <span class="hint">(up to 6)</span></b><div id="gallery-photos"></div></div>
+            <div class="field"><b>Upcoming events</b><div class="rows" data-list="events" data-spec="events"></div></div>
+            <div class="field"><b>Photo gallery <span class="hint">(up to 6)</span></b><div data-photo-slot="gallery" data-multi="1"></div></div>
+            <label class="field">Story heading <small>(optional)</small><input type="text" name="aboutTitle" placeholder="Our story"></label>
+            <label class="field">Your parish's story <small>(optional) A little history, your patron saint, what parish life is like. Leave a blank line between paragraphs.</small><textarea name="aboutText" placeholder="St. Brigid's was built by Irish farm families in 1889…"></textarea></label>
+          </div>
+        </details>
+
+        <details class="step" id="step-arrange">
+          <summary><span class="num">7</span><span class="sum-text"><b>Arrange your page</b><span>Show, hide and reorder sections, or add your own</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <div class="step-body">
+            <p class="hint" style="font-size:.92rem">Turn a section off to hide it, or move it up and down. Sections with nothing filled in stay hidden on their own.</p>
+            <div class="sec-list" id="sections"></div>
+            <button type="button" class="add" id="add-section"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>Add your own section</button>
           </div>
         </details>
 
         <details class="step">
-          <summary><span class="num">7</span><span class="sum-text"><b>For newcomers</b><span>Helpful links we suggest for every parish</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
+          <summary><span class="num">8</span><span class="sum-text"><b>For newcomers</b><span>Helpful links we suggest for every parish</span></span><svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg></summary>
           <div class="step-body">
             <p class="hint" style="font-size:.95rem">Many visitors have never been to Mass, or have been away a long time. These free guides help them feel at home. They're on by default; untick any you'd rather leave out.</p>
             <label class="toggle"><input type="checkbox" name="linkMass" checked><span><b>Your First Mass</b><span>A gentle step-by-step guide: when to stand, sit and kneel, and what to say.</span></span></label>
@@ -497,10 +552,12 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
     </div>
     <div class="faq">
       <details><summary>Does anyone else see what I type?</summary><p>No. Everything stays in your own browser on this device. Nothing is sent to us or anyone else until you upload the finished file yourself.</p></details>
-      <details><summary>How do I change the Mass times later?</summary><p>Come back to this page on the same device and your details will still be here. On a different device, press <b>Open saved details</b> and choose the details file you saved. Change what you need, download again, and upload the new file the way you did the first time.</p></details>
+      <details><summary>Our parish has two or three churches. Does that work?</summary><p>Yes. In step 3, press <b>Add another church</b> for each one. Every church gets its own address, map, photo and Mass and confession times. Visitors can read the times church by church, or all together by day so they can find the next Mass anywhere in the parish.</p></details>
+      <details><summary>Can I change the look later?</summary><p>Any time. Pick another template in step 1 and everything you typed carries over. You can also change the color, the heading style and the text size, and in step 7 turn sections on or off or move them around.</p></details>
+      <details><summary>How do I change the Mass times later?</summary><p>Come back to this page on the same device and your details will still be here. On a different device, press <b>Open saved details</b> and choose the details file you saved. Details saved with the earlier version of the Studio open too. Change what you need, download again, and upload the new file the way you did the first time.</p></details>
       <details><summary>Can we use our own web address, like stbrigid.org?</summary><p>Yes. Both Netlify and GitHub Pages let you connect a domain you own, free of charge. Buying the domain itself usually costs around $10 to $20 a year from any registrar.</p></details>
       <details><summary>Do we need permission from the diocese?</summary><p>Policies differ. Many dioceses have guidance for parish websites, so it's worth checking with your pastor and your diocesan communications office before you share the address.</p></details>
-      <details><summary>Why are the newcomer guides suggested?</summary><p>People often look up a parish right before their first visit. A short, kind guide to the Mass and a place to explore honest questions can make that first step easier. They're free, ad-free, and you can turn either off in step 7.</p></details>
+      <details><summary>Why are the newcomer guides suggested?</summary><p>People often look up a parish right before their first visit. A short, kind guide to the Mass and a place to explore honest questions can make that first step easier. They're free, ad-free, and you can turn any of them off in step 8.</p></details>
       <details><summary>What about photos of people?</summary><p>Only post photos of people who have agreed to it, and never post photos of children without their parents' permission. Large photos are shrunk automatically so the site stays quick.</p></details>
     </div>
   </div>
@@ -543,16 +600,48 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
 (() => {
   "use strict";
   const SITE = "https://daxtinenichols.github.io";
-  const STORE = "parish-studio-v1";
+  const STORE = "parish-studio-v2";
+  const STORE_V1 = "parish-studio-v1";
   const MAX_PHOTOS = 6;
+  const MAX_CHURCHES = 8;
 
+  /* ---------- the choices ---------- */
   const COLORS = [
     { id: "sage", name: "Sage", accent: "#4d6d51", pale: "#e1e9da" },
     { id: "marian", name: "Marian blue", accent: "#3f5f80", pale: "#e0e7ef" },
     { id: "wine", name: "Deep red", accent: "#8a3b32", pale: "#f2e1dc" },
     { id: "gold", name: "Gold", accent: "#8a6624", pale: "#f4e8cd" },
+    { id: "navy", name: "Navy", accent: "#2f3e5c", pale: "#e2e5ee" },
+    { id: "terracotta", name: "Terracotta", accent: "#9a4f32", pale: "#f3e3d8" },
+    { id: "plum", name: "Plum", accent: "#5e3d5c", pale: "#ece2ea" },
   ];
-  const DAYS = ["Saturday vigil", "Sunday", "Monday to Friday", "Monday to Saturday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Holy days"];
+  // Google Fonts families. "g" is the css2 family string.
+  const FONTS = {
+    cormorant: { name: "Elegant serif", css: '"Cormorant Garamond","Iowan Old Style",Georgia,serif', g: "Cormorant+Garamond:ital,wght@0,500;0,600;1,500", w: 500, scale: 1.08 },
+    garamond: { name: "Traditional serif", css: '"EB Garamond",Garamond,Georgia,serif', g: "EB+Garamond:ital,wght@0,400;0,500;0,600;1,400", w: 500, scale: 1 },
+    caslon: { name: "Stately serif", css: '"Libre Caslon Text","Iowan Old Style",Georgia,serif', g: "Libre+Caslon+Text:ital,wght@0,400;0,700;1,400", w: 400, scale: .9 },
+    fraunces: { name: "Soft serif", css: '"Fraunces",Georgia,serif', g: "Fraunces:opsz,wght@9..144,400;9..144,600", w: 600, scale: .94 },
+    figtree: { name: "Clean modern", css: '"Figtree","Segoe UI",system-ui,sans-serif', g: "Figtree:wght@400;600;700", w: 700, scale: .9 },
+    atkinson: { name: "Extra readable", css: '"Atkinson Hyperlegible",Verdana,system-ui,sans-serif', g: "Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400", w: 700, scale: .86 },
+    // body fonts
+    sourcesans: { css: '"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif', g: "Source+Sans+3:wght@400;600" },
+    sourceserif: { css: '"Source Serif 4",Georgia,serif', g: "Source+Serif+4:opsz,wght@8..60,400;8..60,600" },
+    nunito: { css: '"Nunito Sans","Segoe UI",system-ui,sans-serif', g: "Nunito+Sans:wght@400;600;700" },
+  };
+  const HEADING_CHOICES = ["cormorant", "garamond", "caslon", "fraunces", "figtree", "atkinson"];
+
+  // Each template is a whole look: fonts, default color, header, hero and section style.
+  const TEMPLATES = {
+    classic: { name: "Warm and classic", blurb: "Soft colors and elegant headings. Fits almost any parish.", head: "cormorant", body: "sourcesans", color: "sage", header: "bar", hero: "split" },
+    traditional: { name: "Traditional", blurb: "Centered, quiet and reverent, with a classic serif throughout.", head: "garamond", body: "sourceserif", color: "wine", header: "center", hero: "center" },
+    cathedral: { name: "Cathedral", blurb: "A stately dark header and your church photo, wall to wall.", head: "caslon", body: "sourcesans", color: "navy", header: "dark", hero: "photo", strip: true },
+    modern: { name: "Bright and modern", blurb: "Clean and roomy, with this weekend's Masses right at the top.", head: "figtree", body: "figtree", color: "marian", header: "bar", hero: "split", strip: true },
+    friendly: { name: "Friendly", blurb: "Rounded and cheerful. Good for family parishes and schools.", head: "fraunces", body: "nunito", color: "terracotta", header: "bar", hero: "split" },
+    simple: { name: "Simple and clear", blurb: "One column and large text, no frills. Easy for every reader.", head: "atkinson", body: "atkinson", color: "sage", header: "plain", hero: "plain" },
+  };
+
+  const DAYS = ["Saturday vigil", "Sunday", "Monday to Friday", "Monday to Saturday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "First Friday", "First Saturday", "Holy days"];
+  const SHORT_DAY = { "Saturday vigil": "Sat", "Sunday": "Sun" };
 
   const LISTS = {
     masses: { add: "Add a Mass", fields: [{ k: "day", type: "select", options: DAYS, label: "Day" }, { k: "time", ph: "9:00 am", label: "Time" }, { k: "note", ph: "Note, e.g. Spanish (optional)", wide: true, label: "Note" }] },
@@ -560,8 +649,23 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
     devotions: { add: "Add a devotion", fields: [{ k: "name", ph: "Eucharistic Adoration", label: "Name" }, { k: "when", ph: "Fridays, 3 to 6 pm", label: "When" }] },
     staff: { add: "Add a person", fields: [{ k: "name", ph: "Fr. Thomas Reyes", label: "Name" }, { k: "role", ph: "Pastor", label: "Role" }] },
     sacraments: { add: "Add an item", fields: [{ k: "title", ph: "Baptism", wide: true, label: "Title" }, { k: "text", type: "textarea", ph: "How to ask, who to call", wide: true, label: "Details" }] },
+    ministries: { add: "Add a group", fields: [{ k: "title", ph: "Choir", wide: true, label: "Group" }, { k: "text", type: "textarea", ph: "When it meets and who to ask (optional)", wide: true, label: "Details" }] },
     events: { add: "Add an event", fields: [{ k: "title", ph: "Parish picnic", label: "Event" }, { k: "when", ph: "Sunday, June 14, after the 10:30", label: "When" }, { k: "text", type: "textarea", ph: "A sentence or two (optional)", wide: true, label: "Details" }] },
   };
+
+  // The sections a page can show, in their default order. Custom sections are added by the user.
+  const SECTIONS = {
+    times: { label: "Mass and confession times" },
+    newcomers: { label: "New here? (free guides)" },
+    visit: { label: "Finding us (address and map)" },
+    about: { label: "Your story" },
+    sacraments: { label: "Sacraments" },
+    ministries: { label: "Groups and ministries" },
+    events: { label: "Events" },
+    photos: { label: "Photos" },
+    contact: { label: "Contact and staff" },
+  };
+  const defaultSections = () => Object.keys(SECTIONS).map(id => ({ id, on: true }));
 
   const DEFAULT_SACRAMENTS = [
     { title: "Becoming Catholic", text: "Curious about the faith, or ready to take a step? Our OCIA group meets weekly from September. Call the office and we'll set up a friendly chat." },
@@ -571,57 +675,136 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
     { title: "Joining the parish", text: "Everyone is welcome at Mass. To register as a parishioner, ask at the office or after any Sunday Mass." },
   ];
 
-  const blank = () => ({
-    name: "", city: "", diocese: "", welcome: "", color: "sage", heroPhoto: "",
+  const blankChurch = () => ({
+    name: "", town: "", address: "", showMap: true, parking: "", photo: "", note: "",
     masses: [{ day: "Saturday vigil", time: "", note: "" }, { day: "Sunday", time: "", note: "" }],
     confessions: [{ day: "Saturday", time: "", note: "" }],
-    devotions: [], timesNote: "",
-    address: "", showMap: true, parking: "",
+    devotions: [],
+  });
+  const LOOK_KEYS = ["template", "color", "customColor", "colorPicked", "headingFont", "textSize"];
+  const blank = () => ({
+    v: 2,
+    template: "classic", color: "sage", customColor: "#6b4f3a", colorPicked: false, headingFont: "", textSize: "standard",
+    name: "", city: "", diocese: "", welcome: "", heroPhoto: "", announcement: "", announcementLink: "",
+    churches: [blankChurch()], timesLayout: "church", timesNote: "",
     phone: "", email: "", officeHours: "", bulletin: "", giving: "", livestream: "", facebook: "", instagram: "",
     staff: [{ name: "", role: "Pastor" }],
     sacraments: DEFAULT_SACRAMENTS.map(s => ({ ...s })),
-    events: [], gallery: [],
+    ministries: [], events: [], gallery: [], aboutTitle: "", aboutText: "",
+    sections: defaultSections(),
     linkMass: true, linkTree: true, linkFinder: true, credit: true,
   });
 
-  // A fictional parish so people can see a finished site straight away.
+  // Fictional parishes so people can see a finished site straight away.
+  const EXAMPLE_NOTE = "This is an example parish. Replace these with your own times.";
   const example = () => ({
     ...blank(),
-    name: "St. Brigid Catholic Church", city: "Springfield", diocese: "",
+    name: "St. Brigid Catholic Church", city: "Springfield",
     welcome: "Whether you're a lifelong Catholic, coming back after years away, or simply curious, you are welcome here. Come as you are. We'd love to meet you after Mass.",
-    masses: [
-      { day: "Saturday vigil", time: "5:00 pm", note: "" },
-      { day: "Sunday", time: "8:00 am", note: "" },
-      { day: "Sunday", time: "10:30 am", note: "Choir, livestreamed" },
-      { day: "Sunday", time: "1:00 pm", note: "En español" },
-      { day: "Monday to Friday", time: "7:30 am", note: "" },
-      { day: "Holy days", time: "7:30 am and 7:00 pm", note: "" },
-    ],
-    confessions: [{ day: "Saturday", time: "3:30 to 4:30 pm", note: "" }, { day: "Wednesday", time: "6:00 to 7:00 pm", note: "" }],
-    devotions: [{ name: "Eucharistic Adoration", when: "Fridays, 8 am to 5 pm" }, { name: "Rosary", when: "Weekdays after the 7:30 am Mass" }],
-    timesNote: "This is an example parish. Replace these with your own times.",
-    address: "Springfield, Illinois", parking: "Free parking behind the church. The side door on Elm Street has a ramp and no steps.",
+    churches: [{
+      ...blankChurch(), address: "Springfield, Illinois", parking: "Free parking behind the church. The side door on Elm Street has a ramp and no steps.",
+      masses: [
+        { day: "Saturday vigil", time: "5:00 pm", note: "" },
+        { day: "Sunday", time: "8:00 am", note: "" },
+        { day: "Sunday", time: "10:30 am", note: "Choir, livestreamed" },
+        { day: "Sunday", time: "1:00 pm", note: "En español" },
+        { day: "Monday to Friday", time: "7:30 am", note: "" },
+        { day: "Holy days", time: "7:30 am and 7:00 pm", note: "" },
+      ],
+      confessions: [{ day: "Saturday", time: "3:30 to 4:30 pm", note: "" }, { day: "Wednesday", time: "6:00 to 7:00 pm", note: "" }],
+      devotions: [{ name: "Eucharistic Adoration", when: "Fridays, 8 am to 5 pm" }, { name: "Rosary", when: "Weekdays after the 7:30 am Mass" }],
+    }],
+    timesNote: EXAMPLE_NOTE,
     phone: "(217) 555-0142", email: "office@example.org", officeHours: "Monday to Friday, 9 am to 4 pm",
     staff: [{ name: "Fr. Thomas Reyes", role: "Pastor" }, { name: "Deacon Paul Kim", role: "Deacon" }, { name: "Maria Lopez", role: "Parish secretary" }, { name: "Anne Walsh", role: "Director of religious education" }],
+    ministries: [{ title: "Choir", text: "Sings at the 10:30 Sunday Mass. Rehearsals Thursdays at 7 pm. All voices welcome." }, { title: "Food pantry", text: "Open Saturdays 9 to 11 am in the parish hall. Volunteers always welcome." }],
     events: [
       { title: "Coffee and donuts", when: "Every Sunday after the 10:30", text: "In the parish hall. Newcomers especially welcome." },
       { title: "Parish picnic", when: "Sunday, June 14, after the 10:30 Mass", text: "Bring a dish to share. Games for the kids." },
     ],
   });
+  const exampleMany = () => ({
+    ...blank(),
+    name: "Holy Family Parish", city: "Springfield, Riverton and Millbrook",
+    welcome: "Three churches, one parish family. Wherever you live in the valley, there's a Mass near you, and a warm welcome at every one.",
+    churches: [
+      { ...blankChurch(), name: "St. Brigid Church", town: "Springfield", address: "Springfield, Illinois", parking: "Parking behind the church; ramp at the side door.",
+        masses: [{ day: "Saturday vigil", time: "5:00 pm", note: "" }, { day: "Sunday", time: "10:30 am", note: "Livestreamed" }, { day: "Tuesday", time: "8:00 am", note: "" }, { day: "Thursday", time: "8:00 am", note: "" }],
+        confessions: [{ day: "Saturday", time: "4:00 to 4:45 pm", note: "" }],
+        devotions: [{ name: "Eucharistic Adoration", when: "Thursdays, 8:30 am to 7 pm" }] },
+      { ...blankChurch(), name: "St. Joseph Church", town: "Riverton", address: "Riverton, Illinois", parking: "Street parking on Main Street.",
+        masses: [{ day: "Sunday", time: "8:30 am", note: "" }, { day: "Wednesday", time: "6:30 pm", note: "" }],
+        confessions: [{ day: "Wednesday", time: "5:45 to 6:15 pm", note: "" }], devotions: [] },
+      { ...blankChurch(), name: "Our Lady of the Valley", town: "Millbrook", address: "Millbrook, Illinois", showMap: true,
+        masses: [{ day: "Saturday vigil", time: "3:30 pm", note: "" }, { day: "Sunday", time: "12:30 pm", note: "En español" }, { day: "Friday", time: "9:00 am", note: "" }],
+        confessions: [{ day: "First Saturday", time: "2:30 to 3:15 pm", note: "" }],
+        devotions: [{ name: "Rosary", when: "Fridays after the 9 am Mass" }] },
+    ],
+    timesLayout: "day", timesNote: EXAMPLE_NOTE,
+    phone: "(217) 555-0188", email: "office@example.org", officeHours: "Monday to Thursday, 9 am to 3 pm, at St. Brigid",
+    staff: [{ name: "Fr. Michael Okafor", role: "Pastor" }, { name: "Deacon James Byrne", role: "Deacon" }, { name: "Linda Park", role: "Parish secretary" }],
+    aboutText: "Holy Family Parish brings together three churches that have served the valley for more than a century. St. Brigid was built by Irish farm families, St. Joseph by railroad workers, and Our Lady of the Valley by the newest families in the county.\n\nToday one pastor and one parish family share them all.",
+  });
+  const exampleNames = () => [example().name, exampleMany().name];
 
-  let data = load() || example();
-  let ready = false;
-
+  /* ---------- loading, cleaning and saving ---------- */
   // Photos are only ever images this page made itself; anything else in a saved or opened file is dropped.
-  function okImg(s) { return typeof s === "string" && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(s) ? s : ""; }
-  function clean(d) {
-    d.heroPhoto = okImg(d.heroPhoto);
-    d.gallery = (Array.isArray(d.gallery) ? d.gallery : []).map(okImg).filter(Boolean).slice(0, MAX_PHOTOS);
+  const okImg = s => typeof s === "string" && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(s) ? s : "";
+  const str = v => typeof v === "string" ? v : (typeof v === "number" ? String(v) : "");
+  const rows = (a, keys) => (Array.isArray(a) ? a : []).filter(x => x && typeof x === "object").map(x => Object.fromEntries(keys.map(k => [k, str(x[k])])));
+  const ROW_KEYS = { masses: ["day", "time", "note"], confessions: ["day", "time", "note"], devotions: ["name", "when"], staff: ["name", "role"], sacraments: ["title", "text"], ministries: ["title", "text"], events: ["title", "when", "text"] };
+
+  function cleanChurch(c) {
+    c = c && typeof c === "object" ? c : {};
+    return {
+      name: str(c.name), town: str(c.town), address: str(c.address), showMap: c.showMap !== false, parking: str(c.parking), photo: okImg(c.photo), note: str(c.note),
+      masses: rows(c.masses, ROW_KEYS.masses), confessions: rows(c.confessions, ROW_KEYS.confessions), devotions: rows(c.devotions, ROW_KEYS.devotions),
+    };
+  }
+  function cleanSections(list) {
+    const out = [], seen = new Set();
+    (Array.isArray(list) ? list : []).forEach(s => {
+      if (!s || typeof s !== "object") return;
+      const id = str(s.id);
+      if (SECTIONS[id] && !seen.has(id)) { seen.add(id); out.push({ id, on: s.on !== false }); }
+      else if (/^custom-[a-z0-9]{1,12}$/.test(id) && !seen.has(id)) { seen.add(id); out.push({ id, on: s.on !== false, title: str(s.title), text: str(s.text) }); }
+    });
+    Object.keys(SECTIONS).forEach(id => { if (!seen.has(id)) out.push({ id, on: true }); });
+    return out;
+  }
+  // Takes anything: details saved by the first Studio (one church, flat fields), the current format, or junk.
+  function migrate(raw) {
+    raw = raw && typeof raw === "object" ? raw : {};
+    const d = blank();
+    ["name", "city", "diocese", "welcome", "announcement", "announcementLink", "timesNote", "phone", "email", "officeHours", "bulletin", "giving", "livestream", "facebook", "instagram", "aboutTitle", "aboutText", "customColor", "headingFont"].forEach(k => { if (k in raw) d[k] = str(raw[k]); });
+    ["linkMass", "linkTree", "linkFinder", "credit"].forEach(k => { if (k in raw) d[k] = raw[k] !== false; });
+    d.colorPicked = raw.colorPicked === true || (!raw.v && !!raw.color && raw.color !== "sage");
+    if (TEMPLATES[raw.template]) d.template = raw.template;
+    if (COLORS.some(c => c.id === raw.color) || raw.color === "custom") d.color = raw.color;
+    else if (!raw.color) d.color = TEMPLATES[d.template].color;
+    if (!/^#[0-9a-f]{6}$/i.test(d.customColor)) d.customColor = "#6b4f3a";
+    if (!HEADING_CHOICES.includes(d.headingFont)) d.headingFont = "";
+    d.textSize = raw.textSize === "large" ? "large" : "standard";
+    d.timesLayout = raw.timesLayout === "day" ? "day" : "church";
+    d.heroPhoto = okImg(raw.heroPhoto);
+    d.gallery = (Array.isArray(raw.gallery) ? raw.gallery : []).map(okImg).filter(Boolean).slice(0, MAX_PHOTOS);
+    ["staff", "sacraments", "ministries", "events"].forEach(k => { if (k in raw) d[k] = rows(raw[k], ROW_KEYS[k]); });
+    if (Array.isArray(raw.churches) && raw.churches.length) d.churches = raw.churches.slice(0, MAX_CHURCHES).map(cleanChurch);
+    else if ("masses" in raw || "address" in raw || "confessions" in raw) {
+      // first Studio: the one church's details sat at the top level
+      d.churches = [cleanChurch({ address: raw.address, showMap: raw.showMap, parking: raw.parking, masses: raw.masses, confessions: raw.confessions, devotions: raw.devotions })];
+    }
+    d.sections = cleanSections(raw.sections);
     return d;
   }
   function load() {
-    try { const s = localStorage.getItem(STORE); return s ? clean({ ...blank(), ...JSON.parse(s) }) : null; } catch (e) { return null; }
+    try {
+      const s = localStorage.getItem(STORE) || localStorage.getItem(STORE_V1);
+      return s ? migrate(JSON.parse(s)) : null;
+    } catch (e) { return null; }
   }
+  let data = load() || example();
+
   let saveTimer;
   function save() {
     clearTimeout(saveTimer);
@@ -629,8 +812,10 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
       const note = document.getElementById("saved-note");
       try { localStorage.setItem(STORE, JSON.stringify(data)); note.textContent = "Saved on this device"; }
       catch (e) {
-        try { localStorage.setItem(STORE, JSON.stringify({ ...data, heroPhoto: "", gallery: [] })); note.textContent = "Saved (photos are too big to keep; use Save my details)"; }
-        catch (e2) { note.textContent = ""; }
+        try {
+          localStorage.setItem(STORE, JSON.stringify({ ...data, heroPhoto: "", gallery: [], churches: data.churches.map(c => ({ ...c, photo: "" })) }));
+          note.textContent = "Saved (photos are too big to keep; use Save my details)";
+        } catch (e2) { note.textContent = ""; }
       }
     }, 400);
   }
@@ -646,76 +831,259 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
   const ICON = {
     x: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>',
     plus: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>',
+    up: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M4 7l4-4 4 4"/></svg>',
+    down: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v10M4 9l4 4 4-4"/></svg>',
+    check: '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg>',
+    church: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v4M8 4h4M4 18v-7l6-5 6 5v7M8 18v-3a2 2 0 0 1 4 0v3M2 18h16"/></svg>',
+    chev: '<svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 8l5 5 5-5"/></svg>',
   };
+  const getPath = (o, p) => p.split(".").reduce((a, k) => (a == null ? a : a[k]), o);
+  function setPath(o, p, v) {
+    const ks = p.split("."); const last = ks.pop();
+    const t = ks.reduce((a, k) => (a == null ? a : a[k]), o);
+    if (t != null) t[last] = v;
+  }
 
-  /* ---------- form binding ---------- */
+  // Colors: a chosen accent, kept dark enough that light text on it stays readable.
+  const hex2rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const rgb2hex = a => "#" + a.map(x => Math.round(Math.max(0, Math.min(255, x))).toString(16).padStart(2, "0")).join("");
+  const lum = a => { const f = v => { v /= 255; return v <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; }; const [r, g, b] = a.map(f); return .2126 * r + .7152 * g + .0722 * b; };
+  function accentOf(d) {
+    if (d.color === "custom" && /^#[0-9a-f]{6}$/i.test(d.customColor)) {
+      let rgb = hex2rgb(d.customColor);
+      for (let i = 0; i < 30 && (1.05 / (lum(rgb) + .05)) < 4.6; i++) rgb = rgb.map(v => v * .9);
+      const pale = rgb.map(v => v * .14 + 255 * .86);
+      return { accent: rgb2hex(rgb), pale: rgb2hex(pale) };
+    }
+    const c = COLORS.find(x => x.id === d.color) || COLORS[0];
+    return { accent: c.accent, pale: c.pale };
+  }
+
+  /* ---------- form: simple fields ---------- */
   const form = document.getElementById("form");
-
+  const simpleFields = () => form.querySelectorAll("input[name], textarea[name], select[name]");
   function fillSimple() {
-    form.querySelectorAll("input[name], textarea[name]").forEach(el => {
+    simpleFields().forEach(el => {
       if (el.type === "checkbox") el.checked = !!data[el.name];
+      else if (el.type === "radio") el.checked = data[el.name] === el.value;
       else el.value = data[el.name] || "";
     });
   }
-  form.addEventListener("input", e => {
+  function onField(e) {
     const el = e.target;
-    if (el.name && !el.closest(".row")) {
+    if (el.dataset.p) {
+      const v = el.type === "checkbox" ? el.checked : el.value;
+      setPath(data, el.dataset.p, v);
+      const m = el.dataset.p.match(/^churches\.(\d+)\.(name|town|masses)/);
+      if (m) updateChurchSummary(+m[1]);
+      const sm = el.dataset.p.match(/^sections\.(\d+)\.on$/);
+      if (sm) el.closest(".sec-row").classList.toggle("off", !el.checked);
+      if (/^sections\.\d+\.title$/.test(el.dataset.p)) { const n = el.closest(".sec-row").querySelector(".sec-name"); if (n) n.textContent = el.value || "Your own section"; }
+      changed();
+    } else if (el.name && !el.closest("[data-photo-slot]")) {
       data[el.name] = el.type === "checkbox" ? el.checked : el.value;
+      if (el.name === "name") document.querySelectorAll(".church").forEach((x, i) => updateChurchSummary(i));
       changed();
     }
+  }
+  form.addEventListener("input", onField);
+  form.addEventListener("change", e => { if (e.target.type === "checkbox" || e.target.type === "radio" || e.target.tagName === "SELECT") onField(e); });
+
+  /* ---------- look: templates, colors, fonts ---------- */
+  const tplGrid = document.getElementById("tpl-grid");
+  tplGrid.innerHTML = Object.entries(TEMPLATES).map(([id, t]) => `<button type="button" class="tpl-card" data-tpl="${id}" aria-pressed="false"><span class="tpl-thumb"><iframe tabindex="-1" aria-hidden="true" title="" loading="eager"></iframe></span><span class="tn">${esc(t.name)}<i>${ICON.check}</i></span><span class="tb">${esc(t.blurb)}</span></button>`).join("");
+  function markTemplate() { tplGrid.querySelectorAll(".tpl-card").forEach(b => b.setAttribute("aria-pressed", b.dataset.tpl === data.template)); }
+  tplGrid.addEventListener("click", e => {
+    const b = e.target.closest("[data-tpl]"); if (!b) return;
+    data.template = b.dataset.tpl;
+    if (!data.colorPicked) data.color = TEMPLATES[data.template].color;
+    markTemplate(); renderSwatches(); renderHeadingFont(); changed();
   });
-  form.addEventListener("change", e => {
-    const el = e.target;
-    if (el.type === "checkbox" && el.name) { data[el.name] = el.checked; changed(); }
-  });
+  // Live thumbnails: each template drawn with the parish's own details, scaled down.
+  function thumbData(id) {
+    return { ...data, template: id, color: data.colorPicked ? data.color : TEMPLATES[id].color, gallery: [], churches: data.churches.map(c => ({ ...c, photo: "", showMap: false })), announcement: "" };
+  }
+  let thumbsDrawn = "";
+  function renderThumbs(force) {
+    if (!document.getElementById("step-look").open) return;
+    const key = JSON.stringify(thumbData("classic")).length + ":" + data.headingFont + data.textSize + data.color + data.customColor + data.colorPicked + (data.name || "") + (data.welcome || "").length;
+    if (!force && key === thumbsDrawn) return;
+    thumbsDrawn = key;
+    tplGrid.querySelectorAll(".tpl-card").forEach(b => { b.querySelector("iframe").srcdoc = buildSite(thumbData(b.dataset.tpl), true, true); });
+    fitThumbs();
+  }
+  function fitThumbs() {
+    tplGrid.querySelectorAll(".tpl-thumb").forEach(t => { t.firstElementChild.style.transform = `scale(${t.clientWidth / 1280})`; });
+  }
+  new ResizeObserver(fitThumbs).observe(tplGrid);
+  document.getElementById("step-look").addEventListener("toggle", () => renderThumbs(true));
+  let thumbTimer;
+  const queueThumbs = () => { clearTimeout(thumbTimer); thumbTimer = setTimeout(() => renderThumbs(false), 900); };
 
   function renderSwatches() {
     const box = document.getElementById("swatches");
-    box.innerHTML = COLORS.map(c => `<button type="button" class="swatch" data-color="${c.id}" aria-pressed="${data.color === c.id}"><i style="background:${c.accent}"></i>${c.name}</button>`).join("");
+    const own = TEMPLATES[data.template].color;
+    box.innerHTML = COLORS.map(c => `<button type="button" class="swatch" data-color="${c.id}" aria-pressed="${data.color === c.id}"><i style="background:${c.accent}"></i>${c.name}${c.id === own ? ' <span class="hint">(template)</span>' : ""}</button>`).join("") +
+      `<label class="swatch" aria-pressed="${data.color === "custom"}"><i class="${data.color === "custom" ? "" : "rainbow"}" style="${data.color === "custom" ? "background:" + esc(data.customColor) : ""}"></i>Your own<input type="color" value="${esc(data.customColor)}" aria-label="Pick your own color" data-custom-color></label>`;
   }
-  document.getElementById("swatches").addEventListener("click", e => {
-    const b = e.target.closest("[data-color]");
-    if (!b) return;
-    data.color = b.dataset.color; renderSwatches(); changed();
+  const sw = document.getElementById("swatches");
+  sw.addEventListener("click", e => {
+    const b = e.target.closest("[data-color]"); if (!b) return;
+    data.color = b.dataset.color; data.colorPicked = true; renderSwatches(); changed();
   });
+  sw.addEventListener("input", e => {
+    if (!e.target.matches("[data-custom-color]")) return;
+    e.stopPropagation();
+    data.customColor = e.target.value; data.color = "custom"; data.colorPicked = true;
+    const lab = e.target.closest(".swatch"); lab.setAttribute("aria-pressed", "true"); lab.querySelector("i").className = ""; lab.querySelector("i").style.background = e.target.value;
+    sw.querySelectorAll("[data-color]").forEach(x => x.setAttribute("aria-pressed", "false"));
+    changed();
+  });
+  function renderHeadingFont() {
+    const sel = document.getElementById("heading-font");
+    const own = TEMPLATES[data.template].head;
+    sel.innerHTML = `<option value="">The template's own (${esc(FONTS[own].name.toLowerCase())})</option>` + HEADING_CHOICES.filter(f => f !== own).map(f => `<option value="${f}">${esc(FONTS[f].name)}</option>`).join("");
+    sel.value = data.headingFont === own ? "" : data.headingFont;
+  }
 
-  function renderList(key) {
-    const box = form.querySelector(`[data-list="${key}"]`);
-    const spec = LISTS[key];
-    const rows = data[key] || [];
-    box.innerHTML = rows.map((r, i) => `
-      <div class="row" data-i="${i}">
+  /* ---------- lists (Masses, staff, events…) ---------- */
+  function listHTML(path, specKey) {
+    const spec = LISTS[specKey];
+    const arr = getPath(data, path) || [];
+    return arr.map((r, i) => `
+      <div class="row">
         <div class="row-grid">${spec.fields.map(f => {
           const cls = f.wide ? ' class="wide"' : "";
-          const aria = `aria-label="${esc(f.label)}"`;
-          if (f.type === "select") return `<select data-k="${f.k}" ${aria}${cls}>${f.options.map(o => `<option${o === r[f.k] ? " selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
-          if (f.type === "textarea") return `<textarea data-k="${f.k}" ${aria} placeholder="${esc(f.ph)}"${cls} style="min-height:72px">${esc(r[f.k])}</textarea>`;
-          return `<input type="text" data-k="${f.k}" ${aria} placeholder="${esc(f.ph)}" value="${esc(r[f.k])}"${cls}>`;
+          const attrs = `data-p="${path}.${i}.${f.k}" aria-label="${esc(f.label)}"`;
+          if (f.type === "select") {
+            const opts = f.options.includes(r[f.k]) || !r[f.k] ? f.options : [r[f.k], ...f.options];
+            return `<select ${attrs}${cls}>${opts.map(o => `<option${o === r[f.k] ? " selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
+          }
+          if (f.type === "textarea") return `<textarea ${attrs} placeholder="${esc(f.ph)}"${cls} style="min-height:72px">${esc(r[f.k])}</textarea>`;
+          return `<input type="text" ${attrs} placeholder="${esc(f.ph)}" value="${esc(r[f.k])}"${cls}>`;
         }).join("")}</div>
-        <button type="button" class="remove" aria-label="Remove">${ICON.x}</button>
-      </div>`).join("") + `<button type="button" class="add">${ICON.plus}${spec.add}</button>`;
+        <button type="button" class="remove" data-rm="${path}" data-i="${i}" aria-label="Remove">${ICON.x}</button>
+      </div>`).join("") + `<button type="button" class="add" data-add="${path}" data-spec="${specKey}">${ICON.plus}${spec.add}</button>`;
   }
-  form.querySelectorAll("[data-list]").forEach(box => {
-    const key = box.dataset.list;
-    box.addEventListener("input", e => {
-      const row = e.target.closest(".row"); if (!row) return;
-      data[key][+row.dataset.i][e.target.dataset.k] = e.target.value; changed();
-    });
-    box.addEventListener("change", e => {
-      const row = e.target.closest(".row"); if (!row || e.target.tagName !== "SELECT") return;
-      data[key][+row.dataset.i][e.target.dataset.k] = e.target.value; changed();
-    });
-    box.addEventListener("click", e => {
-      if (e.target.closest(".add")) {
-        const last = data[key][data[key].length - 1] || {};
-        const r = {}; LISTS[key].fields.forEach(f => r[f.k] = f.type === "select" ? (last[f.k] || f.options[1]) : "");
-        data[key].push(r); renderList(key); changed();
-        const rows = box.querySelectorAll(".row"); rows[rows.length - 1]?.querySelector("input,textarea")?.focus();
-      } else if (e.target.closest(".remove")) {
-        data[key].splice(+e.target.closest(".row").dataset.i, 1); renderList(key); changed();
-      }
-    });
+  function renderLists() {
+    form.querySelectorAll("[data-list]").forEach(box => { box.innerHTML = listHTML(box.dataset.list, box.dataset.spec); });
+  }
+
+  /* ---------- churches ---------- */
+  const openChurches = new Set([0]);
+  const churchTitle = (c, i) => c.name.trim() || (i === 0 ? (data.name.trim() || "Your church") : "New church");
+  const churchSub = c => {
+    const n = c.masses.filter(m => m.time.trim()).length;
+    return [c.town.trim(), n ? `${n} Mass${n === 1 ? "" : "es"} a week` : "No Mass times yet"].filter(Boolean).join(" · ");
+  };
+  function churchHTML(c, i, many) {
+    const p = `churches.${i}`;
+    return `<details class="church" data-ci="${i}"${openChurches.has(i) ? " open" : ""}>
+      <summary><span class="ch-n">${ICON.church}</span><span class="sum-text"><b>${esc(churchTitle(c, i))}</b><span>${esc(churchSub(c))}</span></span>${ICON.chev}</summary>
+      <div class="church-body">
+        <div class="two">
+          <label class="field"><span class="lt">Church name ${many ? "" : "<small>(only if it differs from the parish name)</small>"}</span><input type="text" data-p="${p}.name" value="${esc(c.name)}" placeholder="${many ? "St. Joseph Church" : "Same as the parish"}"></label>
+          <label class="field"><span class="lt">Town <small>(optional)</small></span><input type="text" data-p="${p}.town" value="${esc(c.town)}" placeholder="Riverton"></label>
+        </div>
+        <label class="field"><span class="lt">Street address <small style="display:block;margin-top:2px">Used for the map and directions.</small></span><input type="text" data-p="${p}.address" value="${esc(c.address)}" placeholder="215 Elm Street, Springfield, IL 62701"></label>
+        <label class="toggle"><input type="checkbox" data-p="${p}.showMap"${c.showMap ? " checked" : ""}><span><b>Show a map</b><span>A small Google map of this address, with a directions button.</span></span></label>
+        <div class="field"><b>Masses</b><div class="rows">${listHTML(p + ".masses", "masses")}</div></div>
+        <div class="field"><b>Confession</b><div class="rows">${listHTML(p + ".confessions", "confessions")}</div></div>
+        <div class="field"><b>Adoration and devotions <span class="hint">(optional)</span></b><div class="rows">${listHTML(p + ".devotions", "devotions")}</div></div>
+        <label class="field"><span class="lt">Note for this church <small>(optional)</small></span><input type="text" data-p="${p}.note" value="${esc(c.note)}" placeholder="Summer: no 8 am Mass in July and August"></label>
+        <label class="field"><span class="lt">Parking and access <small>(optional)</small></span><textarea data-p="${p}.parking" placeholder="Free parking behind the church. Step-free entrance on the side door.">${esc(c.parking)}</textarea></label>
+        ${many ? `<div class="field"><b>Photo of this church <span class="hint">(optional; shown on its card)</span></b><div data-photo-slot="${p}.photo"></div></div>` : ""}
+        ${many ? `<div class="church-foot"><button type="button" class="link-btn" data-rm-church="${i}">Remove this church</button></div>` : ""}
+      </div>
+    </details>`;
+  }
+  function renderChurches() {
+    const many = data.churches.length > 1;
+    document.getElementById("churches").innerHTML = data.churches.map((c, i) => churchHTML(c, i, many)).join("") +
+      (data.churches.length < MAX_CHURCHES ? `<button type="button" class="add" id="add-church">${ICON.plus}Add another church</button>` : "");
+    document.getElementById("layout-field").hidden = !many;
+    renderPhotoSlots();
+  }
+  function updateChurchSummary(i) {
+    const el = document.querySelector(`.church[data-ci="${i}"] .sum-text`); const c = data.churches[i];
+    if (!el || !c) return;
+    el.querySelector("b").textContent = churchTitle(c, i); el.querySelector("span").textContent = churchSub(c);
+  }
+  const churchBox = document.getElementById("churches");
+  churchBox.addEventListener("toggle", e => {
+    const d = e.target.closest(".church"); if (!d) return;
+    const i = +d.dataset.ci; d.open ? openChurches.add(i) : openChurches.delete(i);
+  }, true);
+
+  /* ---------- arrange sections ---------- */
+  function sectionLabel(s) { return s.title ? s.title : (SECTIONS[s.id] ? (s.id === "visit" && data.churches.length > 1 ? "Our churches (addresses and maps)" : SECTIONS[s.id].label) : "Your own section"); }
+  function renderSections() {
+    const box = document.getElementById("sections");
+    const n = data.sections.length;
+    box.innerHTML = data.sections.map((s, i) => {
+      const custom = !SECTIONS[s.id];
+      const empty = !custom && !sectionHasContent(s.id, data);
+      return `<div class="sec-row${s.on ? "" : " off"}">
+        <label class="sw"><input type="checkbox" data-p="sections.${i}.on"${s.on ? " checked" : ""} aria-label="Show ${esc(sectionLabel(s))}"><span></span></label>
+        <span class="sec-name">${custom ? esc(s.title || "Your own section") : esc(sectionLabel(s))}${empty ? "<small>Nothing filled in yet, so it's hidden</small>" : ""}</span>
+        <span class="sec-btns">
+          <button type="button" class="icon-btn" data-move="${i}" data-dir="-1" aria-label="Move up"${i === 0 ? " disabled" : ""}>${ICON.up}</button>
+          <button type="button" class="icon-btn" data-move="${i}" data-dir="1" aria-label="Move down"${i === n - 1 ? " disabled" : ""}>${ICON.down}</button>
+          ${custom ? `<button type="button" class="icon-btn" data-rm-section="${i}" aria-label="Remove this section">${ICON.x}</button>` : ""}
+        </span>
+        ${custom ? `<div class="sec-edit"><input type="text" data-p="sections.${i}.title" value="${esc(s.title)}" placeholder="Section heading, like Parish school" aria-label="Section heading"><textarea data-p="sections.${i}.text" placeholder="What you'd like to say. Leave a blank line between paragraphs." aria-label="Section text">${esc(s.text)}</textarea></div>` : ""}
+      </div>`;
+    }).join("");
+  }
+  document.getElementById("step-arrange").addEventListener("toggle", e => { if (e.target.open) renderSections(); });
+  document.getElementById("add-section").addEventListener("click", () => {
+    const id = "custom-" + Math.random().toString(36).slice(2, 9);
+    data.sections.push({ id, on: true, title: "", text: "" }); renderSections(); changed();
+    document.querySelector(`[data-p="sections.${data.sections.length - 1}.title"]`)?.focus();
   });
+
+  /* ---------- structural clicks: add, remove, move ---------- */
+  form.addEventListener("click", e => {
+    const t = e.target;
+    const add = t.closest("[data-add]");
+    if (add) {
+      const path = add.dataset.add, spec = LISTS[add.dataset.spec];
+      const arr = getPath(data, path); const last = arr[arr.length - 1] || {};
+      const r = {}; spec.fields.forEach(f => r[f.k] = f.type === "select" ? (last[f.k] || f.options[1]) : "");
+      arr.push(r); rerender(); changed();
+      document.querySelector(`[data-p^="${path}.${arr.length - 1}."]:not(select)`)?.focus();
+      return;
+    }
+    const rm = t.closest("[data-rm]");
+    if (rm) { getPath(data, rm.dataset.rm).splice(+rm.dataset.i, 1); rerender(); changed(); return; }
+    if (t.closest("#add-church")) {
+      const c = blankChurch(); c.confessions = [];
+      if (data.churches.length === 1 && !data.churches[0].name.trim()) data.churches[0].name = data.name.trim();
+      data.churches.push(c);
+      openChurches.clear(); openChurches.add(data.churches.length - 1);
+      renderChurches(); changed();
+      document.querySelector(`[data-p="churches.${data.churches.length - 1}.name"]`)?.focus();
+      return;
+    }
+    const rc = t.closest("[data-rm-church]");
+    if (rc) {
+      const i = +rc.dataset.rmChurch; const c = data.churches[i];
+      if (c.masses.some(m => m.time.trim()) && !confirm(`Remove ${churchTitle(c, i)} and its times?`)) return;
+      data.churches.splice(i, 1); openChurches.clear(); openChurches.add(0); renderChurches(); changed(); return;
+    }
+    const mv = t.closest("[data-move]");
+    if (mv) {
+      const i = +mv.dataset.move, j = i + +mv.dataset.dir;
+      if (j < 0 || j >= data.sections.length) return;
+      [data.sections[i], data.sections[j]] = [data.sections[j], data.sections[i]];
+      renderSections(); changed();
+      document.querySelectorAll(".sec-row")[j]?.querySelector(`[data-dir="${mv.dataset.dir}"]:not(:disabled)`)?.focus();
+      return;
+    }
+    const rs = t.closest("[data-rm-section]");
+    if (rs) { data.sections.splice(+rs.dataset.rmSection, 1); renderSections(); changed(); }
+  });
+  function rerender() { renderLists(); renderChurches(); }
 
   /* ---------- photos ---------- */
   function shrink(file, max) {
@@ -734,37 +1102,39 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
       img.src = url;
     });
   }
-  function photoPicker(boxId, multi) {
-    const box = document.getElementById(boxId);
-    const render = () => {
-      const pics = multi ? data.gallery : (data.heroPhoto ? [data.heroPhoto] : []);
+  function renderPhotoSlots() {
+    form.querySelectorAll("[data-photo-slot]").forEach(box => {
+      const path = box.dataset.photoSlot, multi = box.dataset.multi === "1";
+      const v = getPath(data, path);
+      const pics = multi ? v : (v ? [v] : []);
       const full = multi ? pics.length >= MAX_PHOTOS : pics.length >= 1;
-      box.innerHTML = (pics.length ? `<div class="thumbs" style="margin-bottom:8px">${pics.map((p, i) => `<div class="thumb"><img src="${esc(p)}" alt=""><button type="button" data-rm="${i}" aria-label="Remove photo">${ICON.x}</button></div>`).join("")}</div>` : "") +
+      box.innerHTML = (pics.length ? `<div class="thumbs">${pics.map((p, i) => `<div class="thumb"><img src="${esc(p)}" alt=""><button type="button" data-rmphoto="${i}" aria-label="Remove photo">${ICON.x}</button></div>`).join("")}</div>` : "") +
         (full ? "" : `<label class="photo-drop"><input type="file" accept="image/*"${multi ? " multiple" : ""}><b style="color:var(--ink);font-weight:600">${multi ? "Add photos" : "Choose a photo"}</b>Large photos are shrunk automatically.</label>`);
-    };
-    box.addEventListener("change", async e => {
-      if (e.target.type !== "file") return;
-      const files = [...e.target.files].slice(0, multi ? MAX_PHOTOS - data.gallery.length : 1);
-      for (const f of files) {
-        try {
-          const d = await shrink(f, multi ? 1200 : 1800);
-          if (multi) data.gallery.push(d); else data.heroPhoto = d;
-        } catch (err) { /* not an image we can read */ }
-      }
-      render(); changed();
     });
-    box.addEventListener("click", e => {
-      const b = e.target.closest("[data-rm]"); if (!b) return;
-      if (multi) data.gallery.splice(+b.dataset.rm, 1); else data.heroPhoto = "";
-      render(); changed();
-    });
-    return render;
   }
-  const renderHero = photoPicker("hero-photo", false);
-  const renderGallery = photoPicker("gallery-photos", true);
+  form.addEventListener("change", async e => {
+    if (e.target.type !== "file") return;
+    const box = e.target.closest("[data-photo-slot]"); if (!box) return;
+    const path = box.dataset.photoSlot, multi = box.dataset.multi === "1";
+    const files = [...e.target.files].slice(0, multi ? MAX_PHOTOS - getPath(data, path).length : 1);
+    for (const f of files) {
+      try {
+        const d = await shrink(f, multi ? 1200 : 1800);
+        if (multi) getPath(data, path).push(d); else setPath(data, path, d);
+      } catch (err) { /* not an image we can read */ }
+    }
+    renderPhotoSlots(); changed();
+  });
+  form.addEventListener("click", e => {
+    const b = e.target.closest("[data-rmphoto]"); if (!b) return;
+    const path = b.closest("[data-photo-slot]").dataset.photoSlot;
+    if (b.closest("[data-multi='1']")) getPath(data, path).splice(+b.dataset.rmphoto, 1); else setPath(data, path, "");
+    renderPhotoSlots(); changed();
+  });
 
-  // keep each label's words (and its small hint) together above the input
+  // keep each static label's words (and its small hint) together above the input
   form.querySelectorAll("label.field").forEach(l => {
+    if (l.querySelector(".lt")) return;
     const lt = document.createElement("span"); lt.className = "lt";
     while (l.firstChild && !/^(INPUT|TEXTAREA|SELECT)$/.test(l.firstChild.nodeName)) lt.appendChild(l.firstChild);
     l.prepend(lt);
@@ -773,7 +1143,7 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
   });
 
   function renderAll() {
-    fillSimple(); renderSwatches(); Object.keys(LISTS).forEach(renderList); renderHero(); renderGallery(); refresh();
+    fillSimple(); markTemplate(); renderSwatches(); renderHeadingFont(); renderLists(); renderChurches(); renderPhotoSlots(); renderSections(); refresh(); renderThumbs(true);
   }
 
   /* ---------- preview ---------- */
@@ -793,7 +1163,7 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
     f.onload = () => { try { f.contentWindow.scrollTo(0, y); } catch (e) {} };
     f.srcdoc = html;
   }
-  function changed() { save(); refresh(); }
+  function changed() { save(); refresh(); queueThumbs(); }
 
   document.querySelector(".seg").addEventListener("click", e => {
     const b = e.target.closest("[data-size]"); if (!b) return;
@@ -824,17 +1194,9 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
   // hide the floating phone bar once the reader is past the editor
   const mbar = document.getElementById("mbar");
   const band = document.getElementById("make");
-  const hero = document.querySelector(".hero");
-  const io = new IntersectionObserver(() => {
-    const r = band.getBoundingClientRect();
-    const inEditor = r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4;
-    mbar.classList.toggle("away", !inEditor);
-  }, { threshold: [0, 0.1, 0.5, 0.9, 1] });
-  io.observe(band); io.observe(hero);
-  window.addEventListener("scroll", () => {
-    const r = band.getBoundingClientRect();
-    mbar.classList.toggle("away", !(r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4));
-  }, { passive: true });
+  const placeBar = () => { const r = band.getBoundingClientRect(); mbar.classList.toggle("away", !(r.top < innerHeight * 0.6 && r.bottom > innerHeight * 0.4)); };
+  window.addEventListener("scroll", placeBar, { passive: true });
+  placeBar();
 
   /* ---------- buttons ---------- */
   function downloadFile(name, text, type) {
@@ -845,101 +1207,215 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
   }
   document.querySelectorAll("[data-download]").forEach(b => b.addEventListener("click", () => downloadFile("index.html", buildSite(data, false), "text/html")));
   const slug = () => (data.name || "parish").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "parish";
-  document.querySelectorAll("[data-save-details]").forEach(b => b.addEventListener("click", () => downloadFile(`${slug()}-details.json`, JSON.stringify({ parishStudio: 1, ...data }), "application/json")));
+  document.querySelectorAll("[data-save-details]").forEach(b => b.addEventListener("click", () => downloadFile(`${slug()}-details.json`, JSON.stringify({ parishStudio: 2, ...data }), "application/json")));
 
-  // "Open saved details" lives next to the other form tools
-  const openBtn = document.createElement("button");
-  openBtn.type = "button"; openBtn.className = "btn btn-quiet btn-small"; openBtn.textContent = "Open saved details";
-  document.getElementById("clear-all").after(openBtn);
   const fileIn = document.getElementById("open-details-file");
-  openBtn.addEventListener("click", () => fileIn.click());
+  document.getElementById("open-details").addEventListener("click", () => fileIn.click());
   fileIn.addEventListener("change", async () => {
     const f = fileIn.files[0]; if (!f) return;
     try {
       const d = JSON.parse(await f.text());
-      if (!d || typeof d !== "object") throw 0;
-      delete d.parishStudio; data = clean({ ...blank(), ...d }); renderAll(); save();
+      if (!d || typeof d !== "object" || Array.isArray(d)) throw 0;
+      data = migrate(d); openChurches.clear(); openChurches.add(0); renderAll(); save();
       document.getElementById("saved-note").textContent = "Details opened";
     } catch (e) { document.getElementById("saved-note").textContent = "That file couldn't be read"; }
     fileIn.value = "";
   });
-  document.getElementById("load-example").addEventListener("click", () => {
+  const keepLook = fresh => { LOOK_KEYS.forEach(k => fresh[k] = data[k]); return fresh; };
+  function hasWork() { return !!(data.name && !exampleNames().includes(data.name)) || !!data.heroPhoto || data.gallery.length > 0; }
+  document.querySelectorAll("[data-example]").forEach(b => b.addEventListener("click", () => {
     if (hasWork() && !confirm("Replace what you've typed with the example?")) return;
-    data = example(); renderAll(); save();
-  });
+    data = keepLook(b.dataset.example === "many" ? exampleMany() : example());
+    openChurches.clear(); openChurches.add(0); renderAll(); save();
+  }));
   document.getElementById("clear-all").addEventListener("click", () => {
     if (hasWork() && !confirm("Clear everything and start from blank?")) return;
-    data = blank(); renderAll(); save();
+    data = keepLook(blank()); openChurches.clear(); openChurches.add(0); renderAll(); save();
   });
   document.querySelectorAll("[data-start]").forEach(a => a.addEventListener("click", () => {
     const want = a.dataset.start;
-    if (want === "blank" && data.name === example().name) { data = blank(); renderAll(); save(); }
-    if (want === "example" && !data.name) { data = example(); renderAll(); save(); }
+    if (want === "blank" && exampleNames().includes(data.name)) { data = keepLook(blank()); renderAll(); save(); }
+    if (want === "example" && !data.name) { data = keepLook(example()); renderAll(); save(); }
   }));
-  function hasWork() { return !!(data.name && data.name !== example().name) || !!data.heroPhoto || data.gallery.length > 0; }
 
   /* ================================================================
      The parish site itself: one self-contained HTML file.
      ================================================================ */
+  function minutes(t) {
+    const m = String(t).toLowerCase().match(/(\d{1,2})(?::(\d{2}))?\s*(a\.?\s?m\.?|p\.?\s?m\.?|noon)?/);
+    if (!m) return 9999;
+    let h = +m[1]; const mi = +(m[2] || 0); const ap = m[3] || "";
+    if (ap.startsWith("p") && h < 12) h += 12;
+    if (ap.startsWith("a") && h === 12) h = 0;
+    if (!ap && h < 7) h += 12;
+    return h * 60 + mi;
+  }
+  const dayRank = d => { const i = DAYS.indexOf(d); return i < 0 ? 99 : i; };
   function groupTimes(rows) {
     const out = new Map();
     rows.filter(r => (r.time || "").trim()).forEach(r => {
       if (!out.has(r.day)) out.set(r.day, []);
       out.get(r.day).push(r);
     });
-    return [...out.entries()].sort((a, b) => DAYS.indexOf(a[0]) - DAYS.indexOf(b[0]));
+    return [...out.entries()].sort((a, b) => dayRank(a[0]) - dayRank(b[0])).map(([d, l]) => [d, l.slice().sort((a, b) => minutes(a.time) - minutes(b.time))]);
   }
+  const tRow = (day, list) => `<div class="t-row"><dt>${esc(day)}</dt><dd>${list.map(r => `<span>${esc(r.time)}${r.where ? ` <b class="where">${esc(r.where)}</b>` : ""}${r.note ? ` <em>${esc(r.note)}</em>` : ""}</span>`).join("")}</dd></div>`;
   function timesCard(title, rows) {
     const g = groupTimes(rows);
     if (!g.length) return "";
-    return `<div class="card times"><h3>${title}</h3><dl>${g.map(([day, list]) => `<div class="t-row"><dt>${esc(day)}</dt><dd>${list.map(r => `<span>${esc(r.time)}${r.note ? ` <em>${esc(r.note)}</em>` : ""}</span>`).join("")}</dd></div>`).join("")}</dl></div>`;
+    return `<div class="card times"><h3>${title}</h3><dl>${g.map(([day, list]) => tRow(day, list)).join("")}</dl></div>`;
+  }
+  const devRows = devs => devs.map(x => `<div class="t-row"><dt>${esc(x.name)}</dt><dd><span>${esc(x.when)}${x.where ? ` <b class="where">${esc(x.where)}</b>` : ""}</span></dd></div>`).join("");
+  const paras = t => String(t || "").trim().split(/\n\s*\n/).filter(Boolean).map(p => `<p>${esc(p.trim()).replace(/\n/g, "<br>")}</p>`).join("");
+  const NUM = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight"];
+
+  const churchHas = c => c.masses.some(m => m.time.trim()) || c.confessions.some(m => m.time.trim()) || c.devotions.some(x => x.name.trim()) || c.address.trim() || c.parking.trim() || c.name.trim();
+  function liveChurches(d) {
+    const list = (d.churches || []).filter(churchHas);
+    return list.length ? list : [];
+  }
+  function sectionHasContent(id, d) {
+    const ch = liveChurches(d);
+    switch (id) {
+      case "times": return ch.some(c => c.masses.some(m => m.time.trim()) || c.confessions.some(m => m.time.trim()) || c.devotions.some(x => x.name.trim()));
+      case "newcomers": return !!(d.linkMass || d.linkTree || d.linkFinder);
+      case "visit": return ch.some(c => c.address.trim() || c.parking.trim());
+      case "about": return !!(d.aboutText || "").trim();
+      case "sacraments": return (d.sacraments || []).some(s => s.title.trim());
+      case "ministries": return (d.ministries || []).some(s => s.title.trim());
+      case "events": return (d.events || []).some(s => s.title.trim());
+      case "photos": return (d.gallery || []).length > 0;
+      case "contact": return !!(d.phone || d.email || d.officeHours) || (d.staff || []).some(s => s.name.trim());
+    }
+    return false;
   }
 
-  function buildSite(d, preview) {
-    const c = COLORS.find(x => x.id === d.color) || COLORS[0];
+  function buildSite(d, preview, thumb) {
+    const T = TEMPLATES[d.template] || TEMPLATES.classic;
+    const tid = TEMPLATES[d.template] ? d.template : "classic";
+    const { accent, pale } = accentOf(d);
+    const hfKey = HEADING_CHOICES.includes(d.headingFont) ? d.headingFont : T.head;
+    const hf = FONTS[hfKey], bf = FONTS[T.body];
+    const big = d.textSize === "large";
     const name = (d.name || "").trim() || "Your parish";
     const city = (d.city || "").trim();
-    const masses = timesCard("Mass", d.masses || []);
-    const conf = timesCard("Confession", d.confessions || []);
-    const devs = (d.devotions || []).filter(x => x.name);
-    const devCard = devs.length ? `<div class="card times"><h3>Adoration and devotions</h3><dl>${devs.map(x => `<div class="t-row"><dt>${esc(x.name)}</dt><dd><span>${esc(x.when)}</span></dd></div>`).join("")}</dl></div>` : "";
-    const hasTimes = masses || conf || devCard;
-    const addr = (d.address || "").trim();
-    const mapQ = encodeURIComponent(addr);
-    const dirUrl = addr ? `https://www.google.com/maps/dir/?api=1&destination=${mapQ}` : "";
-    const staff = (d.staff || []).filter(s => s.name);
-    const sacr = (d.sacraments || []).filter(s => s.title);
-    const events = (d.events || []).filter(e => e.title);
-    const gallery = d.gallery || [];
-    const links = [
-      ["Bulletin", safeUrl(d.bulletin)], ["Give online", safeUrl(d.giving)], ["Watch Mass online", safeUrl(d.livestream)],
-    ].filter(l => l[1]);
+    const churches = liveChurches(d);
+    const multi = churches.length > 1;
+    const cName = c => c.name.trim() || name;
+    const cShort = c => c.town.trim() || c.name.trim() || name;
+    const dirUrl = c => c.address.trim() ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(c.address.trim())}` : "";
+    const firstDir = churches.length === 1 ? dirUrl(churches[0]) : "";
+
+    /* times */
+    let timesInner = "";
+    const allM = [], allC = [], allD = [];
+    churches.forEach(c => {
+      const where = multi ? cShort(c) : "";
+      c.masses.forEach(m => allM.push({ ...m, where }));
+      c.confessions.forEach(m => allC.push({ ...m, where }));
+      c.devotions.filter(x => x.name.trim()).forEach(x => allD.push({ ...x, where }));
+    });
+    const hasTimes = sectionHasContent("times", d);
+    if (hasTimes) {
+      if (!multi || d.timesLayout === "day") {
+        const devCard = allD.length ? `<div class="card times"><h3>Adoration and devotions</h3><dl>${devRows(allD)}</dl></div>` : "";
+        const notes = churches.filter(c => c.note.trim()).map(c => `<p class="note">${multi ? `<b>${esc(cShort(c))}:</b> ` : ""}${esc(c.note)}</p>`).join("");
+        timesInner = `<div class="grid">${timesCard("Mass", allM)}${timesCard("Confession", allC)}${devCard}</div>${notes}`;
+      } else {
+        timesInner = `<div class="grid ch-grid">${churches.map(c => {
+          const g = (title, rows) => { const x = groupTimes(rows); return x.length ? `<h4>${title}</h4><dl>${x.map(([day, l]) => tRow(day, l)).join("")}</dl>` : ""; };
+          const devs = c.devotions.filter(x => x.name.trim());
+          const body = g("Mass", c.masses) + g("Confession", c.confessions) + (devs.length ? `<h4>Adoration and devotions</h4><dl>${devRows(devs)}</dl>` : "");
+          if (!body) return "";
+          return `<div class="card times ch-times"><h3>${esc(cName(c))}</h3>${c.town.trim() && c.name.trim() ? `<p class="ch-town">${esc(c.town)}</p>` : ""}${body}${c.note.trim() ? `<p class="note">${esc(c.note)}</p>` : ""}</div>`;
+        }).join("")}</div>`;
+      }
+    }
+    const links = [["Bulletin", safeUrl(d.bulletin)], ["Give online", safeUrl(d.giving)], ["Watch Mass online", safeUrl(d.livestream)]].filter(l => l[1]);
     const social = [["Facebook", safeUrl(d.facebook)], ["Instagram", safeUrl(d.instagram)]].filter(l => l[1]);
+
+    /* this weekend strip */
+    const weekend = allM.filter(m => m.time.trim() && (m.day === "Saturday vigil" || m.day === "Sunday")).sort((a, b) => dayRank(a.day) - dayRank(b.day) || minutes(a.time) - minutes(b.time));
+    const strip = T.strip && weekend.length ? `<div class="wrap strip-wrap"><div class="strip"><span class="strip-t">Weekend Masses</span><ul>${weekend.map(m => `<li><b>${SHORT_DAY[m.day]} ${esc(m.time)}</b>${m.where ? `<span>${esc(m.where)}</span>` : ""}</li>`).join("")}</ul><a href="#times" target="_self">All times →</a></div></div>` : "";
+
+    /* sections */
+    const head = (eyebrow, title, sub) => `<div class="head">${eyebrow ? `<p class="eyebrow">${eyebrow}</p>` : ""}<h2>${title}</h2>${sub ? `<p>${sub}</p>` : ""}</div>`;
     const newcomer = [];
     if (d.linkMass) newcomer.push({ href: SITE + "/first-mass/", title: "Your First Mass", text: "Never been to Mass, or it's been a while? A gentle, step-by-step guide to what happens and what to do." });
     if (d.linkFinder) newcomer.push({ href: SITE + "/church-finder/", title: "Church Finder", text: "Away from home? Find Mass and confession times at Catholic churches wherever you are.", cta: "Find a church" });
     if (d.linkTree) newcomer.push({ href: SITE + "/", title: "Tree of Life", text: "Big questions about God, Jesus and the Church, answered honestly, one step at a time, with real sources." });
+    const visitCh = churches.filter(c => c.address.trim() || c.parking.trim());
+    const mapFrame = c => `<div class="map"><iframe title="Map to ${esc(cName(c))}" loading="lazy" src="https://maps.google.com/maps?q=${encodeURIComponent(c.address.trim())}&output=embed"></iframe></div>`;
+    const staff = (d.staff || []).filter(s => s.name.trim());
+    const sacr = (d.sacraments || []).filter(s => s.title.trim());
+    const mins = (d.ministries || []).filter(s => s.title.trim());
+    const events = (d.events || []).filter(e => e.title.trim());
+    const gallery = d.gallery || [];
+    const items = list => `<div class="list">${list.map(s => `<div class="item">${s.when ? `<span class="when">${esc(s.when)}</span>` : ""}<h3>${esc(s.title)}</h3>${s.text ? `<p>${esc(s.text)}</p>` : ""}</div>`).join("")}</div>`;
 
-    const nav = [
-      hasTimes && ["times", "Mass times"],
-      (addr || d.parking) && ["visit", "Visit"],
-      sacr.length && ["sacraments", "Sacraments"],
-      events.length && ["events", "Events"],
-      (d.phone || d.email || d.officeHours || staff.length) && ["contact", "Contact"],
-    ].filter(Boolean);
+    const BUILD = {
+      times: () => hasTimes && { nav: "Mass times", html: head("Join us", multi ? "Mass and confession times" : "Mass and confession times", multi && d.timesLayout === "day" ? `Times at all ${NUM[churches.length] || churches.length} of our churches, by day.` : "") + timesInner + (d.timesNote ? `<p class="note">${esc(d.timesNote)}</p>` : "") + (links.length ? `<div class="chips" style="margin-top:22px">${links.map(l => `<a class="btn btn-soft" href="${esc(l[1])}" target="_blank" rel="noopener">${l[0]}</a>`).join("")}</div>` : "") },
+      newcomers: () => newcomer.length && { html: `<div class="newcomer">${head("New here?", "You're welcome, just as you are", "Coming to Mass for the first time, or coming back after a long time? These free guides can help.")}<div class="nc-links">${newcomer.map(n => `<a class="nc" href="${n.href}" target="_blank" rel="noopener"><b>${n.title}</b><span>${n.text}</span><i>${n.cta || "Open the guide"} →</i></a>`).join("")}</div></div>` },
+      visit: () => visitCh.length && {
+        nav: multi ? "Our churches" : "Visit",
+        html: multi
+          ? head("Visit", "Our churches", `One parish, ${NUM[churches.length] || churches.length} churches. Come to whichever is closest.`) + `<div class="churches">${visitCh.map(c => `<div class="church-card">${c.photo ? `<img class="cc-photo" src="${esc(c.photo)}" alt="${esc(cName(c))}" loading="lazy">` : ""}<div class="cc-body"><h3>${esc(cName(c))}</h3>${c.address.trim() ? `<p class="addr">${esc(c.address)}</p>` : (c.town.trim() ? `<p class="addr">${esc(c.town)}</p>` : "")}${c.parking.trim() ? `<p class="muted">${esc(c.parking)}</p>` : ""}${dirUrl(c) ? `<div><a class="btn btn-soft" href="${esc(dirUrl(c))}" target="_blank" rel="noopener">Get directions</a></div>` : ""}</div>${c.address.trim() && c.showMap && !thumb ? mapFrame(c) : ""}</div>`).join("")}</div>`
+          : (() => { const c = visitCh[0]; return head("Visit", "Finding us") + `<div class="visit"><div class="visit-info">${c.address.trim() ? `<p class="addr">${esc(c.address)}</p>` : ""}${c.parking.trim() ? `<p class="muted">${esc(c.parking)}</p>` : ""}${dirUrl(c) ? `<div><a class="btn btn-main" href="${esc(dirUrl(c))}" target="_blank" rel="noopener">Get directions</a></div>` : ""}</div>${c.address.trim() && c.showMap && !thumb ? mapFrame(c) : ""}</div>`; })(),
+      },
+      about: () => (d.aboutText || "").trim() && { nav: "About", html: `<div class="about">${head("About us", esc((d.aboutTitle || "").trim() || "Our story"))}<div class="prose">${paras(d.aboutText)}</div></div>` },
+      sacraments: () => sacr.length && { nav: "Sacraments", html: head("Sacraments and parish life", "How can we help?") + items(sacr) },
+      ministries: () => mins.length && { nav: "Get involved", html: head("Get involved", "Groups and ministries") + items(mins) },
+      events: () => events.length && { nav: "Events", html: head("Coming up", "Events") + items(events) },
+      photos: () => gallery.length && { html: head("Parish life", "Photos") + `<div class="gallery">${gallery.map(g => `<img src="${esc(g)}" alt="" loading="lazy">`).join("")}</div>` },
+      contact: () => sectionHasContent("contact", d) && { nav: "Contact", html: head("Contact", "Get in touch") + `<div class="contact">${d.phone || d.email || d.officeHours || social.length ? `<div class="card c-lines">${d.phone ? `<div><small>Phone</small><a href="tel:${esc(d.phone.replace(/[^\d+]/g, ""))}" target="_self">${esc(d.phone)}</a></div>` : ""}${d.email ? `<div><small>Email</small><a href="mailto:${esc(d.email.trim())}" target="_self">${esc(d.email)}</a></div>` : ""}${d.officeHours ? `<div><small>Office hours</small><span>${esc(d.officeHours)}</span></div>` : ""}${social.length ? `<div class="chips">${social.map(s => `<a class="btn btn-soft" href="${esc(s[1])}" target="_blank" rel="noopener">${s[0]}</a>`).join("")}</div>` : ""}</div>` : ""}${staff.length ? `<div class="card"><h3>Parish staff</h3><ul class="staff">${staff.map(s => `<li><b>${esc(s.name)}</b><span>${esc(s.role)}</span></li>`).join("")}</ul></div>` : ""}</div>` },
+    };
+    const shown = [];
+    (d.sections || defaultSections()).forEach(s => {
+      if (!s.on) return;
+      if (BUILD[s.id]) { const r = BUILD[s.id](); if (r) shown.push({ id: s.id, ...r }); }
+      else if (!SECTIONS[s.id] && ((s.title || "").trim() || (s.text || "").trim())) {
+        shown.push({ id: s.id, nav: (s.title || "").trim().slice(0, 24), html: `<div class="about">${head("", esc((s.title || "").trim()))}<div class="prose">${paras(s.text)}</div></div>` });
+      }
+    });
+    const body = shown.map((s, i) => `<section id="${s.id}"${i % 2 === 0 ? ' class="band"' : ""}><div class="wrap">${s.html}</div></section>`).join("\n");
+    const nav = shown.filter(s => s.nav).slice(0, 6);
+    const navLinks = nav.map(n => `<a href="#${n.id}" target="_self">${esc(n.nav)}</a>`).join("");
 
+    /* hero */
+    const eyebrow = esc(city ? "Catholic Church · " + city : "Catholic Church");
+    const cta = `<div class="cta">${hasTimes ? '<a class="btn btn-main" href="#times" target="_self">Mass times</a>' : ""}${firstDir ? `<a class="btn btn-soft" href="${esc(firstDir)}" target="_blank" rel="noopener">Get directions</a>` : (multi && visitCh.length ? '<a class="btn btn-soft" href="#visit" target="_self">Our churches</a>' : "")}</div>`;
+    const heroText = `<p class="eyebrow">${eyebrow}</p><h1>${esc(name)}</h1>${d.welcome ? `<p class="welcome">${esc(d.welcome)}</p>` : ""}${cta}`;
+    const art = `<svg viewBox="0 0 400 300" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf3e2"/><stop offset="1" stop-color="var(--pale)"/></linearGradient></defs><rect width="400" height="300" rx="24" fill="url(#g)"/><circle cx="300" cy="78" r="46" fill="#f6e3b6" opacity=".7"/><path d="M0 250c70-26 130-30 200-18s140 6 200-14v82H0z" fill="var(--accent)" opacity=".12"/>${multi ? `<g fill="var(--accent)" opacity=".55"><path d="M40 262v-62l34-26 34 26v62z"/><rect x="71" y="140" width="6" height="36"/></g><g fill="var(--accent)" opacity=".7"><path d="M292 262v-62l34-26 34 26v62z"/><rect x="323" y="140" width="6" height="36"/></g>` : ""}<g fill="var(--accent)" opacity=".9"><path d="M140 262V164l60-46 60 46v98z"/><rect x="195" y="62" width="10" height="64"/><rect x="183" y="76" width="34" height="9" rx="2"/></g><path d="M186 262v-40a14 14 0 0 1 28 0v40z" fill="#fbf3e2"/><circle cx="200" cy="170" r="13" fill="#fbf3e2" opacity=".9"/><path d="M20 262h360" stroke="var(--accent)" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/></svg>`;
+    const photo = d.heroPhoto ? `<img src="${esc(d.heroPhoto)}" alt="${esc(name)}">` : "";
+    let hero;
+    if (T.hero === "photo") {
+      hero = `<div class="hero hero-photo${photo ? "" : " no-photo"}">${photo ? `<div class="hp-bg">${photo}</div>` : `<div class="hp-art" aria-hidden="true"><svg viewBox="0 0 600 300"><g fill="#fff" opacity=".08"><path d="M330 300V170l90-70 90 70v130z"/><rect x="412" y="20" width="16" height="96"/><rect x="392" y="44" width="56" height="13" rx="3"/></g></svg></div>`}<div class="wrap hp-text">${heroText}</div></div>`;
+    } else if (T.hero === "center") {
+      hero = `<div class="hero hero-center"><div class="wrap"><div class="hc-text">${heroText}</div>${photo ? `<div class="hc-photo">${photo}</div>` : ""}</div></div>`;
+    } else if (T.hero === "plain") {
+      hero = `<div class="hero hero-plain"><div class="wrap">${heroText}${photo ? `<div class="pl-photo">${photo}</div>` : ""}</div></div>`;
+    } else {
+      hero = `<div class="wrap hero hero-split"><div>${heroText}</div>${photo ? `<div class="hero-img">${photo}</div>` : `<div class="hero-art">${art}</div>`}</div>`;
+    }
+    const banner = (d.announcement || "").trim() ? `<div class="banner">${safeUrl(d.announcementLink) ? `<a href="${esc(safeUrl(d.announcementLink))}" target="_blank" rel="noopener">${esc(d.announcement)}</a>` : esc(d.announcement)}</div>` : "";
+
+    /* head */
     const desc = `${name}${city ? " in " + city : ""}: Mass and confession times, directions, and how to get in touch.${d.welcome ? " " + d.welcome : ""}`.slice(0, 300);
-
-    const ld = { "@context": "https://schema.org", "@type": "CatholicChurch", name };
-    if (addr) ld.address = addr;
-    if (d.phone) ld.telephone = d.phone;
-    if (d.email) ld.email = d.email;
-    const sameAs = social.map(s => s[1]); if (sameAs.length) ld.sameAs = sameAs;
+    const ldChurch = (c, top) => {
+      const o = { "@type": "CatholicChurch", name: top ? name : cName(c) };
+      if (c && c.address.trim()) o.address = c.address.trim();
+      if (d.phone) o.telephone = d.phone;
+      if (top && d.email) o.email = d.email;
+      return o;
+    };
+    let ld;
+    if (multi) ld = { "@context": "https://schema.org", "@graph": churches.map(c => ({ ...ldChurch(c), parentOrganization: { "@type": "Organization", name } })) };
+    else ld = { "@context": "https://schema.org", ...ldChurch(churches[0] || null, true) };
+    if (!multi) { const sameAs = social.map(s => s[1]); if (sameAs.length) ld.sameAs = sameAs; if (!churches[0]) delete ld.address; }
     const ldJson = JSON.stringify(ld).replace(/</g, "\\u003c");
-
-    const heroArt = d.heroPhoto
-      ? `<div class="hero-photo"><img src="${esc(d.heroPhoto)}" alt="${esc(name)}"></div>`
-      : `<div class="hero-art" aria-hidden="true"><svg viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf3e2"/><stop offset="1" stop-color="var(--pale)"/></linearGradient></defs><rect width="400" height="300" rx="24" fill="url(#g)"/><circle cx="300" cy="78" r="46" fill="#f6e3b6" opacity=".7"/><path d="M0 250c70-26 130-30 200-18s140 6 200-14v82H0z" fill="var(--accent)" opacity=".12"/><g fill="var(--accent)" opacity=".9"><path d="M140 262V164l60-46 60 46v98z"/><rect x="195" y="62" width="10" height="64"/><rect x="183" y="76" width="34" height="9" rx="2"/></g><path d="M186 262v-40a14 14 0 0 1 28 0v40z" fill="#fbf3e2"/><circle cx="200" cy="170" r="13" fill="#fbf3e2" opacity=".9"/><path d="M20 262h360" stroke="var(--accent)" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/></svg></div>`;
+    const fams = [...new Set([hf.g, bf.g])].map(g => "family=" + g).join("&");
+    // href first: the page publisher moves tags that start <link rel=… into the Studio's own head
+    const fontTags = `<link href="https://fonts.googleapis.com" rel="preconnect">\n<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>\n<link href="https://fonts.googleapis.com/css2?${fams}&display=swap" rel="stylesheet">`;
 
     return `<!doctype html>
 <html lang="en">
@@ -947,75 +1423,131 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(name)}${city ? " | Catholic Church in " + esc(city) : ""}</title>
+<meta content="${esc(desc)}" name="description">
 <meta property="og:title" content="${esc(name)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:type" content="website">
 ${preview ? '<base target="_blank">' : ""}
+${fontTags}
 <script type="application/ld+json">${ldJson}<\/script>
 <style>
-:root{--paper:#faf6ee;--panel:#f3ecdf;--card:#fffdf8;--ink:#2b2622;--muted:#6c6358;--line:#e5dccb;--gold:#a87f33;--accent:${c.accent};--pale:${c.pale};--shadow:0 20px 44px -28px rgba(80,58,30,.4);--serif:"Cormorant Garamond","Iowan Old Style",Georgia,serif;--sans:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+${siteCss(tid, accent, pale, hf, bf, big)}
+</style>
+</head>
+<body class="t-${tid}">
+${banner}
+<header class="top"><div class="wrap"><a class="brand" href="#top" target="_self">${esc(name)}</a>${navLinks ? `<nav class="links">${navLinks}</nav><details class="menu"><summary>Menu</summary><nav onclick="if(event.target.tagName==='A')this.parentNode.open=false">${navLinks}</nav></details>` : ""}</div></header>
+<main id="top">
+${hero}
+${strip}
+${body}
+</main>
+<footer><div class="wrap"><span>${esc(name)}${d.diocese ? " · " + esc(d.diocese) : ""}${!multi && churches[0] && churches[0].address.trim() ? " · " + esc(churches[0].address) : ""}</span>${d.credit ? `<span>Made free with <a href="${SITE}/parish-studio/" target="_blank" rel="noopener">Parish Website Studio</a></span>` : ""}</div></footer>
+</body>
+</html>
+`;
+  }
+
+  function siteCss(tid, accent, pale, hf, bf, big) {
+    const base = tid === "simple" ? (big ? 125 : 112.5) : (big ? 115 : 100);
+    return `:root{--paper:#faf6ee;--panel:#f3ecdf;--card:#fffdf8;--ink:#2b2622;--muted:#6c6358;--line:#e5dccb;--gold:#a87f33;--accent:${accent};--pale:${pale};--deep:color-mix(in srgb,var(--accent) 42%,#15110d);--on:#fbf8f1;--r:16px;--shadow:0 20px 44px -28px rgba(80,58,30,.4);--serif:${hf.css};--sans:${bf.css};--hw:${hf.w};--hs:${hf.scale}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;font-size:${base}%}
+body{margin:0;background:var(--paper);color:var(--ink);font:1.0625rem/1.62 var(--sans);-webkit-font-smoothing:antialiased}
+img{max-width:100%}
 a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}a:hover{text-decoration-thickness:2px}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
-h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.1;margin:0;text-wrap:balance}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:var(--hw);line-height:1.1;margin:0;text-wrap:balance}
 p{margin:0}
 .wrap{max-width:68rem;margin:0 auto;padding:0 20px}
+.banner{background:var(--deep);color:var(--on);text-align:center;padding:10px 20px;font-weight:600;font-size:.95rem;line-height:1.4}
+.banner a{color:inherit;text-decoration:underline}
 header.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
-.brand{font:600 1.2rem var(--serif);color:var(--ink);text-decoration:none;line-height:1.15;padding-block:8px}
+.brand{font:var(--hw) calc(1.25rem * var(--hs)) var(--serif);color:var(--ink);text-decoration:none;line-height:1.15;padding-block:8px}
 nav.links{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
-nav.links a{color:var(--muted);text-decoration:none;font-size:.95rem;padding:8px 10px;border-radius:999px}
-nav.links a:hover{color:var(--ink);background:var(--panel)}
-.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-block:56px 64px}
+nav.links a,.menu nav a{color:var(--muted);text-decoration:none;font-size:.95rem;padding:8px 12px;border-radius:999px}
+nav.links a:hover,.menu nav a:hover{color:var(--ink);background:var(--panel)}
+.menu{display:none;position:relative}
+.menu summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;padding:0 16px;border:1px solid var(--line);border-radius:999px;font-weight:600;font-size:.95rem;color:var(--ink)}
+.menu summary::-webkit-details-marker{display:none}
+.menu nav{position:absolute;right:0;top:calc(100% + 8px);display:grid;min-width:200px;padding:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.menu nav a{padding:12px 14px}
 .eyebrow{font:600 .78rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.hero h1{font-size:clamp(2.6rem,6vw,4.2rem);margin:12px 0 18px}
-.hero .welcome{font-size:1.15rem;color:var(--muted);max-width:32rem}
+.hero h1{font-size:calc(clamp(2.6rem,6vw,4.2rem) * var(--hs));margin:12px 0 18px}
+.hero .welcome{font-size:1.15rem;color:var(--muted);max-width:34rem}
 .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;font:600 1rem var(--sans);text-decoration:none;border:1px solid transparent;transition:transform .2s ease-out,background .2s}
-.btn-main{background:var(--accent);color:#fbf8f1;box-shadow:var(--shadow)}.btn-main:hover{transform:translateY(-1px)}
-.btn-soft{border-color:var(--line);color:var(--ink)}.btn-soft:hover{background:var(--panel)}
-.hero-photo img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:var(--shadow);display:block}
+.btn-main{background:var(--accent);color:var(--on);box-shadow:var(--shadow)}.btn-main:hover{transform:translateY(-1px)}
+.btn-soft{border-color:var(--line);color:var(--ink);background:color-mix(in srgb,var(--card) 60%,transparent)}.btn-soft:hover{background:var(--panel)}
+.hero-split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding-block:56px 64px}
+.hero-img img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:20px;box-shadow:var(--shadow);display:block}
 .hero-art svg{width:100%;height:auto;display:block}
+.hero-center{padding:56px 0 64px;text-align:center}
+.hc-text{max-width:44rem;margin:0 auto}.hc-text .welcome{margin:0 auto}.hc-text .cta{justify-content:center}
+.hc-photo{margin-top:44px}.hc-photo img{width:100%;max-height:480px;object-fit:cover;border-radius:12px;display:block;box-shadow:var(--shadow)}
+.hero-photo{position:relative;min-height:min(78vh,620px);display:flex;align-items:flex-end;color:#fbf6ec;background:var(--deep);overflow:hidden}
+.hero-photo.no-photo{min-height:420px;background:linear-gradient(135deg,var(--deep),color-mix(in srgb,var(--accent) 80%,#15110d))}
+.hp-bg,.hp-art{position:absolute;inset:0}.hp-bg img{width:100%;height:100%;object-fit:cover;display:block}
+.hp-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,12,9,.15) 0%,rgba(15,12,9,.35) 45%,rgba(15,12,9,.78) 100%)}
+.hp-art svg{position:absolute;right:0;bottom:0;height:100%;width:auto}
+.hp-text{position:relative;width:100%;padding-block:64px 72px}
+.hero-photo .eyebrow{color:#e9cf98}.hero-photo .welcome{color:rgba(251,246,236,.86)}.hero-photo h1{color:#fff}
+.hero-photo .btn-main{background:#f6efe2;color:#221c16}.hero-photo .btn-soft{color:#fff;border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.08)}.hero-photo .btn-soft:hover{background:rgba(255,255,255,.16)}
+.hero-plain{padding:40px 0 48px}.pl-photo{margin-top:32px}.pl-photo img{width:100%;border-radius:10px;display:block;max-height:420px;object-fit:cover}
+.strip-wrap{position:relative;z-index:2}
+.strip{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 22px;box-shadow:var(--shadow);margin-block:-28px 8px}
+.strip-t{font:600 .78rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.strip ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 22px;flex:1}
+.strip li{display:grid;line-height:1.3}.strip li b{font-weight:600}.strip li span{font-size:.88rem;color:var(--muted)}
+.strip a{font-weight:600;font-size:.95rem;text-decoration:none;white-space:nowrap}
 section{padding:64px 0}
 section.band{background:var(--panel)}
-.head{display:grid;gap:8px;margin-bottom:28px;max-width:40rem}
-.head h2{font-size:clamp(2rem,4vw,2.7rem)}
+.head{display:grid;gap:8px;margin-bottom:28px;max-width:42rem}
+.head h2{font-size:calc(clamp(2rem,4vw,2.7rem) * var(--hs))}
 .head p{color:var(--muted)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px;align-items:start}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
-.card h3{font-size:1.55rem;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.card h3{font-size:calc(1.55rem * var(--hs));margin-bottom:12px}
 .times dl{margin:0;display:grid;gap:12px}
 .t-row{display:grid;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--line)}.t-row:last-child{border-bottom:0;padding-bottom:0}
 .t-row dt{font-weight:600}
-.t-row dd{margin:0;display:grid;gap:2px;color:var(--ink)}
-.t-row em{font-style:normal;color:var(--muted);font-size:.92rem}
-.t-row em::before{content:"· "}
+.t-row dd{margin:0;display:grid;gap:3px}
+.t-row .where{font-weight:400;color:var(--accent)}.t-row .where::before{content:"· "}
+.t-row em{font-style:normal;color:var(--muted);font-size:.92rem}.t-row em::before{content:"· "}
+.ch-times h3{margin-bottom:2px}.ch-town{color:var(--muted);margin-bottom:6px}
+.ch-times h4{font:600 .76rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:16px 0 8px}
 .note{margin-top:18px;color:var(--muted);font-size:.95rem}
+.muted{color:var(--muted)}
 .visit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:28px;align-items:start}
-.visit .map{border-radius:16px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:var(--panel)}
-.visit .map iframe{border:0;width:100%;height:100%;display:block}
+.map{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:var(--panel)}
+.map iframe{border:0;width:100%;height:100%;display:block}
 .visit-info{display:grid;gap:16px}
-.addr{font-size:1.2rem}
-.newcomer{background:var(--pale);border-radius:20px;padding:36px;display:grid;gap:22px}
-.newcomer h2{font-size:clamp(1.9rem,3.6vw,2.5rem)}
+.addr{font-size:1.15rem}
+.churches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:20px;align-items:stretch}
+.church-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.cc-photo{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.cc-body{padding:22px;display:grid;gap:10px;align-content:start;flex:1}.cc-body h3{font-size:calc(1.5rem * var(--hs))}
+.church-card .map{border:0;border-top:1px solid var(--line);border-radius:0;aspect-ratio:16/10}
+.newcomer{background:var(--pale);border-radius:calc(var(--r) + 4px);padding:36px;display:grid;gap:22px}
+.newcomer .head{margin:0}
 .nc-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
-.nc{display:grid;gap:6px;padding:20px 22px;border-radius:14px;background:var(--card);text-decoration:none;color:var(--ink);transition:transform .2s ease-out,box-shadow .2s}
+.nc{display:grid;gap:6px;padding:20px 22px;border-radius:calc(var(--r) - 2px);background:var(--card);text-decoration:none;color:var(--ink);transition:transform .2s ease-out,box-shadow .2s}
 .nc:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-.nc b{font:500 1.4rem var(--serif);color:var(--accent)}
+.nc b{font:var(--hw) calc(1.4rem * var(--hs)) var(--serif);color:var(--accent)}
 .nc span{color:var(--muted);font-size:.96rem}
 .nc i{font-style:normal;font-weight:600;color:var(--accent);font-size:.93rem}
+.about{max-width:44rem}.prose{display:grid;gap:14px;font-size:1.08rem}
 .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
-.item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;display:grid;gap:6px;align-content:start}
-.item h3{font-size:1.4rem}
+.item{background:var(--card);border:1px solid var(--line);border-radius:calc(var(--r) - 2px);padding:20px 22px;display:grid;gap:6px;align-content:start}
+.item h3{font-size:calc(1.4rem * var(--hs))}
 .item .when{color:var(--gold);font-weight:600;font-size:.93rem}
 .item p{color:var(--muted)}
 .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
-.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block}
-.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--r) - 2px);display:block}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px;align-items:start}
 .c-lines{display:grid;gap:14px}
 .c-lines div{display:grid}
-.c-lines small{color:var(--muted);font-size:.88rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.c-lines small{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
 .c-lines a,.c-lines span{font-size:1.15rem}
 .staff{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .staff li{display:flex;justify-content:space-between;gap:16px;padding-bottom:10px;border-bottom:1px solid var(--line)}
@@ -1025,39 +1557,88 @@ section.band{background:var(--panel)}
 footer{padding:40px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:.92rem}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px}
 footer a{color:var(--muted)}
-@media (max-width:820px){.hero,.visit,.contact{grid-template-columns:1fr}.hero{padding-block:32px 48px;gap:32px}nav.links{display:none}section{padding:48px 0}.newcomer{padding:26px 22px}}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style>
-</head>
-<body>
-<header class="top"><div class="wrap"><a class="brand" href="#top" target="_self">${esc(name)}</a>${nav.length ? `<nav class="links">${nav.map(n => `<a href="#${n[0]}" target="_self">${n[1]}</a>`).join("")}</nav>` : ""}</div></header>
-<main id="top">
-<div class="wrap hero">
-  <div>
-    <p class="eyebrow">${esc(city ? "Catholic Church · " + city : "Catholic Church")}</p>
-    <h1>${esc(name)}</h1>
-    ${d.welcome ? `<p class="welcome">${esc(d.welcome)}</p>` : ""}
-    <div class="cta">${hasTimes ? '<a class="btn btn-main" href="#times" target="_self">Mass times</a>' : ""}${dirUrl ? `<a class="btn btn-soft" href="${esc(dirUrl)}" target="_blank" rel="noopener">Get directions</a>` : ""}</div>
-  </div>
-  ${heroArt}
-</div>
-${hasTimes ? `<section class="band" id="times"><div class="wrap"><div class="head"><p class="eyebrow">Join us</p><h2>Mass and confession times</h2></div><div class="grid">${masses}${conf}${devCard}</div>${d.timesNote ? `<p class="note">${esc(d.timesNote)}</p>` : ""}${links.length ? `<div class="chips" style="margin-top:22px">${links.map(l => `<a class="btn btn-soft" href="${esc(l[1])}" target="_blank" rel="noopener">${l[0]}</a>`).join("")}</div>` : ""}</div></section>` : ""}
-${newcomer.length ? `<section><div class="wrap"><div class="newcomer"><div class="head" style="margin:0"><p class="eyebrow">New here?</p><h2>You're welcome, just as you are</h2><p>Coming to Mass for the first time, or coming back after a long time? These free guides can help.</p></div><div class="nc-links">${newcomer.map(n => `<a class="nc" href="${n.href}" target="_blank" rel="noopener"><b>${n.title}</b><span>${n.text}</span><i>${n.cta || "Open the guide"} →</i></a>`).join("")}</div></div></div></section>` : ""}
-${addr || d.parking ? `<section id="visit"${newcomer.length ? ' style="padding-top:0"' : ""}><div class="wrap"><div class="head"><p class="eyebrow">Visit</p><h2>Finding us</h2></div><div class="visit"><div class="visit-info">${addr ? `<p class="addr">${esc(addr)}</p>` : ""}${d.parking ? `<p style="color:var(--muted)">${esc(d.parking)}</p>` : ""}${dirUrl ? `<div><a class="btn btn-main" href="${esc(dirUrl)}" target="_blank" rel="noopener">Get directions</a></div>` : ""}</div>${addr && d.showMap ? `<div class="map"><iframe title="Map to ${esc(name)}" loading="lazy" src="https://maps.google.com/maps?q=${mapQ}&output=embed"></iframe></div>` : ""}</div></div></section>` : ""}
-${sacr.length ? `<section class="band" id="sacraments"><div class="wrap"><div class="head"><p class="eyebrow">Sacraments and parish life</p><h2>How can we help?</h2></div><div class="list">${sacr.map(s => `<div class="item"><h3>${esc(s.title)}</h3>${s.text ? `<p>${esc(s.text)}</p>` : ""}</div>`).join("")}</div></div></section>` : ""}
-${events.length ? `<section id="events"><div class="wrap"><div class="head"><p class="eyebrow">Coming up</p><h2>Events</h2></div><div class="list">${events.map(e => `<div class="item">${e.when ? `<span class="when">${esc(e.when)}</span>` : ""}<h3>${esc(e.title)}</h3>${e.text ? `<p>${esc(e.text)}</p>` : ""}</div>`).join("")}</div></div></section>` : ""}
-${gallery.length ? `<section${events.length ? ' style="padding-top:0"' : ""}><div class="wrap"><div class="head"><p class="eyebrow">Parish life</p><h2>Photos</h2></div><div class="gallery">${gallery.map(g => `<img src="${esc(g)}" alt="" loading="lazy">`).join("")}</div></div></section>` : ""}
-${d.phone || d.email || d.officeHours || staff.length ? `<section class="band" id="contact"><div class="wrap"><div class="head"><p class="eyebrow">Contact</p><h2>Get in touch</h2></div><div class="contact"><div class="card c-lines">${d.phone ? `<div><small>Phone</small><a href="tel:${esc(d.phone.replace(/[^\d+]/g, ""))}" target="_self">${esc(d.phone)}</a></div>` : ""}${d.email ? `<div><small>Email</small><a href="mailto:${esc(d.email.trim())}" target="_self">${esc(d.email)}</a></div>` : ""}${d.officeHours ? `<div><small>Office hours</small><span>${esc(d.officeHours)}</span></div>` : ""}${social.length ? `<div class="chips">${social.map(s => `<a class="btn btn-soft" href="${esc(s[1])}" target="_blank" rel="noopener">${s[0]}</a>`).join("")}</div>` : ""}</div>${staff.length ? `<div class="card"><h3>Parish staff</h3><ul class="staff">${staff.map(s => `<li><b>${esc(s.name)}</b><span>${esc(s.role)}</span></li>`).join("")}</ul></div>` : ""}</div></div></section>` : ""}
-</main>
-<footer><div class="wrap"><span>${esc(name)}${d.diocese ? " · " + esc(d.diocese) : ""}${addr ? " · " + esc(addr) : ""}</span>${d.credit ? `<span>Made free with <a href="${SITE}/parish-studio/" target="_blank" rel="noopener">Parish Website Studio</a></span>` : ""}</div></footer>
-</body>
-</html>
-`;
+${TEMPLATE_CSS[tid] || ""}
+@media (max-width:820px){.hero-split,.visit{grid-template-columns:1fr}.hero-split{padding-block:32px 48px;gap:32px}nav.links{display:none}.menu{display:block}section{padding:48px 0}.newcomer{padding:26px 22px}.hp-text{padding-block:48px 56px}.hero-photo{min-height:min(72vh,520px)}.strip{margin-top:-20px;display:grid;gap:12px;padding:16px 18px}.strip ul{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}`;
   }
 
+  const TEMPLATE_CSS = {
+    classic: ``,
+    traditional: `
+.t-traditional{--r:6px;--paper:#fbf8f2;--panel:#f2ece1}
+.t-traditional header.top{position:static;background:var(--paper);border-bottom:0;backdrop-filter:none}
+.t-traditional header.top .wrap{flex-direction:column;justify-content:center;gap:10px;padding-top:24px}
+.t-traditional .brand{font-size:calc(1.7rem * var(--hs));text-align:center}
+.t-traditional .brand::before{content:"✝";display:block;font-size:.8em;color:var(--accent);margin-bottom:4px;font-family:var(--sans)}
+.t-traditional nav.links{justify-content:center;width:100%;border-block:1px solid var(--line);padding-block:4px}
+.t-traditional nav.links a{border-radius:4px;letter-spacing:.06em;text-transform:uppercase;font-size:.8rem;font-weight:600}
+.t-traditional .menu{margin-bottom:10px}
+.t-traditional .head{text-align:center;margin-inline:auto;justify-items:center}
+.t-traditional .head h2::after{content:"";display:block;width:64px;height:1px;background:var(--gold);margin:18px auto 0}
+.t-traditional .btn{border-radius:4px}
+.t-traditional .about{margin-inline:auto}
+.t-traditional .card,.t-traditional .item{box-shadow:none}
+.t-traditional .times h3,.t-traditional .item h3{text-align:center}
+.t-traditional .ch-times h4{text-align:center}
+.t-traditional .t-row,.t-traditional .note{text-align:center}`,
+    cathedral: `
+.t-cathedral{--r:8px}
+.t-cathedral header.top{background:var(--deep);border-bottom:1px solid rgba(255,255,255,.08)}
+.t-cathedral .brand{color:#f6efe2}
+.t-cathedral nav.links a{color:rgba(246,239,226,.78)}
+.t-cathedral nav.links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.t-cathedral .menu summary{color:#f6efe2;border-color:rgba(255,255,255,.3)}
+.t-cathedral .head h2{letter-spacing:-.01em}
+.t-cathedral .strip{border-top:3px solid var(--gold)}
+.t-cathedral .card h3,.t-cathedral .item h3{letter-spacing:-.01em}
+.t-cathedral .btn{border-radius:6px}`,
+    modern: `
+.t-modern{--r:14px;--paper:#f8f6f1;--card:#ffffff;--panel:color-mix(in srgb,var(--pale) 55%,#f8f6f1)}
+.t-modern h1,.t-modern h2,.t-modern h3{letter-spacing:-.025em;line-height:1.04}
+.t-modern .eyebrow,.t-modern .strip-t,.t-modern .ch-times h4{color:var(--accent);letter-spacing:.1em}
+.t-modern .card,.t-modern .item,.t-modern .church-card,.t-modern .strip{border-color:transparent;box-shadow:0 1px 2px rgba(40,30,20,.06),0 14px 34px -22px rgba(40,30,20,.3)}
+.t-modern .times h3{color:var(--accent)}
+.t-modern .btn{border-radius:12px}
+.t-modern .hero-art svg,.t-modern .hero-img img{border-radius:24px}
+.t-modern .item .when{color:var(--accent)}`,
+    friendly: `
+.t-friendly{--r:24px;--paper:#fbf6f0;--panel:color-mix(in srgb,var(--pale) 60%,#fbf6f0)}
+.t-friendly .eyebrow,.t-friendly .ch-times h4{color:var(--accent);letter-spacing:.08em}
+.t-friendly .card,.t-friendly .item,.t-friendly .church-card{border-color:transparent;box-shadow:0 18px 40px -30px rgba(90,50,20,.35)}
+.t-friendly .hero-img,.t-friendly .hero-art{position:relative;isolation:isolate}
+.t-friendly .hero-img::before,.t-friendly .hero-art::before{content:"";position:absolute;inset:22px -16px -16px 22px;background:var(--pale);border-radius:40px;z-index:-1}
+.t-friendly .hero-img img{border-radius:36px}
+.t-friendly .newcomer{background:var(--card);border:2px dashed color-mix(in srgb,var(--accent) 35%,transparent)}
+.t-friendly .nc{background:var(--pale)}
+.t-friendly .item .when{color:var(--accent)}
+.t-friendly h2{letter-spacing:-.01em}`,
+    simple: `
+.t-simple{--r:8px;--paper:#fdfbf7}
+.t-simple .wrap{max-width:46rem}
+.t-simple header.top{position:static;background:var(--paper);backdrop-filter:none}
+.t-simple header.top .wrap{flex-direction:column;align-items:flex-start;gap:4px;padding-block:18px}
+.t-simple nav.links{display:flex!important;justify-content:flex-start;gap:0 4px}
+.t-simple nav.links a{padding:6px 14px 6px 0;color:var(--accent);text-decoration:underline;border-radius:0}
+.t-simple nav.links a:hover{background:none}
+.t-simple .menu{display:none!important}
+.t-simple .grid,.t-simple .list,.t-simple .visit,.t-simple .contact,.t-simple .churches,.t-simple .nc-links{grid-template-columns:1fr!important}
+.t-simple section.band{background:transparent}
+.t-simple section{border-top:1px solid var(--line);padding:44px 0}
+.t-simple .card,.t-simple .item{background:transparent;border:0;padding:0;box-shadow:none}
+.t-simple .church-card{background:transparent}
+.t-simple .church-card .map{aspect-ratio:auto;height:240px}
+.t-simple .eyebrow,.t-simple .ch-times h4,.t-simple .strip-t{color:var(--muted)}
+.t-simple .hero h1{font-size:calc(clamp(2.2rem,5vw,3rem) * var(--hs))}
+.t-simple .head h2{font-size:calc(2rem * var(--hs))}
+.t-simple .newcomer{background:transparent;padding:0}
+.t-simple .nc{background:var(--panel)}
+.t-simple .btn{border-radius:8px}
+.t-simple .welcome{color:var(--ink)!important}`,
+  };
+
   renderAll();
-  ready = true;
 })();
+
 </script>
 </body>
 </html>
