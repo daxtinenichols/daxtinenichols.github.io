@@ -78,6 +78,9 @@ button, select { font: inherit; color: inherit; }
 .map svg { width: 100%; height: 100%; display: block; user-select: none; -webkit-user-select: none; }
 .trunk { fill: url(#trunk-grad); }
 .bark-light { fill: #fff; opacity: .16; }
+.bark-grain { fill: #5e4b39; opacity: .13; }
+.grass { fill: #a9c29a; opacity: .55; }
+.grass.g2 { fill: #c4d4b4; opacity: .7; }
 .canopy { fill: url(#canopy-grad); }
 .ring { fill: none; stroke: #dfe6d4; stroke-width: 1.2; stroke-dasharray: 2 7; stroke-linecap: round; }
 .frame { fill: none; stroke: #d8bf86; stroke-width: 2; opacity: .8; }
@@ -100,7 +103,12 @@ button, select { font: inherit; color: inherit; }
 .node.visited .leaf { fill: url(#leaf-grad); stroke: var(--leaf-deep); }
 .node.below .leaf { fill: #f1e6d2; stroke: #a8885f; }
 .node.below.visited .leaf { fill: url(#tip-grad); stroke: #7d6347; }
-.node .vein { fill: none; stroke: var(--leaf); stroke-width: 1; opacity: .7; stroke-linecap: round; }
+.node .vein { fill: none; stroke: var(--leaf); stroke-width: .9; opacity: .6; stroke-linecap: round; }
+.node .vein.tipline { stroke: #a8885f; opacity: .35; }
+.node.visited .vein.tipline { stroke: #f1e6d2; opacity: .5; }
+.node .shine { fill: #fffaf0; opacity: .55; pointer-events: none; }
+.node .leaf-shade { fill: var(--leaf); opacity: .1; pointer-events: none; }
+.node.visited .leaf-shade { fill: var(--leaf-deep); opacity: .25; }
 .node.visited .vein { stroke: var(--paper); opacity: .55; }
 .node.hover .leaf, .node.hover .bud { stroke-width: 2; }
 .node .bud { fill: var(--paper); stroke: var(--leaf); stroke-width: 1.2; stroke-dasharray: 2.5 2.5; }
@@ -512,12 +520,27 @@ el("circle", { class: "frame thin", r: OUTER + 10 }, canopyG);
 const soilW = Math.max(OUTER, (EXTENT.x1 - EXTENT.x0) / 2), soilD = EXTENT.y1 - GROUND;
 el("path", { class: "soil", d: `M${-soilW},${GROUND}C${-soilW * .6},${GROUND + soilD * 1.1} ${soilW * .6},${GROUND + soilD * 1.1} ${soilW},${GROUND}Z` }, groundG);
 el("ellipse", { class: "ground", cx: 0, cy: GROUND, rx: soilW * .82, ry: 34 }, groundG);
+{ // tufts of grass where the ground meets the light; the seed keeps them in the same places on every visit
+  let s = 11; const r = () => (s = (s * 16807) % 2147483647) / 2147483647, rx = soilW * .82;
+  for (let i = 0; i < 34; i++) {
+    const u = (i + .5) / 34 * 2 - 1, x = Math.sign(u) * Math.pow(Math.abs(u), 1.5) * rx * .92 + (r() - .5) * 50;
+    if (Math.abs(x) < 80) continue; // the trunk's own foot
+    const y = GROUND - 34 * Math.sqrt(Math.max(0, 1 - (x / rx) ** 2)) + 8, n = 4 + Math.floor(r() * 3), h = 34 + r() * 30;
+    for (let j = 0; j < n; j++) {
+      const lean = (j - (n - 1) / 2) * .26 + (r() - .5) * .25, L = h * (.55 + r() * .5), bx = x + (j - (n - 1) / 2) * 6, bw = 3.6 + r() * 1.6;
+      const tip = { x: bx + Math.sin(lean) * L, y: y - Math.cos(lean) * L }, mx = bx + Math.sin(lean) * L * .5;
+      el("path", { class: "grass" + (r() > .55 ? " g2" : ""), d: `M${(bx - bw).toFixed(1)},${y.toFixed(1)}Q${(mx - bw * .5).toFixed(1)},${(y - L * .5).toFixed(1)} ${tip.x.toFixed(1)},${tip.y.toFixed(1)}Q${(mx + bw * .6).toFixed(1)},${(y - L * .45).toFixed(1)} ${(bx + bw).toFixed(1)},${y.toFixed(1)}Z` }, groundG);
+    }
+  }
+}
 // the trunk rises from the roots into the heart of the crown
 // it flares where it meets the ground, as real trunks do
 const trunkPts = bez({ x: 0, y: GROUND + 20 }, { x: -18, y: GROUND * .62 }, { x: 16, y: GROUND * .3 }, { x: 0, y: 0 }, 40);
 // (drawn with the wood, so the crown's rings pass behind it)
 el("path", { class: "trunk", d: taper(trunkPts, 160, 34, t => Math.pow(1 - t, 2.4)) }, wood);
 el("path", { class: "bark-light", d: taper(trunkPts.slice(4, -3).map(p => ({ x: p.x - 8 - 18 * (p.y / GROUND), y: p.y })), 14, 3) }, wood);
+// fine grain in the bark, following the trunk's flare
+[[22, 30, .9], [-30, 44, .7], [6, 12, .5]].forEach(([dx, flare, w]) => el("path", { class: "bark-grain", d: taper(trunkPts.slice(3, -6).map(p => ({ x: p.x + dx * (.35 + .65 * p.y / GROUND) + flare * Math.pow(p.y / GROUND, 6), y: p.y })), 5 * w, 1.2) }, wood));
 
 // Branches fork like a real tree: a limb carries a whole family of questions outward, then
 // splits, and splits again, until a twig reaches each question. Thickness follows how much a
@@ -608,10 +631,18 @@ for (const n of NODES) {
     el("circle", { class: "glow", r: r + 12 }, sh);
     el("circle", { class: "hit", r: r + 8 }, sh);
     el("circle", { class: "fruit", r }, sh);
+    el("ellipse", { class: "shine", cx: -r * .34, cy: -r * .38, rx: r * .3, ry: r * .2, transform: `rotate(-35 ${(-r * .34).toFixed(1)} ${(-r * .38).toFixed(1)})` }, sh);
   } else {
     el("circle", { class: "hit", r: 20, cx: Math.cos(la) * 12, cy: Math.sin(la) * 12 }, sh);
-    el("path", { class: stub ? "bud" : "leaf", d: stub ? leafPath(16, 6) : low ? tipPath(24, 8) : leafPath(28, 9), transform: `rotate(${deg(la)})` }, sh);
-    if (!stub && !low) el("path", { class: "vein", d: "M3,0Q14,-1.5 24,0", transform: `rotate(${deg(la)})` }, sh);
+    // the leaf turns as a whole, from the point where it meets its twig
+    const lf = el("g", { transform: `rotate(${deg(la)})` }, sh);
+    el("path", { class: stub ? "bud" : "leaf", d: stub ? leafPath(16, 6) : low ? tipPath(24, 8) : leafPath(28, 9) }, lf);
+    // the far half of each leaf sits a shade deeper, as light falls across a real leaf
+    if (!stub && !low) el("path", { class: "leaf-shade", d: "M0,0C7,9 19.6,9 28,0Z" }, lf);
+    // a midrib from the stalk, with two pairs of fine side veins
+    if (!stub && !low) el("path", { class: "vein", d: "M0,0Q14,-1.5 25,0M9,-.5Q11.5,-3 13.5,-4.6M15.5,-.7Q17.5,-2.6 19.5,-3.6M11,.2Q13.5,2.6 15.5,4.2M17.5,0Q19.5,2 21,3" }, lf);
+    // a root tip has a faint growth line down its middle
+    else if (low && !stub) el("path", { class: "vein tipline", d: "M2,0Q12,-.8 19,0" }, lf);
   }
   // names live in their own layer above every leaf, so a leaf or glow never covers a name
   const lg = el("g", { class: g.getAttribute("class"), transform: g.getAttribute("transform") }, labelsG);
