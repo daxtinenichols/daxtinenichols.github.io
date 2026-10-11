@@ -129,6 +129,22 @@
     return d.toLocaleTimeString(undefined, m ? { hour: "numeric", minute: "2-digit" } : { hour: "numeric" }).replace(/\s?([AP])M/i, (_, x) => ` ${x.toLowerCase()}m`);
   }
 
+  // Every start of these items in the next eight days, as dates.
+  function upcoming(items, now = new Date()) {
+    const out = [];
+    for (const it of items) {
+      const nums = DAY_NUMS[it.day];
+      if (!nums || !/^\d\d:\d\d$/.test(it.time)) continue;
+      const [h, m] = it.time.split(":").map(Number);
+      for (let add = 0; add < 8; add++) {
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + add, h, m);
+        if (d > now && nums.includes(d.getDay())) out.push({ at: d, it });
+      }
+    }
+    return out.sort((a, b) => a.at - b.at);
+  }
+  const rowMasses = (r) => r._m || (r._m = r.mass ? parseOsmTimes(r.mass).items : []);
+
   function nextOf(items, now = new Date()) {
     let best = null;
     for (const it of items) {
@@ -185,8 +201,8 @@
     const idx = await loadIndex();
     if (!idx.tiles[key]) return [];
     if (!data.tiles.has(key)) {
-      data.tiles.set(key, getJSON(`data/t/${key}.json`).then((rows) => rows.map(([id, name, lat, lon, kind, city, flags, rite, mass]) =>
-        ({ id, name, lat, lon, kind, city, flags, rite, mass }))).catch(() => { data.tiles.delete(key); return []; }));
+      data.tiles.set(key, getJSON(`data/t/${key}.json`).then((rows) => rows.map(([id, name, lat, lon, kind, city, flags, rite, mass, langs]) =>
+        ({ id, name, lat, lon, kind, city, flags, rite, mass, langs: langs ? langs.split(",") : [] }))).catch(() => { data.tiles.delete(key); return []; }));
     }
     return data.tiles.get(key);
   }
@@ -317,7 +333,7 @@
     if (m.setRadius) { m.setRadius(on ? m._base + 3 : m._base); if (on) m.bringToFront(); }
     else m.getElement()?.classList.toggle("hot", on);
   }
-  const view = { here: null, label: "", filters: new Set(), rows: [], church: null };
+  const view = { here: null, label: "", filters: new Set(), rows: [], church: null, sort: "near", when: "", tod: "", lang: "" };
   function pinIcon(row, cls = "", small = false) {
     if (small) return L.divIcon({ className: `dot${row.flags & 1 ? " has-times" : ""}`, iconSize: [12, 12], iconAnchor: [6, 6] });
     return L.divIcon({
@@ -375,9 +391,22 @@
     if (view.filters.has("times")) inView = inView.filter((r) => r.flags & 1 || (updCache.get(r.id) || []).some((u) => u.kind === "mass"));
     if (view.filters.has("access")) inView = inView.filter((r) => r.flags & 2);
     if (view.filters.has("eastern")) inView = inView.filter((r) => r.rite);
+    if (view.filters.has("confession")) inView = inView.filter((r) => r.flags & 16);
+    if (view.filters.has("adoration")) inView = inView.filter((r) => r.flags & 32);
+    fillLangs(inView);
+    if (view.lang) inView = inView.filter((r) => r.langs.includes(view.lang));
+    const now = new Date();
+    if (view.when || view.tod) inView = inView.filter((r) => (r._ok = massFits(r, now)));
     for (const r of inView) r.d = km(ref, r);
     unitsAt = ref;
     inView.sort((a, b) => a.d - b.d);
+    if (view.sort === "next") {
+      // soonest Mass first among the nearest 200, so a far-off church never jumps the queue
+      const near = inView.slice(0, 200), rest = inView.slice(200);
+      for (const r of near) r._next = (view.when || view.tod ? r._ok : upcoming(rowMasses(r), now)[0]) || null;
+      near.sort((a, b) => (a._next ? a._next.at : Infinity) - (b._next ? b._next.at : Infinity) || a.d - b.d);
+      inView = near.concat(rest);
+    }
     view.rows = inView;
 
     // markers: only what is on screen
@@ -386,12 +415,12 @@
 
     const near = view.label ? `Churches near ${view.label}` : view.here && ref === view.here ? "Churches near you" : "Churches in this area";
     $("#list-title").textContent = near;
-    $("#list-sub").textContent = inView.length ? `${inView.length.toLocaleString()} on the map, nearest first` : "";
+    $("#list-sub").textContent = inView.length ? `${inView.length.toLocaleString()} on the map, ${view.sort === "next" ? "soonest Mass first" : "nearest first"}` : "";
     const top = inView.slice(0, 60);
     if (!top.length) {
       const idx = await loadIndex();
       const anyHere = keys.some((k) => idx.tiles[k]);
-      list.innerHTML = view.filters.size
+      list.innerHTML = view.filters.size || view.when || view.tod || view.lang
         ? `<li class="empty"><b>Nothing matches those filters here</b>Try turning a filter off, or zoom out a little.</li>`
         : anyHere ? `<li class="empty"><b>No churches on this part of the map</b>Zoom out a little to see the nearest ones.</li>`
         : `<li class="empty"><b>No churches listed here yet</b>We're adding more of the world as we go. Zoom out to see the nearest ones we have.</li>`;
@@ -414,11 +443,54 @@
     });
   }
 
+  // Does one of this church's Masses fall in the chosen day and time of day? Returns that Mass, or null.
+  const TOD = { morning: [0, 12 * 60], afternoon: [12 * 60, 17 * 60], evening: [17 * 60, 24 * 60] };
+  function massFits(r, now) {
+    const today = new Date(now); today.setHours(0, 0, 0, 0);
+    const dayOff = (d) => Math.round((new Date(d).setHours(0, 0, 0, 0) - today) / 864e5);
+    for (const u of upcoming(rowMasses(r), now)) {
+      const mins = u.at.getHours() * 60 + u.at.getMinutes();
+      if (view.tod && !(mins >= TOD[view.tod][0] && mins < TOD[view.tod][1])) continue;
+      const off = dayOff(u.at), wd = u.at.getDay();
+      if (view.when === "soon" && u.at - now > 3 * 36e5) continue;
+      if (view.when === "today" && off !== 0) continue;
+      if (view.when === "tomorrow" && off !== 1) continue;
+      if (view.when === "weekend" && !(wd === 0 || (wd === 6 && mins >= 14 * 60)) ) continue;
+      if (view.when === "weekend" && off > 6) continue;
+      return u;
+    }
+    return null;
+  }
+  // Language choices: what the churches on screen actually offer, most common first.
+  function fillLangs(rows) {
+    const sel = $("#f-lang");
+    if (!sel) return;
+    const n = new Map();
+    for (const r of rows) for (const l of r.langs) n.set(l, (n.get(l) || 0) + 1);
+    if (view.lang && !n.has(view.lang)) n.set(view.lang, 0);
+    const opts = [...n].sort((a, b) => b[1] - a[1] || langName(a[0]).localeCompare(langName(b[0])));
+    const sig = opts.map((o) => o[0]).join();
+    if (sel.dataset.sig === sig) return;
+    sel.dataset.sig = sig;
+    sel.innerHTML = `<option value="">Any language</option>` + opts.map(([l]) => `<option value="${esc(l)}"${l === view.lang ? " selected" : ""}>${esc(langName(l))}</option>`).join("");
+    sel.closest(".fsel").hidden = !opts.length;
+  }
+  const whenLabel = (u) => {
+    const n = new Date(), days = Math.round((new Date(u.at).setHours(0, 0, 0, 0) - new Date(n).setHours(0, 0, 0, 0)) / 864e5);
+    return `${days === 0 ? "today" : days === 1 ? "tomorrow" : FULL[u.at.getDay()]} at ${fmtTime(u.it.time)}`;
+  };
+
   function itemHTML(r) {
-    const next = r.mass ? nextOf(parseOsmTimes(r.mass).items) : "";
+    const fit = (view.when || view.tod) && r._ok;
+    const next = fit ? "" : r.mass ? nextOf(rowMasses(r)) : "";
     const tags = [];
-    if (next) tags.push(`<span class="tag next">Next Mass ${esc(next.replace(/^(Today|Tomorrow)/, (x) => x.toLowerCase()))}</span>`);
+    if (fit) tags.push(`<span class="tag next">Mass ${esc(whenLabel(fit))}</span>`);
+    else if (next) tags.push(`<span class="tag next">Next Mass ${esc(next.replace(/^(Today|Tomorrow)/, (x) => x.toLowerCase()))}</span>`);
     else if (r.mass) tags.push(`<span class="tag">Mass times listed</span>`);
+    if (r.flags & 16) tags.push(`<span class="tag">Confession times</span>`);
+    if (r.flags & 32) tags.push(`<span class="tag">Adoration</span>`);
+    for (const l of (view.lang ? [view.lang] : r.langs.filter((l) => l !== "la")).slice(0, 2)) tags.push(`<span class="tag lang">${esc(langName(l))}</span>`);
+    if (r.langs.includes("la") && view.lang !== "la") tags.push(`<span class="tag lang">Latin Mass</span>`);
     if (r.kind !== "church") tags.push(`<span class="tag">${esc(KIND[r.kind] || r.kind)}</span>`);
     if (r.rite) tags.push(`<span class="tag rite">${esc(r.rite)}</span>`);
     if (r.flags & 2) tags.push(`<span class="tag">Wheelchair access</span>`);
@@ -468,7 +540,7 @@
     unitsAt = c;
     const near = (await churchesAround(c.lat, c.lon, 1)).filter((r) => r.id !== c.id).map((r) => ({ ...r, d: km(c, r) })).sort((a, b) => a.d - b.d).slice(0, 5);
     const ul = $("#nearby");
-    if (ul) ul.innerHTML = near.map((r) => `<li><a href="${churchURL(r.id, r.flags)}" data-go><b>${esc(r.name)}</b><span>${fmtDist(r.d)}</span></a></li>`).join("") || "<li class='muted'>None listed nearby yet.</li>";
+    if (ul) ul.innerHTML = near.map((r) => { const n = r.mass ? nextOf(rowMasses(r)) : ""; return `<li><a href="${churchURL(r.id, r.flags)}" data-go><b>${esc(r.name)}${n ? `<small>Next Mass ${esc(n.replace(/^(Today|Tomorrow)/, (x) => x.toLowerCase()))}</small>` : ""}</b><span>${fmtDist(r.d)}</span></a></li>`; }).join("") || "<li class='muted'>None listed nearby yet.</li>";
     const mm = $("#mini-map");
     if (mm && getComputedStyle(mm).display !== "none") {
       if (miniMap) miniMap.remove();
@@ -477,6 +549,26 @@
       baseLayer(miniMap);
       L.marker([c.lat, c.lon], { icon: pinIcon({ flags: c.mass ? 1 : 0 }, " sel"), interactive: false }).addTo(miniMap);
     }
+  }
+
+  // The next Mass as a calendar file, so it can sit in the visitor's own calendar with the address.
+  function saveICS(c) {
+    const items = c.times ? c.times.mass || [] : parseOsmTimes(c.mass).items;
+    const u = upcoming(items)[0];
+    if (!u) return;
+    const pad = (n) => String(n).padStart(2, "0");
+    const stamp = (d) => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+    const end = new Date(u.at.getTime() + 60 * 6e4);
+    const txt = (s) => String(s || "").replace(/[\\;,]/g, (x) => "\\" + x).replace(/\n/g, " ");
+    const body = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Church Finder//EN", "BEGIN:VEVENT",
+      `UID:${c.id}-${stamp(u.at)}@church-finder`, `DTSTAMP:${stamp(new Date())}`, `DTSTART:${stamp(u.at)}`, `DTEND:${stamp(end)}`,
+      `SUMMARY:${txt("Mass at " + c.name)}`, `LOCATION:${txt(fullAddress(c) || c.name)}`,
+      `DESCRIPTION:${txt("Times can change, so check with the parish. " + location.href)}`, "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([body], { type: "text/calendar" }));
+    a.download = "mass.ics";
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
   }
 
   function render(el, c, ups) {
@@ -497,7 +589,8 @@
     const facts = [];
     if (c.rite) facts.push([ICON.info, `<b>An Eastern Catholic church.</b> It belongs to the ${esc(c.rite)} Church, in full communion with the Pope. Any Catholic may attend and receive Communion here; the liturgy will look and sound different from a Roman Mass.`]);
     if (c.wheelchair) facts.push([ICON.access, { yes: "Wheelchair accessible", limited: "Partly wheelchair accessible", no: "Not wheelchair accessible, according to OpenStreetMap" }[c.wheelchair] || `Wheelchair access: ${esc(c.wheelchair)}`]);
-    if (c.langs?.length) facts.push([ICON.lang, `Services in ${esc(c.langs.map(langName).join(", "))}`]);
+    const langs = [...new Set([...(c.langs || []), ...(c.tlangs || [])])];
+    if (langs.length) facts.push([ICON.lang, `Services in ${esc(langs.map(langName).join(", "))}`]);
     if (c.open) facts.push([ICON.clock, `Open for prayer: <span class="muted">${esc(c.open)}</span>`]);
     if (c.parish || c.pastor) facts.push([ICON.mitre, [c.parish ? `Part of <b>${esc(c.parish)}</b>` : "", c.pastor ? `Pastor: <b>${esc(c.pastor)}</b>` : ""].filter(Boolean).join(". ") + (c.src ? ` <span class="by">from ${esc(c.src.n)}</span>` : "")]);
     if (c.linked?.length) facts.push([ICON.info, `<b>${c.linked.length === 1 ? "Its sister church" : "Its sister churches"}</b>, same parish and priest:<ul class="linked">${c.linked.map((l) => `<li><a href="${churchURL(l.id, l.page ? 8 : 0)}" data-go>${esc(l.name)}</a>${l.town ? ` <span class="muted">${esc(l.town)}</span>` : ""}</li>`).join("")}</ul>`]);
@@ -531,7 +624,7 @@
       <section class="block" aria-labelledby="h-mass">
         <h2 id="h-mass">Mass times</h2>
         ${masses.length ? `
-          ${next ? `<p class="next-mass">Next Mass: ${esc(next)}</p>` : ""}
+          ${next ? `<p class="next-mass">Next Mass: ${esc(next)} <a class="cal" href="#" data-ics>Add to calendar</a></p>` : ""}
           ${scheduleTable(masses)}
           ${!osm.ok ? `<p class="muted" style="margin-top:14px">As written on OpenStreetMap:</p><p class="raw-times">${esc(c.mass)}</p>` : ""}
           ${fromSrc}
@@ -548,6 +641,7 @@
 
       <section class="block" aria-labelledby="h-conf">
         <h2 id="h-conf">Confession</h2>
+        ${confessions.length && nextOf(confessions) ? `<p class="next-mass soft">Next confession: ${esc(nextOf(confessions))}</p>` : ""}
         ${confessions.length ? scheduleTable(confessions) + (off?.confession?.length ? fromSrc : "") : `<p class="muted">Times not listed yet. Many parishes hear confessions on Saturday afternoons or by appointment, so the parish office can tell you.</p>`}
         <div class="help-row"><button class="btn soft small" type="button" data-add="confession">${ICON.plus} ${confessions.length ? "Add a time" : "Add confession times"}</button></div>
       </section>
@@ -587,7 +681,7 @@
       </section>`;
   }
 
-  const LANGS = { en: "English", es: "Spanish", pl: "Polish", it: "Italian", fr: "French", de: "German", pt: "Portuguese", vi: "Vietnamese", ko: "Korean", tl: "Tagalog", la: "Latin", uk: "Ukrainian", zh: "Chinese", ar: "Arabic", ht: "Haitian Creole", ga: "Irish", lt: "Lithuanian", sk: "Slovak", hu: "Hungarian", hr: "Croatian", cs: "Czech", sl: "Slovenian", ml: "Malayalam", ja: "Japanese", ru: "Russian", sw: "Swahili", igb: "Igbo", ig: "Igbo", asl: "American Sign Language", sgn: "Sign language" };
+  const LANGS = { en: "English", es: "Spanish", pl: "Polish", it: "Italian", fr: "French", de: "German", pt: "Portuguese", vi: "Vietnamese", ko: "Korean", tl: "Tagalog", la: "Latin", uk: "Ukrainian", zh: "Chinese", ar: "Arabic", ht: "Haitian Creole", ga: "Irish", lt: "Lithuanian", sk: "Slovak", hu: "Hungarian", hr: "Croatian", cs: "Czech", sl: "Slovenian", ml: "Malayalam", ja: "Japanese", ru: "Russian", sw: "Swahili", igb: "Igbo", ig: "Igbo", asl: "American Sign Language", sgn: "Sign language", hmn: "Hmong", ti: "Tigrinya", id: "Indonesian", sm: "Samoan", to: "Tongan", ch: "Chamorro" };
   const langName = (code) => LANGS[code] || code;
 
   // Wikidata and Wikipedia are read live in the visitor's browser, so every church linked there gets its
@@ -904,6 +998,8 @@
   data.tiles.set = function (k, p) { p.then((rows) => { p.rows = rows; p.done = true; }); return Map.prototype.set.call(this, k, p); };
 
   document.addEventListener("click", (e) => {
+    const ics = e.target.closest("a[data-ics]");
+    if (ics && view.church) { e.preventDefault(); return saveICS(view.church); }
     const a = e.target.closest("a[data-go], a[data-home]");
     if (a && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0) {
       e.preventDefault();
@@ -928,6 +1024,10 @@
       refreshList();
     }
   });
+  for (const [sel, key] of [["#f-when", "when"], ["#f-tod", "tod"], ["#f-lang", "lang"], ["#f-sort", "sort"]]) {
+    const el = $(sel);
+    if (el) el.addEventListener("change", () => { view[key] = el.value || (key === "sort" ? "near" : ""); el.classList.toggle("on", !!el.value && el.value !== "near"); refreshList(); });
+  }
   $("#sheet-backdrop").addEventListener("click", closeSheet);
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet(); });
   // list hover lights up the marker

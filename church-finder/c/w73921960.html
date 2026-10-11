@@ -54,13 +54,21 @@
           <div class="filters" role="group" aria-label="Filters">
             <button class="chip" type="button" aria-pressed="false" data-filter="times">Mass times listed</button>
             <button class="chip" type="button" aria-pressed="false" data-filter="access">Wheelchair access</button>
+            <button class="chip" type="button" aria-pressed="false" data-filter="confession">Confession times</button>
+            <button class="chip" type="button" aria-pressed="false" data-filter="adoration">Adoration</button>
             <button class="chip" type="button" aria-pressed="false" data-filter="eastern">Eastern Catholic</button>
+          </div>
+          <div class="filters selects">
+            <label class="fsel"><span class="sr">Sort</span><select id="f-sort"><option value="near">Nearest first</option><option value="next">Soonest Mass first</option></select></label>
+            <label class="fsel"><span class="sr">Mass day</span><select id="f-when"><option value="">Any day</option><option value="soon">Starting in the next 3 hours</option><option value="today">Later today</option><option value="tomorrow">Tomorrow</option><option value="weekend">This weekend</option></select></label>
+            <label class="fsel"><span class="sr">Time of day</span><select id="f-tod"><option value="">Any time</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening (after 5 pm)</option></select></label>
+            <label class="fsel" hidden><span class="sr">Language</span><select id="f-lang"><option value="">Any language</option></select></label>
           </div>
         </div>
         <ol class="list" id="list"></ol>
         <p class="list-more" id="list-more" hidden></p>
       </div>
-      <article class="church" id="church" data-static="w73921960"><p class="kind">Parish church · Roman Catholic</p><h1>Saint Mary Church</h1><p class="addr">2853 Erie Avenue, Cincinnati, OH 45208</p><section class="block"><h2>Mass times</h2><p class="raw-times">Tu,Th 07:30-08:30; We,Fr,Sa 09:00-10:00; Sa 16:00-17:00; Su 08:00-09:00,09:30-10:30,11:30-12:30</p></section><p>Phone: <a href="tel:+1-513-321-1207">+1-513-321-1207</a></p><p>Website: <a href="https://smchp.com/">https://smchp.com/</a></p></article>
+      <article class="church" id="church" data-static="w73921960"><p class="kind">Parish church · Roman Catholic</p><h1>Saint Mary Church</h1><p class="addr">2853 Erie Avenue, Cincinnati, OH 45208</p><section class="block"><h2>Mass times</h2><ul><li><b>Saturday vigil:</b> 4 pm</li><li><b>Sunday:</b> 8:30 am, 10:30 am</li><li><b>Monday:</b> 5:30 pm</li><li><b>Tuesday:</b> 5:30 pm</li><li><b>Wednesday:</b> 5:30 pm</li><li><b>Thursday:</b> 5:30 pm</li></ul><h2>Confession</h2><ul><li><b>Sunday:</b> 7:30 am (until 8:00 am), 9:30 am (until 10:00 am)</li><li><b>Tuesday:</b> 6:05 pm (until 6:50 pm)</li><li><b>Saturday:</b> 3 pm (until 3:45 pm)</li></ul><p>From the parish&#x27;s own website, checked 2026-10-10: <a href="https://www.smchp.org/about-st-mary-church/mass/">source</a></p></section><p>Phone: <a href="tel:+1-513-321-1207">+1-513-321-1207</a></p><p>Website: <a href="https://smchp.com/">https://smchp.com/</a></p></article>
     </div>
     <div class="map-wrap">
       <div id="map" aria-label="Map of churches"></div>

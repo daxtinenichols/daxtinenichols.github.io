@@ -54,13 +54,21 @@
           <div class="filters" role="group" aria-label="Filters">
             <button class="chip" type="button" aria-pressed="false" data-filter="times">Mass times listed</button>
             <button class="chip" type="button" aria-pressed="false" data-filter="access">Wheelchair access</button>
+            <button class="chip" type="button" aria-pressed="false" data-filter="confession">Confession times</button>
+            <button class="chip" type="button" aria-pressed="false" data-filter="adoration">Adoration</button>
             <button class="chip" type="button" aria-pressed="false" data-filter="eastern">Eastern Catholic</button>
+          </div>
+          <div class="filters selects">
+            <label class="fsel"><span class="sr">Sort</span><select id="f-sort"><option value="near">Nearest first</option><option value="next">Soonest Mass first</option></select></label>
+            <label class="fsel"><span class="sr">Mass day</span><select id="f-when"><option value="">Any day</option><option value="soon">Starting in the next 3 hours</option><option value="today">Later today</option><option value="tomorrow">Tomorrow</option><option value="weekend">This weekend</option></select></label>
+            <label class="fsel"><span class="sr">Time of day</span><select id="f-tod"><option value="">Any time</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening (after 5 pm)</option></select></label>
+            <label class="fsel" hidden><span class="sr">Language</span><select id="f-lang"><option value="">Any language</option></select></label>
           </div>
         </div>
         <ol class="list" id="list"></ol>
         <p class="list-more" id="list-more" hidden></p>
       </div>
-      <article class="church" id="church" data-static="w277762450"><p class="kind">Parish church · Roman Catholic</p><h1>Our Lady of the Immaculate Conception Church</h1><p class="addr">Oakwood, OH</p><section class="block"><h2>Mass times</h2><p>We don't have Mass times for this church yet.</p></section><p>Website: <a href="https://www.icparishdayton.org/">https://www.icparishdayton.org/</a></p></article>
+      <article class="church" id="church" data-static="w277762450"><p class="kind">Parish church · Roman Catholic</p><h1>Our Lady of the Immaculate Conception Church</h1><p class="addr">Oakwood, OH</p><section class="block"><h2>Mass times</h2><ul><li><b>Saturday vigil:</b> 4:30 pm</li><li><b>Sunday:</b> 9 am (Spanish), 11 am, 5 pm</li><li><b>Monday:</b> 9 am</li><li><b>Tuesday:</b> 9 am</li><li><b>Wednesday:</b> 9 am</li><li><b>Thursday:</b> 9 am</li><li><b>Friday:</b> 9 am</li></ul><h2>Confession</h2><ul><li><b>Thursday:</b> 6 pm</li></ul><p>From the parish&#x27;s own website, checked 2026-10-10: <a href="https://www.icparishdayton.org/sacraments/Mass">source</a></p></section><p>Website: <a href="https://www.icparishdayton.org/">https://www.icparishdayton.org/</a></p></article>
     </div>
     <div class="map-wrap">
       <div id="map" aria-label="Map of churches"></div>
