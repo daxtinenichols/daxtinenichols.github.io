@@ -13,216 +13,223 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <style>
-/* A parish volunteer picks a look, fills in a calm form on the left and watches their parish's site take shape on the right; one button downloads it, ready to host free. */
+/* Design plan (2026-10-12). Subject: a parish volunteer, often not technical, making the parish's website.
+   The look borrows from the altar missal: black text with the instructions printed in red (the rubrics),
+   book typography (Alegreya, a calligraphic text face, with its sans for the form), old-style numerals.
+   One memorable thing: the hero is the real product, a live parish page that takes the name you type.
+   No eyebrow labels, no middle-dot strings, no arrows on links, no single accented headline word. */
 :root {
-  --paper: #faf6ee;
-  --panel: #f3ecdf;
-  --card: #fffdf8;
-  --ink: #2b2622;
-  --muted: #6c6358;
-  --line: #e5dccb;
-  --sage: #4d6d51;
-  --sage-pale: #e1e9da;
-  --gold: #a87f33;
-  --gold-pale: #f4e8cd;
-  --btn-ink: #fbf8f1;
-  --shadow: 0 24px 48px -28px rgba(80, 58, 30, 0.38);
-  --shadow-soft: 0 12px 32px -20px rgba(80, 58, 30, 0.35);
-  --font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --paper: #f8f4ec;
+  --sheet: #fffdf8;
+  --panel: #f0e9dc;
+  --ink: #24201b;
+  --muted: #675d52;
+  --line: #e2d8c6;
+  --rubric: #9b2f27;
+  --rubric-pale: #f5e4df;
+  --gold: #a07a2f;
+  --btn-ink: #fdf9f2;
+  --shadow: 0 30px 60px -36px rgba(74, 48, 22, 0.45);
+  --shadow-soft: 0 14px 30px -22px rgba(74, 48, 22, 0.4);
+  --font-display: "Alegreya", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Alegreya Sans", "Gill Sans", "Segoe UI", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #1c1915; --panel: #25211b; --card: #221e19; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
-    --sage: #9dbf9f; --sage-pale: #2a372b; --gold: #ddb66a; --gold-pale: #3a311e;
-    --btn-ink: #1c1915; --shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.7); --shadow-soft: 0 12px 32px -20px rgba(0,0,0,.6);
+    --paper: #1d1a16; --sheet: #24201b; --panel: #2a251f; --ink: #efe6d6; --muted: #b5a995; --line: #3b342b;
+    --rubric: #e5917f; --rubric-pale: #3b2420; --gold: #d9b56c;
+    --btn-ink: #1d1a16; --shadow: 0 30px 60px -36px rgba(0,0,0,.75); --shadow-soft: 0 14px 30px -22px rgba(0,0,0,.6);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #1c1915; --panel: #25211b; --card: #221e19; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
-  --sage: #9dbf9f; --sage-pale: #2a372b; --gold: #ddb66a; --gold-pale: #3a311e;
-  --btn-ink: #1c1915; --shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.7); --shadow-soft: 0 12px 32px -20px rgba(0,0,0,.6);
+  --paper: #1d1a16; --sheet: #24201b; --panel: #2a251f; --ink: #efe6d6; --muted: #b5a995; --line: #3b342b;
+  --rubric: #e5917f; --rubric-pale: #3b2420; --gold: #d9b56c;
+  --btn-ink: #1d1a16; --shadow: 0 30px 60px -36px rgba(0,0,0,.75); --shadow-soft: 0 14px 30px -22px rgba(0,0,0,.6);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; margin: 0; }
-a { color: var(--sage); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 18px; line-height: 1.55; -webkit-font-smoothing: antialiased; margin: 0; font-variant-numeric: oldstyle-nums; }
+a { color: var(--rubric); text-underline-offset: 3px; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; margin: 0; line-height: 1.08; }
+:focus-visible { outline: 2px solid var(--rubric); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; margin: 0; line-height: 1.1; letter-spacing: -0.005em; }
 p { margin: 0; }
-.wrap { max-width: 78rem; margin: 0 auto; padding-inline: 20px; }
-.eyebrow { font: 600 0.78rem var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; font: 600 1rem var(--font-body); border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: transform 200ms ease-out, background 200ms ease-out; white-space: nowrap; }
-.btn-primary { background: var(--sage); color: var(--btn-ink); box-shadow: var(--shadow-soft); }
-.btn-primary:hover { transform: translateY(-1px); }
+.wrap { max-width: 78rem; margin: 0 auto; padding-inline: 24px; }
+.rubric { font-family: var(--font-display); font-style: italic; color: var(--rubric); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; font: 500 1.02rem var(--font-body); border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: background 200ms ease-out, border-color 200ms ease-out; white-space: nowrap; }
+.btn-primary { background: var(--rubric); color: var(--btn-ink); }
+.btn-primary:hover { background: color-mix(in srgb, var(--rubric) 88%, #000); }
 .btn-quiet { background: transparent; color: var(--ink); border-color: var(--line); }
-.btn-quiet:hover { background: var(--panel); }
-.btn-small { min-height: 40px; padding: 0 16px; font-size: 0.94rem; }
+.btn-quiet:hover { background: var(--sheet); border-color: color-mix(in srgb, var(--line) 60%, var(--ink)); }
+.btn-small { min-height: 40px; padding: 0 16px; font-size: 0.96rem; }
 .btn svg { width: 18px; height: 18px; flex: none; }
 
 /* top bar */
-.topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px; }
-.brand { display: inline-flex; align-items: center; gap: 10px; font: 600 1.28rem var(--font-display); color: var(--ink); text-decoration: none; }
-.brand svg { width: 28px; height: 28px; color: var(--sage); }
-.topbar nav { display: flex; gap: 22px; font-size: 0.96rem; }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 20px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font: 500 1.35rem var(--font-display); color: var(--ink); text-decoration: none; }
+.brand svg { width: 26px; height: 26px; color: var(--rubric); }
+.topbar nav { display: flex; gap: 26px; font-size: 1rem; }
 .topbar nav a { color: var(--muted); text-decoration: none; }
 .topbar nav a:hover { color: var(--ink); }
 
-/* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; padding-block: 48px 64px; }
-.hero-text { display: grid; gap: 22px; }
-.hero h1 { font-size: clamp(2.7rem, 6vw, 4.4rem); line-height: 1; }
-.hero h1 em { color: var(--sage); }
-.lede { font-size: 1.18rem; color: var(--muted); max-width: 32rem; }
-.actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.assure { list-style: none; margin: 8px 0 0; padding: 22px 0 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; font-size: 0.95rem; color: var(--muted); }
-.assure strong { display: block; color: var(--ink); font-weight: 600; }
-.fan { position: relative; justify-self: center; width: 100%; max-width: 500px; aspect-ratio: 5 / 4; }
-.fan .pg { position: absolute; width: 64%; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--line); background: var(--card); transition: transform 300ms ease-out; }
-.fan .pg svg { display: block; width: 100%; height: auto; }
-.fan .pg:nth-child(1) { left: 0; top: 14%; transform: rotate(-5deg); }
-.fan .pg:nth-child(2) { right: 0; top: 12%; transform: rotate(5deg); }
-.fan .pg:nth-child(3) { left: 18%; top: 0; z-index: 2; }
-.fan .tag { position: absolute; z-index: 3; bottom: 2%; left: 50%; transform: translateX(-50%); background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-size: 0.92rem; color: var(--muted); box-shadow: var(--shadow-soft); white-space: nowrap; }
-.fan .tag b { color: var(--ink); font-weight: 600; }
+/* hero: the live page */
+.hero { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 64px; align-items: center; padding-block: 40px 88px; }
+.hero-text { display: grid; gap: 24px; align-content: center; }
+.hero h1 { font-size: clamp(2.6rem, 5.4vw, 4.3rem); line-height: 1.02; font-weight: 500; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 31rem; }
+.try { display: grid; gap: 10px; max-width: 31rem; }
+.try label { font: italic 500 1.05rem var(--font-display); color: var(--rubric); }
+.try-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.try-row input { flex: 1 1 15rem; font: 400 1.1rem var(--font-body); color: var(--ink); background: var(--sheet); border: 1px solid var(--line); border-radius: 999px; padding: 0 20px; min-height: 52px; }
+.try-row input:focus { outline: none; border-color: var(--rubric); box-shadow: 0 0 0 3px color-mix(in srgb, var(--rubric) 18%, transparent); }
+.try-row .btn { min-height: 52px; }
+.fine { font-size: 0.98rem; color: var(--muted); }
+.fine a { color: var(--ink); }
+.live { position: relative; }
+.live-sheet { position: relative; aspect-ratio: 1280 / 860; border-radius: 14px; overflow: hidden; background: #faf6ee; box-shadow: var(--shadow); outline: 1px solid var(--line); }
+.live-sheet iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 860px; border: 0; transform-origin: 0 0; pointer-events: none; }
+.live-note { display: flex; align-items: baseline; gap: 10px; margin-top: 16px; font: italic 1rem var(--font-display); color: var(--muted); }
+.live-note b { color: var(--rubric); font-weight: 500; }
+.live-sheet::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(255,255,255,.4); border-radius: inherit; pointer-events: none; }
 
-/* section heads */
-.section { padding-block: 72px; }
-.section-head { display: grid; gap: 12px; max-width: 42rem; margin-bottom: 32px; }
-.section-head h2 { font-size: clamp(2rem, 4vw, 2.8rem); }
-.section-head p { color: var(--muted); font-size: 1.08rem; }
+/* sections */
+.section { padding-block: 80px; }
+.section-head { display: grid; gap: 12px; max-width: 42rem; margin-bottom: 36px; }
+.section-head h2 { font-size: clamp(2.1rem, 4vw, 2.9rem); }
+.section-head p { color: var(--muted); font-size: 1.12rem; }
 
 /* editor */
-.editor-band { background: var(--panel); border-block: 1px solid var(--line); }
-.editor { display: grid; grid-template-columns: minmax(0, 470px) minmax(0, 1fr); gap: 32px; align-items: start; }
-.form { display: grid; gap: 12px; }
-.form-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; align-items: center; }
-.saved-note { font-size: 0.88rem; color: var(--muted); }
-details.step { background: var(--card); border: 1px solid var(--line); border-radius: 16px; }
-details.step > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 14px; padding: 16px 18px; min-height: 56px; border-radius: 16px; }
+.editor-band { background: var(--panel); }
+.editor { display: grid; grid-template-columns: minmax(0, 480px) minmax(0, 1fr); gap: 40px; align-items: start; }
+.form { display: grid; gap: 0; background: var(--sheet); border-radius: 18px; box-shadow: var(--shadow-soft); padding: 8px 0 4px; }
+.form-tools { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 22px 16px; align-items: center; border-bottom: 1px solid var(--line); }
+.saved-note { font-size: 0.92rem; color: var(--muted); font-style: italic; }
+details.step { border-bottom: 1px solid var(--line); }
+details.step:last-of-type { border-bottom: 0; }
+details.step > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 16px; padding: 18px 22px; min-height: 64px; }
 details.step > summary::-webkit-details-marker { display: none; }
-details.step > summary:hover { background: color-mix(in srgb, var(--panel) 50%, transparent); }
-.num { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--sage-pale); color: var(--sage); font-weight: 600; font-size: 0.92rem; }
+details.step > summary:hover .sum-text b { color: var(--rubric); }
+.num { flex: none; width: 1.6rem; text-align: center; font: 500 1.9rem/1 var(--font-display); color: var(--rubric); font-variant-numeric: oldstyle-nums; }
 .sum-text { flex: 1; min-width: 0; }
-.sum-text b { display: block; font-weight: 600; }
-.sum-text span { display: block; font-size: 0.9rem; color: var(--muted); }
+.sum-text b { display: block; font: 500 1.28rem/1.2 var(--font-display); transition: color 150ms ease-out; }
+.sum-text span { display: block; font-size: 0.95rem; color: var(--muted); margin-top: 2px; }
 .chev { width: 18px; height: 18px; color: var(--muted); transition: transform 200ms ease-out; flex: none; }
 details[open] > summary .chev { transform: rotate(180deg); }
-.step-body { padding: 4px 18px 20px; display: grid; gap: 16px; }
+.step-body { padding: 0 22px 26px calc(22px + 1.6rem + 16px); display: grid; gap: 18px; }
 label.field > .lt { display: block; }
 label.field > .lt small { display: inline; }
-label.field, div.field { display: grid; gap: 6px; font-size: 0.95rem; font-weight: 600; }
-.field > b { font-weight: 600; font-size: .95rem; }
-label.field small, .hint { font-weight: 400; color: var(--muted); font-size: 0.86rem; }
+label.field, div.field { display: grid; gap: 6px; font-size: 1rem; font-weight: 500; }
+.field > b { font-weight: 500; font-size: 1rem; }
+label.field small, .hint { font-weight: 400; color: var(--muted); font-size: 0.92rem; }
 input[type=text], input[type=url], input[type=email], input[type=tel], textarea, select {
-  width: 100%; font: 400 1rem var(--font-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; min-height: 46px; transition: border-color 150ms ease-out, box-shadow 150ms ease-out; }
+  width: 100%; font: 400 1.02rem var(--font-body); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 11px 12px; min-height: 46px; transition: border-color 150ms ease-out, box-shadow 150ms ease-out; }
 textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
-input:focus, textarea:focus, select:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sage) 22%, transparent); }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--rubric); box-shadow: 0 0 0 3px color-mix(in srgb, var(--rubric) 16%, transparent); }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.rows { display: grid; gap: 10px; }
-.row { display: grid; gap: 8px; padding: 12px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); position: relative; }
-.row input, .row select, .row textarea { background: var(--card); }
+.rows { display: grid; gap: 8px; }
+.row { display: grid; gap: 8px; padding: 10px 0 10px; border-bottom: 1px dashed var(--line); position: relative; }
 .row-grid { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; padding-right: 40px; }
 .row-grid .wide { grid-column: 1 / -1; }
-.row .remove { position: absolute; top: 10px; right: 8px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
-.row .remove:hover { background: var(--panel); color: var(--ink); }
+.row .remove { position: absolute; top: 12px; right: 0; width: 36px; height: 36px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+.row .remove:hover { background: var(--panel); color: var(--rubric); }
 .row .remove svg, .icon-btn svg { width: 16px; height: 16px; }
-.add { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px dashed var(--line); background: transparent; color: var(--sage); font: 600 0.95rem var(--font-body); cursor: pointer; }
-.add:hover { background: var(--card); border-style: solid; }
-.add svg { width: 16px; height: 16px; }
+.add { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--rubric); font: italic 500 1.05rem var(--font-display); cursor: pointer; }
+.add:hover { text-decoration: underline; text-underline-offset: 4px; }
+.add svg { width: 15px; height: 15px; }
 
+.form-tools .btn { border: 0; background: none; min-height: 40px; padding: 0 8px; font-weight: 400; font-size: .98rem; color: var(--muted); text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--muted) 40%, transparent); text-underline-offset: 4px; }
+.form-tools .btn:hover { color: var(--rubric); background: none; text-decoration-color: currentColor; }
+.form-tools .btn[data-example] { color: var(--ink); }
 /* look: templates, colors, choices */
-.tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.tpl-card { display: grid; gap: 8px; align-content: start; text-align: left; padding: 8px 8px 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; font: inherit; transition: border-color 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; }
-.tpl-card:hover { transform: translateY(-1px); box-shadow: var(--shadow-soft); }
-.tpl-card[aria-pressed="true"] { border-color: var(--sage); box-shadow: 0 0 0 2px var(--sage); }
-.tpl-thumb { position: relative; aspect-ratio: 16 / 11; border-radius: 9px; overflow: hidden; background: var(--panel); }
+.tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 14px; }
+.tpl-card { display: grid; gap: 6px; align-content: start; text-align: left; padding: 0; border: 0; background: none; color: var(--ink); cursor: pointer; font: inherit; }
+.tpl-thumb { position: relative; aspect-ratio: 16 / 11; border-radius: 10px; overflow: hidden; background: var(--panel); outline: 1px solid var(--line); transition: outline-color 150ms ease-out, box-shadow 200ms ease-out; }
+.tpl-card:hover .tpl-thumb { box-shadow: var(--shadow-soft); }
+.tpl-card[aria-pressed="true"] .tpl-thumb { outline: 2px solid var(--rubric); outline-offset: 3px; }
 .tpl-thumb iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 880px; border: 0; transform-origin: 0 0; pointer-events: none; background: #faf6ee; }
-.tpl-card .tn { display: flex; align-items: center; gap: 8px; padding-inline: 4px; font-weight: 600; font-size: .95rem; }
-.tpl-card .tn i { margin-left: auto; width: 22px; height: 22px; border-radius: 50%; background: var(--sage); color: var(--btn-ink); display: none; place-items: center; font-style: normal; }
-.tpl-card[aria-pressed="true"] .tn i { display: grid; }
-.tpl-card .tn i svg { width: 12px; height: 12px; }
-.tpl-card .tb { padding-inline: 4px; font-weight: 400; font-size: .84rem; color: var(--muted); line-height: 1.4; }
+.tpl-card .tn { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; font: 500 1.08rem var(--font-display); }
+.tpl-card .tn i { margin-left: auto; display: none; font: italic 0.92rem var(--font-display); color: var(--rubric); }
+.tpl-card .tn i svg { display: none; }
+.tpl-card .tn i::after { content: "chosen"; }
+.tpl-card[aria-pressed="true"] .tn i { display: inline; }
+.tpl-card .tb { font-weight: 400; font-size: .9rem; color: var(--muted); line-height: 1.4; }
 .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
-.swatch { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 8px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font: 400 0.92rem var(--font-body); color: var(--ink); }
-.swatch i { width: 26px; height: 26px; border-radius: 50%; display: block; }
-.swatch[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.swatch { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 7px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; font: 400 0.95rem var(--font-body); color: var(--ink); }
+.swatch i { width: 28px; height: 28px; border-radius: 50%; display: block; }
+.swatch[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 .swatch input[type=color] { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; border: 0; padding: 0; }
 .swatch .rainbow { background: conic-gradient(#8a3b32, #a87f33, #4d6d51, #3f5f80, #5e3d5c, #8a3b32); }
 .pills { display: inline-flex; flex-wrap: wrap; padding: 4px; gap: 4px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); justify-self: start; }
 .pills label { position: relative; }
 .pills input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-.pills span { display: inline-flex; align-items: center; min-height: 38px; padding: 0 16px; border-radius: 999px; font-weight: 600; font-size: .92rem; color: var(--muted); }
-.pills input:checked + span { background: var(--sage); color: var(--btn-ink); }
-.pills input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
-.toggle { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); cursor: pointer; font-weight: 400; }
-.toggle input { margin-top: 4px; width: 20px; height: 20px; accent-color: var(--sage); flex: none; }
-.toggle b { display: block; font-weight: 600; }
-.toggle span { display: block; font-size: 0.9rem; color: var(--muted); }
-.photo-drop { position: relative; display: grid; place-items: center; gap: 6px; text-align: center; padding: 18px; border-radius: 12px; border: 1px dashed var(--line); background: var(--paper); color: var(--muted); font-size: 0.92rem; font-weight: 400; cursor: pointer; }
-.photo-drop:hover { border-color: var(--sage); color: var(--ink); }
+.pills span { display: inline-flex; align-items: center; min-height: 38px; padding: 0 16px; border-radius: 999px; font-weight: 500; font-size: .96rem; color: var(--muted); }
+.pills input:checked + span { background: var(--ink); color: var(--paper); }
+.pills input:focus-visible + span { outline: 2px solid var(--rubric); outline-offset: 2px; }
+.toggle { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed var(--line); cursor: pointer; font-weight: 400; }
+.toggle input { margin-top: 4px; width: 20px; height: 20px; accent-color: var(--rubric); flex: none; }
+.toggle b { display: block; font-weight: 500; }
+.toggle span { display: block; font-size: 0.94rem; color: var(--muted); }
+.photo-drop { position: relative; display: grid; place-items: center; gap: 4px; text-align: center; padding: 18px; border-radius: 12px; border: 1px dashed color-mix(in srgb, var(--line) 50%, var(--muted)); background: var(--paper); color: var(--muted); font-size: 0.94rem; font-weight: 400; cursor: pointer; }
+.photo-drop:hover { border-color: var(--rubric); color: var(--ink); }
 .photo-drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.photo-drop b { font: italic 500 1.05rem var(--font-display); color: var(--rubric) !important; }
 .thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
-.thumb { position: relative; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: var(--panel); }
+.thumb { position: relative; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: var(--panel); }
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .thumb button { position: absolute; top: 6px; right: 6px; width: 30px; height: 30px; border-radius: 50%; border: 0; background: rgba(28,25,21,.65); color: #fff; cursor: pointer; display: grid; place-items: center; }
 .thumb button svg { width: 14px; height: 14px; }
 
 /* churches */
-.churches { display: grid; gap: 10px; }
-details.church { border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
-details.church > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 12px 14px; min-height: 52px; border-radius: 14px; }
+.churches { display: grid; gap: 12px; }
+details.church { border-left: 3px solid var(--rubric-pale); padding-left: 2px; }
+details.church[open] { border-left-color: var(--rubric); }
+details.church > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 8px 0 8px 12px; min-height: 52px; }
 details.church > summary::-webkit-details-marker { display: none; }
-.ch-n { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--gold-pale); color: var(--gold); }
-.ch-n svg { width: 18px; height: 18px; }
-.church-body { padding: 4px 14px 16px; display: grid; gap: 14px; }
-.church-body .row, .church-body .toggle, .church-body .photo-drop { background: var(--card); }
-.church-body input, .church-body textarea, .church-body select { background: var(--card); }
-.church-body .row input, .church-body .row select, .church-body .row textarea { background: var(--paper); }
+details.church .sum-text b { font-size: 1.15rem; }
+.ch-n { display: none; }
+.church-body { padding: 4px 0 16px 14px; display: grid; gap: 14px; }
 .church-foot { display: flex; justify-content: flex-end; }
-.link-btn { border: 0; background: transparent; color: var(--muted); font: 600 .9rem var(--font-body); cursor: pointer; min-height: 40px; padding: 0 8px; text-decoration: underline; text-underline-offset: 3px; }
-.link-btn:hover { color: var(--ink); }
+.link-btn { border: 0; background: transparent; color: var(--muted); font: 500 .95rem var(--font-body); cursor: pointer; min-height: 40px; padding: 0 4px; text-decoration: underline; text-underline-offset: 3px; }
+.link-btn:hover { color: var(--rubric); }
 
 /* arrange sections */
-.sec-list { display: grid; gap: 8px; }
-.sec-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 8px 8px 8px 12px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); font-weight: 400; }
-.sec-row.off .sec-name { color: var(--muted); }
-.sec-name { min-width: 0; font-weight: 600; font-size: .95rem; }
-.sec-name small { display: block; font-weight: 400; color: var(--muted); font-size: .82rem; }
-.sec-btns { display: flex; gap: 2px; }
+.sec-list { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.sec-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-weight: 400; }
+.sec-row.off .sec-name { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 50%, transparent); }
+.sec-name { min-width: 0; font-weight: 500; font-size: 1rem; }
+.sec-name small { display: block; font-weight: 400; color: var(--muted); font-size: .86rem; font-style: italic; text-decoration: none; }
+.sec-btns { display: flex; gap: 0; }
 .icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 0; background: transparent; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
 .icon-btn:hover:not(:disabled) { background: var(--panel); color: var(--ink); }
 .icon-btn:disabled { opacity: .3; cursor: default; }
 .sw { position: relative; display: inline-block; width: 44px; height: 26px; flex: none; }
 .sw input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
 .sw span { position: absolute; inset: 0; border-radius: 999px; background: var(--line); transition: background 200ms ease-out; }
-.sw span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform 200ms ease-out; }
-.sw input:checked + span { background: var(--sage); }
+.sw span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--sheet); box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform 200ms ease-out; }
+.sw input:checked + span { background: var(--rubric); }
 .sw input:checked + span::after { transform: translateX(18px); }
-.sw input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
-.sec-edit { grid-column: 1 / -1; display: grid; gap: 8px; padding: 2px 4px 6px; }
-.sec-edit input, .sec-edit textarea { background: var(--card); }
+.sw input:focus-visible + span { outline: 2px solid var(--rubric); outline-offset: 2px; }
+.sec-edit { grid-column: 1 / -1; display: grid; gap: 8px; padding: 2px 0 8px; }
 
 /* preview */
-.preview { position: sticky; top: 16px; display: grid; gap: 12px; }
+.preview { position: sticky; top: 16px; display: grid; gap: 14px; }
 .preview-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
-.seg button { min-height: 38px; padding: 0 16px; border-radius: 999px; border: 0; background: transparent; font: 600 0.92rem var(--font-body); color: var(--muted); cursor: pointer; }
-.seg button[aria-pressed="true"] { background: var(--sage); color: var(--btn-ink); }
-.frame-wrap { position: relative; border-radius: 18px; overflow: hidden; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); height: min(80vh, 860px); display: flex; justify-content: flex-start; transition: background 200ms; }
+.seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--sheet); border: 1px solid var(--line); }
+.seg button { min-height: 38px; padding: 0 16px; border-radius: 999px; border: 0; background: transparent; font: 500 0.96rem var(--font-body); color: var(--muted); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.frame-wrap { position: relative; border-radius: 14px; overflow: hidden; background: var(--sheet); box-shadow: var(--shadow); outline: 1px solid var(--line); height: min(80vh, 860px); display: flex; justify-content: flex-start; transition: background 200ms; }
 .frame-wrap.phone { background: color-mix(in srgb, var(--panel) 70%, var(--line)); padding: 20px 0; justify-content: center; }
 .frame-wrap iframe { border: 0; width: 100%; height: 100%; background: #faf6ee; display: block; flex: none; transform-origin: 0 0; }
 .frame-wrap.phone iframe { transform: none !important; height: 100% !important; width: 390px !important; max-width: calc(100% - 24px); border-radius: 24px; box-shadow: var(--shadow); }
 .download-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
-.download-row p { font-size: 0.9rem; color: var(--muted); flex: 1 1 14rem; }
+.download-row p { font-size: 0.95rem; color: var(--muted); flex: 1 1 14rem; }
 
 /* mobile bottom bar + overlay */
 .mbar { display: none; }
@@ -231,56 +238,62 @@ details.church > summary::-webkit-details-marker { display: none; }
 .overlay header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); gap: 8px; }
 .overlay iframe { border: 0; width: 100%; height: 100%; background: #faf6ee; }
 
-/* guide */
-.guide { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.g-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 10px; align-content: start; }
-.g-card h3 { font-size: 1.6rem; }
-.g-card .g-num { font: 600 0.8rem var(--font-body); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
-.g-card p { color: var(--muted); }
-.options { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.opt { padding: 24px; border-radius: 16px; background: var(--panel); display: grid; gap: 10px; align-content: start; }
-.opt h3 { font-size: 1.5rem; }
-.opt .tag { justify-self: start; font: 600 0.78rem var(--font-body); padding: 4px 10px; border-radius: 999px; background: var(--sage-pale); color: var(--sage); }
-.opt ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
-.opt p { color: var(--muted); font-size: 0.96rem; }
+/* putting it online: a real sequence */
+.steps-online { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; counter-reset: s; }
+.steps-online li { counter-increment: s; display: grid; gap: 10px; align-content: start; }
+.steps-online li::before { content: counter(s); font: 500 3rem/1 var(--font-display); color: var(--rubric); font-variant-numeric: oldstyle-nums; }
+.steps-online h3 { font-size: 1.55rem; }
+.steps-online p { color: var(--muted); }
+.hosts { margin-top: 48px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; align-items: start; }
+.host { padding: 28px; border-radius: 16px; display: grid; gap: 12px; align-content: start; }
+.host.first { background: var(--sheet); box-shadow: var(--shadow-soft); }
+.host.second { border: 1px solid var(--line); }
+.host h3 { font-size: 1.5rem; }
+.host h3 .rubric { font-size: 1.05rem; margin-left: 6px; }
+.host ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.host p { color: var(--muted); font-size: 0.98rem; }
 
 /* faq */
-.faq { display: grid; gap: 10px; max-width: 48rem; }
-.faq details { border-bottom: 1px solid var(--line); padding-block: 6px; }
-.faq summary { cursor: pointer; font: 500 1.35rem var(--font-display); padding-block: 10px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+.faq { display: grid; max-width: 48rem; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; font: 500 1.35rem var(--font-display); padding-block: 16px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; font-family: var(--font-body); color: var(--gold); }
+.faq summary::after { content: "+"; font-family: var(--font-display); color: var(--rubric); }
 .faq details[open] summary::after { content: "−"; }
-.faq p { color: var(--muted); padding-bottom: 14px; max-width: 42rem; }
+.faq p { color: var(--muted); padding-bottom: 18px; max-width: 42rem; }
 
 /* more tools */
-.more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-.tool { display: grid; grid-template-columns: 64px 1fr; gap: 18px; align-items: center; padding: 22px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform 200ms ease-out, box-shadow 200ms ease-out; }
-.tool:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
-.tool svg { width: 64px; height: 64px; }
-.tool b { font: 500 1.5rem var(--font-display); display: block; }
-.tool span { color: var(--muted); font-size: 0.96rem; }
-footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.92rem; border-top: 1px solid var(--line); }
+.more { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; border-top: 1px solid var(--line); }
+.more li { border-bottom: 1px solid var(--line); }
+.more a { display: grid; gap: 2px; padding: 18px 0; text-decoration: none; color: var(--ink); }
+.more b { font: 500 1.4rem var(--font-display); transition: color 150ms ease-out; }
+.more a:hover b { color: var(--rubric); }
+.more span { color: var(--muted); font-size: 1rem; }
+footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.95rem; border-top: 1px solid var(--line); }
 
 @media (max-width: 1020px) {
-  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 24px; }
-  .fan { max-width: 420px; }
+  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 16px; }
   .editor { grid-template-columns: 1fr; }
   .preview { display: none; }
-  .guide, .options, .more { grid-template-columns: 1fr; }
-  .mbar { display: flex; gap: 8px; position: fixed; z-index: 40; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 8px; border-radius: 999px; background: color-mix(in srgb, var(--card) 92%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line); box-shadow: var(--shadow); transition: opacity 200ms, transform 200ms; }
+  .steps-online, .hosts, .more { grid-template-columns: 1fr; }
+  .steps-online { gap: 28px; }
+  .mbar { display: flex; gap: 8px; position: fixed; z-index: 40; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 8px; border-radius: 999px; background: color-mix(in srgb, var(--sheet) 92%, transparent); backdrop-filter: blur(10px); border: 1px solid var(--line); box-shadow: var(--shadow); transition: opacity 200ms, transform 200ms; }
   .mbar .btn { flex: 1; }
   .mbar.away { opacity: 0; transform: translateY(20px); pointer-events: none; }
   footer.site { padding-bottom: 110px; }
 }
 @media (max-width: 560px) {
+  .wrap { padding-inline: 16px; }
   .topbar nav { display: none; }
-  .assure { grid-template-columns: 1fr; gap: 10px; }
+  .brand { font-size: 1.15rem; }
   .two { grid-template-columns: 1fr; }
-  .section { padding-block: 56px; }
-  .step-body { padding-inline: 14px; }
-  .tpl-grid { gap: 10px; }
-  .fan .tag { font-size: .84rem; }
+  .section { padding-block: 60px; }
+  .form { border-radius: 14px; }
+  .form-tools { padding-inline: 16px; }
+  details.step > summary { padding-inline: 16px; gap: 12px; }
+  .step-body { padding: 0 16px 24px; }
+  .tpl-grid { gap: 16px 10px; }
+  .host { padding: 22px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
 
@@ -314,24 +327,20 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
 
   <section class="hero">
     <div class="hero-text">
-      <p class="eyebrow">Free for every parish</p>
-      <h1>A warm, simple website for your parish, <em>in an afternoon.</em></h1>
-      <p class="lede">Pick a look you like, type in your Mass times and a few words of welcome, and watch your site take shape. One church or several, it all fits. Then download it and put it online for free.</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#make" data-start="example">Start with an example</a>
-        <a class="btn btn-quiet" href="#make" data-start="blank">Start from blank</a>
-      </div>
-      <ul class="assure">
-        <li><strong>Six templates</strong>Switch looks any time, your words stay.</li>
-        <li><strong>One church or several</strong>Times for every church in the parish.</li>
-        <li><strong>Free, no account</strong>Nothing to sign up for or install.</li>
-      </ul>
+      <h1>Your parish's website, made in an afternoon.</h1>
+      <p class="lede">Type your Mass times and a few words of welcome. Pick from six looks. Download one file and put it online for free.</p>
+      <form class="try" id="try" onsubmit="return false">
+        <label for="try-name">Start with your parish's name</label>
+        <div class="try-row">
+          <input id="try-name" type="text" placeholder="St. John the Baptist" autocomplete="off">
+          <button type="submit" class="btn btn-primary" id="try-go">Start my site</button>
+        </div>
+      </form>
+      <p class="fine">Free, no account, nothing to install. One church or several. Or <a href="#make" data-start="example">look around a finished example</a> first.</p>
     </div>
-    <div class="fan" aria-hidden="true">
-      <div class="pg"><svg viewBox="0 0 320 230"><rect width="320" height="230" fill="#faf6ee"/><rect width="320" height="34" fill="#2c2f3f"/><rect x="16" y="13" width="80" height="8" rx="4" fill="#f6efe2" opacity=".85"/><rect y="34" width="320" height="104" fill="#3a4258"/><rect x="24" y="66" width="150" height="14" rx="5" fill="#f6efe2" opacity=".9"/><rect x="24" y="90" width="110" height="7" rx="3" fill="#f6efe2" opacity=".6"/><rect x="40" y="124" width="240" height="30" rx="8" fill="#fffdf8" stroke="#e5dccb"/><g fill="#a87f33" opacity=".8"><rect x="54" y="135" width="40" height="7" rx="3"/><rect x="110" y="135" width="40" height="7" rx="3"/><rect x="166" y="135" width="40" height="7" rx="3"/></g><g fill="#fffdf8" stroke="#e5dccb"><rect x="20" y="170" width="88" height="48" rx="6"/><rect x="116" y="170" width="88" height="48" rx="6"/><rect x="212" y="170" width="88" height="48" rx="6"/></g></svg></div>
-      <div class="pg"><svg viewBox="0 0 320 230"><rect width="320" height="230" fill="#f8f1ea"/><rect x="18" y="16" width="70" height="8" rx="4" fill="#2b2622" opacity=".7"/><rect x="18" y="52" width="130" height="16" rx="6" fill="#2b2622" opacity=".8"/><rect x="18" y="76" width="100" height="7" rx="3" fill="#6c6358" opacity=".5"/><rect x="18" y="98" width="70" height="22" rx="11" fill="#9a4f32"/><rect x="178" y="44" width="124" height="96" rx="30" fill="#f3dfd3"/><rect x="170" y="36" width="124" height="96" rx="28" fill="#9a4f32" opacity=".75"/><rect y="152" width="320" height="78" fill="#f3e3d8"/><g fill="#fffdf8"><rect x="18" y="166" width="88" height="50" rx="14"/><rect x="116" y="166" width="88" height="50" rx="14"/><rect x="214" y="166" width="88" height="50" rx="14"/></g></svg></div>
-      <div class="pg"><svg viewBox="0 0 320 230"><rect width="320" height="230" fill="#faf6ee"/><rect x="120" y="14" width="80" height="9" rx="4" fill="#2b2622" opacity=".75"/><path d="M60 34h200" stroke="#e5dccb"/><g fill="#6c6358" opacity=".5"><rect x="88" y="40" width="30" height="6" rx="3"/><rect x="128" y="40" width="30" height="6" rx="3"/><rect x="168" y="40" width="30" height="6" rx="3"/><rect x="208" y="40" width="24" height="6" rx="3"/></g><path d="M60 54h200" stroke="#e5dccb"/><rect x="85" y="74" width="150" height="15" rx="6" fill="#2b2622" opacity=".8"/><rect x="105" y="97" width="110" height="7" rx="3" fill="#6c6358" opacity=".5"/><rect x="125" y="114" width="70" height="20" rx="4" fill="#8a3b32"/><defs><linearGradient id="fsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4e8cd"/><stop offset="1" stop-color="#f2e1dc"/></linearGradient></defs><rect x="30" y="148" width="260" height="70" rx="6" fill="url(#fsky)"/><g fill="#8a3b32" opacity=".85"><path d="M140 218v-38l20-15 20 15v38z"/><rect x="158" y="148" width="4" height="18"/></g></svg></div>
-      <span class="tag"><b>Six looks.</b> Same details, one click to switch.</span>
+    <div class="live">
+      <div class="live-sheet"><iframe id="hero-frame" tabindex="-1" aria-hidden="true" title=""></iframe></div>
+      <p class="live-note"><b>Live.</b> This is a real page from the Studio, with the name you type and example times.</p>
     </div>
   </section>
 </div>
@@ -339,9 +348,8 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
 <section class="editor-band section" id="make">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Make your site</p>
-      <h2>Pick a look. Fill in what you know.</h2>
-      <p>Start with a template, then add your times and details. Anything you leave empty simply won't appear. Your work is kept on this device as you type, so you can close the page and come back.</p>
+      <h2>Make your site</h2>
+      <p>Work down the list. Anything you leave empty simply won't appear. Your work is kept on this device as you type, so you can close the page and come back.</p>
     </div>
     <div class="editor">
       <form class="form" id="form" autocomplete="off" onsubmit="return false">
@@ -497,32 +505,17 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
 <section class="section" id="publish">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Put it online</p>
-      <h2>Three steps, no cost</h2>
-      <p>Your site is a single file. Any free web host can show it to the world. Here is the simplest way we know.</p>
+      <h2>Put it online, free</h2>
+      <p>Your site is a single file. Any free web host can show it to the world. This is the simplest way we know.</p>
     </div>
-    <div class="guide">
-      <div class="g-card">
-        <span class="g-num">Step one</span>
-        <h3>Download your site</h3>
-        <p>Press <b>Download my site</b>. You'll get a file named <b>index.html</b>. Also press <b>Save my details</b> and keep that file somewhere safe, so you or the next volunteer can update the site later.</p>
-      </div>
-      <div class="g-card">
-        <span class="g-num">Step two</span>
-        <h3>Upload it to a free host</h3>
-        <p>Pick one of the two options below. Both are free for a small site like this, and both give you a web address right away.</p>
-      </div>
-      <div class="g-card">
-        <span class="g-num">Step three</span>
-        <h3>Share the address</h3>
-        <p>Put it in the bulletin, on the parish sign, and on your Google Maps listing so people searching "Mass near me" find your times.</p>
-        <p>Once your site is up, the free <a href="/parish-scheduler/">Parish Scheduler</a> can keep your lectors, servers and Eucharistic ministers organized.</p>
-      </div>
-    </div>
-    <div class="options">
-      <div class="opt">
-        <span class="tag">Easiest</span>
-        <h3>Netlify Drop</h3>
+    <ol class="steps-online">
+      <li><h3>Download your site</h3><p>Press <b>Download my site</b>. You'll get a file named <b>index.html</b>. Press <b>Save my details</b> too, and keep that file somewhere safe, so you or the next volunteer can update the site later.</p></li>
+      <li><h3>Upload it to a free host</h3><p>Use one of the two hosts below. Both are free for a small site like this, and both give you a web address right away.</p></li>
+      <li><h3>Share the address</h3><p>Put it in the bulletin, on the parish sign, and on your Google Maps listing, so people searching "Mass near me" find your times. Once it's up, the free <a href="/parish-scheduler/">Parish Scheduler</a> can keep your lectors, servers and Eucharistic ministers organized.</p></li>
+    </ol>
+    <div class="hosts">
+      <div class="host first">
+        <h3>Netlify Drop <span class="rubric">the easiest</span></h3>
         <ol>
           <li>Put <b>index.html</b> into its own folder on your computer.</li>
           <li>Go to <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">app.netlify.com/drop</a> and drag that folder onto the page.</li>
@@ -530,8 +523,7 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
         </ol>
         <p>To update: drag the new folder onto your site's <b>Deploys</b> page.</p>
       </div>
-      <div class="opt">
-        <span class="tag">Also free</span>
+      <div class="host second">
         <h3>GitHub Pages</h3>
         <ol>
           <li>Make a free account at <a href="https://github.com/signup" target="_blank" rel="noopener">github.com</a>.</li>
@@ -547,7 +539,6 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
 <section class="section" id="questions" style="padding-top:0">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Questions</p>
       <h2>Good to know</h2>
     </div>
     <div class="faq">
@@ -566,27 +557,14 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
 <section class="section" style="padding-top:0">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">More free tools</p>
-      <h2>For your parish and everyone it welcomes</h2>
+      <h2>More free tools for your parish</h2>
     </div>
-    <div class="more">
-      <a class="tool" href="/first-mass/">
-        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--sage-pale)"/><path d="M20 50V30a12 12 0 0 1 24 0v20" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/><path d="M26 50V33a6 6 0 0 1 12 0v17" fill="var(--gold-pale)" stroke="var(--gold)" stroke-width="1.8"/><path d="M16 50h32" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/></svg>
-        <div><b>Your First Mass</b><span>A gentle, step-by-step guide for anyone going to Mass for the first time.</span></div>
-      </a>
-      <a class="tool" href="/">
-        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--sage-pale)"/><path d="M32 52V30M32 38l-9-8M32 34l8-7" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/><circle cx="32" cy="24" r="10" fill="var(--sage)" opacity=".35"/><circle cx="22" cy="29" r="6" fill="var(--sage)" opacity=".3"/><circle cx="42" cy="27" r="6" fill="var(--gold)" opacity=".45"/></svg>
-        <div><b>Tree of Life</b><span>Big questions about God, Jesus and the Church, one honest step at a time.</span></div>
-      </a>
-      <a class="tool" href="/church-finder/">
-        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--sage-pale)"/><path d="M32 50s-12-11.5-12-21a12 12 0 0 1 24 0c0 9.5-12 21-12 21z" fill="var(--gold-pale)" stroke="var(--sage)" stroke-width="2.2" stroke-linejoin="round"/><path d="M32 22v10M28 26h8" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg>
-        <div><b>Church Finder</b><span>Mass and confession times at Catholic churches near you.</span></div>
-      </a>
-      <a class="tool" href="/parish-scheduler/">
-        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="var(--sage-pale)"/><rect x="18" y="20" width="28" height="26" rx="5" fill="var(--gold-pale)" stroke="var(--sage)" stroke-width="2.2"/><path d="M18 28h28M25 16v7M39 16v7" stroke="var(--sage)" stroke-width="2.2" stroke-linecap="round"/><path d="M26 37l4 4 8-8" stroke="var(--gold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <div><b>Parish Scheduler</b><span>A free volunteer schedule: swaps, sick days and replacements in a tap.</span></div>
-      </a>
-    </div>
+    <ul class="more">
+      <li><a href="/first-mass/"><b>Your First Mass</b><span>A gentle, step-by-step guide for anyone going to Mass for the first time.</span></a></li>
+      <li><a href="/"><b>Tree of Life</b><span>Big questions about God, Jesus and the Church, one honest step at a time.</span></a></li>
+      <li><a href="/church-finder/"><b>Church Finder</b><span>Mass and confession times at Catholic churches near you.</span></a></li>
+      <li><a href="/parish-scheduler/"><b>Parish Scheduler</b><span>A free volunteer schedule: swaps, sick days and replacements in a tap.</span></a></li>
+    </ul>
   </div>
 </section>
 
@@ -982,7 +960,7 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
       <summary><span class="ch-n">${ICON.church}</span><span class="sum-text"><b>${esc(churchTitle(c, i))}</b><span>${esc(churchSub(c))}</span></span>${ICON.chev}</summary>
       <div class="church-body">
         <div class="two">
-          <label class="field"><span class="lt">Church name ${many ? "" : "<small>(only if it differs from the parish name)</small>"}</span><input type="text" data-p="${p}.name" value="${esc(c.name)}" placeholder="${many ? "St. Joseph Church" : "Same as the parish"}"></label>
+          <label class="field"><span class="lt">Church name ${many ? "" : "<small>(optional)</small>"}</span><input type="text" data-p="${p}.name" value="${esc(c.name)}" placeholder="${many ? "St. Joseph Church" : "Same as the parish"}"></label>
           <label class="field"><span class="lt">Town <small>(optional)</small></span><input type="text" data-p="${p}.town" value="${esc(c.town)}" placeholder="Riverton"></label>
         </div>
         <label class="field"><span class="lt">Street address <small style="display:block;margin-top:2px">Used for the map and directions.</small></span><input type="text" data-p="${p}.address" value="${esc(c.address)}" placeholder="215 Elm Street, Springfield, IL 62701"></label>
@@ -1636,6 +1614,31 @@ ${TEMPLATE_CSS[tid] || ""}
 .t-simple .welcome{color:var(--ink)!important}`,
   };
 
+
+  /* ---------- hero: a live page that takes the name you type ---------- */
+  const heroFrame = document.getElementById("hero-frame");
+  const tryName = document.getElementById("try-name");
+  const heroSheet = heroFrame.parentElement;
+  const fitHero = () => { heroFrame.style.transform = `scale(${heroSheet.clientWidth / 1280})`; };
+  new ResizeObserver(fitHero).observe(heroSheet);
+  let heroTimer;
+  function drawHero() {
+    const ex = example();
+    const typed = tryName.value.trim();
+    heroFrame.srcdoc = buildSite({ ...ex, name: typed || ex.name, city: typed ? "" : ex.city, gallery: [], churches: ex.churches.map(c => ({ ...c, showMap: false })) }, true, true);
+    fitHero();
+  }
+  tryName.addEventListener("input", () => { clearTimeout(heroTimer); heroTimer = setTimeout(drawHero, 200); });
+  document.getElementById("try").addEventListener("submit", () => {
+    const typed = tryName.value.trim();
+    if (typed) {
+      if (hasWork() && !confirm("Start a new site? What you've typed in the editor will be replaced.")) return;
+      data = keepLook(blank()); data.name = typed; openChurches.clear(); openChurches.add(0); renderAll(); save();
+    }
+    document.getElementById("make").scrollIntoView();
+    setTimeout(() => form.querySelector('[name="welcome"]')?.closest("details")?.setAttribute("open", ""), 0);
+  });
+  drawHero();
   renderAll();
 })();
 
