@@ -19,38 +19,38 @@
 <body>
 <style>
 /* Design plan (2026-10-12). Subject: a parish volunteer, often not technical, making the parish's website.
-   The look borrows from the altar missal: black text with the instructions printed in red (the rubrics),
+   The look borrows from book typography (Dax kept the original sage and gold colours, 2026-10-12),
    book typography (Alegreya, a calligraphic text face, with its sans for the form), old-style numerals.
    One memorable thing: the hero is the real product, a live parish page that takes the name you type.
    No eyebrow labels, no middle-dot strings, no arrows on links, no single accented headline word. */
 :root {
-  --paper: #f8f4ec;
+  --paper: #faf6ee;
   --sheet: #fffdf8;
-  --panel: #f0e9dc;
-  --ink: #24201b;
-  --muted: #675d52;
-  --line: #e2d8c6;
-  --rubric: #9b2f27;
-  --rubric-pale: #f5e4df;
-  --gold: #a07a2f;
-  --btn-ink: #fdf9f2;
-  --shadow: 0 30px 60px -36px rgba(74, 48, 22, 0.45);
-  --shadow-soft: 0 14px 30px -22px rgba(74, 48, 22, 0.4);
+  --panel: #f3ecdf;
+  --ink: #2b2622;
+  --muted: #6c6358;
+  --line: #e5dccb;
+  --rubric: #4d6d51;
+  --rubric-pale: #e1e9da;
+  --gold: #a87f33;
+  --btn-ink: #fbf8f1;
+  --shadow: 0 24px 48px -28px rgba(80, 58, 30, 0.38);
+  --shadow-soft: 0 12px 32px -20px rgba(80, 58, 30, 0.35);
   --font-display: "Alegreya", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-body: "Alegreya Sans", "Gill Sans", "Segoe UI", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #1d1a16; --sheet: #24201b; --panel: #2a251f; --ink: #efe6d6; --muted: #b5a995; --line: #3b342b;
-    --rubric: #e5917f; --rubric-pale: #3b2420; --gold: #d9b56c;
-    --btn-ink: #1d1a16; --shadow: 0 30px 60px -36px rgba(0,0,0,.75); --shadow-soft: 0 14px 30px -22px rgba(0,0,0,.6);
+    --paper: #1c1915; --sheet: #221e19; --panel: #25211b; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
+    --rubric: #9dbf9f; --rubric-pale: #2a372b; --gold: #ddb66a;
+    --btn-ink: #1c1915; --shadow: 0 30px 60px -36px rgba(0,0,0,.75); --shadow-soft: 0 14px 30px -22px rgba(0,0,0,.6);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #1d1a16; --sheet: #24201b; --panel: #2a251f; --ink: #efe6d6; --muted: #b5a995; --line: #3b342b;
-  --rubric: #e5917f; --rubric-pale: #3b2420; --gold: #d9b56c;
-  --btn-ink: #1d1a16; --shadow: 0 30px 60px -36px rgba(0,0,0,.75); --shadow-soft: 0 14px 30px -22px rgba(0,0,0,.6);
+  --paper: #1c1915; --sheet: #221e19; --panel: #25211b; --ink: #efe7d8; --muted: #b3a895; --line: #3a3329;
+  --rubric: #9dbf9f; --rubric-pale: #2a372b; --gold: #ddb66a;
+  --btn-ink: #1c1915; --shadow: 0 30px 60px -36px rgba(0,0,0,.75); --shadow-soft: 0 14px 30px -22px rgba(0,0,0,.6);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -62,7 +62,7 @@ a:hover { text-decoration-thickness: 2px; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 500; text-wrap: balance; margin: 0; line-height: 1.1; letter-spacing: -0.005em; }
 p { margin: 0; }
 .wrap { max-width: 78rem; margin: 0 auto; padding-inline: 24px; }
-.rubric { font-family: var(--font-display); font-style: italic; color: var(--rubric); }
+.rubric { font-family: var(--font-display); font-style: italic; color: var(--gold); }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; font: 500 1.02rem var(--font-body); border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: background 200ms ease-out, border-color 200ms ease-out; white-space: nowrap; }
 .btn-primary { background: var(--rubric); color: var(--btn-ink); }
 .btn-primary:hover { background: color-mix(in srgb, var(--rubric) 88%, #000); }
@@ -1363,7 +1363,7 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
     const eyebrow = esc(city ? "Catholic Church · " + city : "Catholic Church");
     const cta = `<div class="cta">${hasTimes ? '<a class="btn btn-main" href="#times" target="_self">Mass times</a>' : ""}${firstDir ? `<a class="btn btn-soft" href="${esc(firstDir)}" target="_blank" rel="noopener">Get directions</a>` : (multi && visitCh.length ? '<a class="btn btn-soft" href="#visit" target="_self">Our churches</a>' : "")}</div>`;
     const heroText = `<p class="eyebrow">${eyebrow}</p><h1>${esc(name)}</h1>${d.welcome ? `<p class="welcome">${esc(d.welcome)}</p>` : ""}${cta}`;
-    const art = `<svg viewBox="0 0 400 300" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbf3e2"/><stop offset="1" stop-color="var(--pale)"/></linearGradient></defs><rect width="400" height="300" rx="24" fill="url(#g)"/><circle cx="300" cy="78" r="46" fill="#f6e3b6" opacity=".7"/><path d="M0 250c70-26 130-30 200-18s140 6 200-14v82H0z" fill="var(--accent)" opacity=".12"/>${multi ? `<g fill="var(--accent)" opacity=".55"><path d="M40 262v-62l34-26 34 26v62z"/><rect x="71" y="140" width="6" height="36"/></g><g fill="var(--accent)" opacity=".7"><path d="M292 262v-62l34-26 34 26v62z"/><rect x="323" y="140" width="6" height="36"/></g>` : ""}<g fill="var(--accent)" opacity=".9"><path d="M140 262V164l60-46 60 46v98z"/><rect x="195" y="62" width="10" height="64"/><rect x="183" y="76" width="34" height="9" rx="2"/></g><path d="M186 262v-40a14 14 0 0 1 28 0v40z" fill="#fbf3e2"/><circle cx="200" cy="170" r="13" fill="#fbf3e2" opacity=".9"/><path d="M20 262h360" stroke="var(--accent)" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/></svg>`;
+    const art = `<svg viewBox="0 0 400 300" aria-hidden="true"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fcf5e6"/><stop offset="1" stop-color="var(--pale)"/></linearGradient><linearGradient id="lit" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f6eddc"/><stop offset="1" stop-color="#ecdfc6"/></linearGradient><clipPath id="frame"><rect width="400" height="300" rx="24"/></clipPath></defs><g clip-path="url(#frame)"><rect width="400" height="300" fill="url(#sky)"/><circle cx="318" cy="70" r="34" fill="#f7e2b0" opacity=".75"/><circle cx="318" cy="70" r="54" fill="#f7e2b0" opacity=".22"/><path d="M-10 214c46-22 96-30 150-22 40 6 70 2 104-10 52-18 106-16 166 4v114H-10z" fill="var(--accent)" opacity=".13"/>${multi ? `<g fill="var(--accent)" opacity=".32"><path d="M44 206v-26l15-12 15 12v26z"/><rect x="57" y="150" width="4" height="18"/><path d="M340 200v-24l14-11 14 11v24z"/><rect x="352" y="146" width="4" height="19"/></g>` : ""}<path d="M-10 240c60-16 120-18 190-10s150 6 230-8v88H-10z" fill="var(--accent)" opacity=".2"/><g stroke="#5b4a37" stroke-opacity=".38" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M260 160l60 12v78h-60z" fill="#e3d4b8"/><path d="M210 112l62 12 50 48-62-12z" fill="var(--accent)" opacity=".88"/><path d="M160 250v-90l50-48 50 48v90z" fill="url(#lit)"/><path d="M122 250V122h36v128z" fill="#efe4cf"/><path d="M118 124l22-60 22 60z" fill="var(--accent)"/><path d="M140 64V42M133 50h14" stroke="var(--accent)" stroke-opacity="1" stroke-width="2.4" fill="none"/><path d="M133 162v-14a7 7 0 0 1 14 0v14z" fill="#5b4a37" fill-opacity=".55"/><path d="M134 204v-12a6 6 0 0 1 12 0v12z" fill="#5b4a37" fill-opacity=".35"/><circle cx="210" cy="150" r="13" fill="#f9e9c4"/><path d="M210 137v26M197 150h26M201 141l18 18M219 141l-18 18" stroke-width=".9"/><path d="M196 250v-34a14 14 0 0 1 28 0v34z" fill="var(--accent)" fill-opacity=".9"/><path d="M210 202v48" stroke-opacity=".5"/><path d="M276 214v-16a5 5 0 0 1 10 0v16zM298 218v-16a5 5 0 0 1 10 0v16z" fill="#5b4a37" fill-opacity=".38"/></g><path d="M188 250h44v5h-44z" fill="#d9c8a8"/><path d="M204 255c-4 14-16 30-34 45h72c-12-15-20-31-24-45z" fill="#f4e9d4" opacity=".9"/><g><rect x="83" y="226" width="4" height="24" rx="2" fill="#6b5a45" opacity=".55"/><ellipse cx="85" cy="214" rx="20" ry="24" style="fill:color-mix(in srgb,var(--accent) 62%,#eef0e4)"/><ellipse cx="79" cy="221" rx="12" ry="14" style="fill:color-mix(in srgb,var(--accent) 48%,#eef0e4)"/><rect x="345" y="222" width="4" height="28" rx="2" fill="#6b5a45" opacity=".55"/><ellipse cx="347" cy="206" rx="24" ry="30" style="fill:color-mix(in srgb,var(--accent) 66%,#eef0e4)"/><ellipse cx="355" cy="214" rx="13" ry="17" style="fill:color-mix(in srgb,var(--accent) 50%,#eef0e4)"/></g><path d="M20 250h360" stroke="var(--accent)" stroke-opacity=".22" stroke-width="2" stroke-linecap="round"/></g></svg>`;
     const photo = d.heroPhoto ? `<img src="${esc(d.heroPhoto)}" alt="${esc(name)}">` : "";
     let hero;
     if (T.hero === "photo") {
