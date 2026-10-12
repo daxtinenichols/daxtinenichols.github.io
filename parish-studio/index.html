@@ -13,14 +13,14 @@
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400&display=swap">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.4 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <style>
 /* Design plan (2026-10-12). Subject: a parish volunteer, often not technical, making the parish's website.
    The look borrows from book typography (Dax kept the original sage and gold colours, 2026-10-12),
-   book typography (Alegreya, a calligraphic text face, with its sans for the form), old-style numerals.
+   type matches the First Mass guide (Cormorant Garamond headings, Source Sans 3 text).
    One memorable thing: the hero is the real product, a live parish page that takes the name you type.
    No eyebrow labels, no middle-dot strings, no arrows on links, no single accented headline word. */
 :root {
@@ -36,8 +36,8 @@
   --btn-ink: #fbf8f1;
   --shadow: 0 24px 48px -28px rgba(80, 58, 30, 0.38);
   --shadow-soft: 0 12px 32px -20px rgba(80, 58, 30, 0.35);
-  --font-display: "Alegreya", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  --font-body: "Alegreya Sans", "Gill Sans", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -297,6 +297,17 @@ details.church > summary { padding: 12px 14px; }
 .seg { background: var(--sheet); }
 .add { padding: 0 14px; border: 1px dashed var(--line); border-radius: 999px; font: 600 .95rem var(--font-body); }
 .add:hover { background: var(--sheet); border-style: solid; text-decoration: none; }
+/* Dax 2026-10-12: match the First Mass guide: one paper background, soft panel cards with no outlines, its two typefaces */
+body { font-size: 17.5px; line-height: 1.65; font-variant-numeric: normal; }
+.editor-band { background: var(--paper); border-block: 0; }
+details.step { background: var(--panel); border: 0; border-radius: 22px; }
+details.step:last-of-type { border-bottom: 0; }
+.row, .toggle, .tpl-card, details.church, .sec-row { background: var(--paper); border-color: transparent; }
+details.church[open] { border-color: transparent; }
+.church-body .row, .church-body .toggle, .church-body .photo-drop { background: var(--panel); }
+.church-body input, .church-body textarea, .church-body select { background: var(--sheet); }
+.tpl-card[aria-pressed="true"] { border-color: var(--rubric); }
+.try-row input, .seg { background: var(--paper); }
 @media (max-width: 560px) { .form-tools { padding: 0 0 4px; } }
 @media (max-width: 1020px) {
   .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 16px; }
