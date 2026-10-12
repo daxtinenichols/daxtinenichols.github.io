@@ -271,6 +271,33 @@ details.church .sum-text b { font-size: 1.15rem; }
 .more span { color: var(--muted); font-size: 1rem; }
 footer.site { padding-block: 40px 56px; color: var(--muted); font-size: 0.95rem; border-top: 1px solid var(--line); }
 
+/* Dax 2026-10-12: keep the original Studio's background colours: soft paper boxes on the panel, sage selections */
+.editor-band { border-block: 1px solid var(--line); }
+.form { background: none; box-shadow: none; padding: 0; gap: 12px; border-radius: 0; }
+.form-tools { border-bottom: 0; padding: 0 0 4px; }
+details.step { background: var(--sheet); border: 1px solid var(--line); border-radius: 16px; }
+details.step:last-of-type { border-bottom: 1px solid var(--line); }
+.row { padding: 12px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); }
+.row .remove { top: 10px; right: 8px; }
+.row input, .row select, .row textarea { background: var(--sheet); }
+.toggle { padding: 12px 14px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); }
+.tpl-card { padding: 8px 8px 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--paper); }
+.tpl-card[aria-pressed="true"] { border-color: var(--rubric); box-shadow: 0 0 0 2px var(--rubric); }
+.tpl-card[aria-pressed="true"] .tpl-thumb { outline: 1px solid var(--line); outline-offset: 0; }
+.tpl-card .tn, .tpl-card .tb { padding-inline: 4px; }
+details.church { border: 1px solid var(--line); border-left-width: 1px; border-radius: 14px; background: var(--paper); padding-left: 0; }
+details.church[open] { border-color: var(--line); }
+details.church > summary { padding: 12px 14px; }
+.church-body { padding: 4px 14px 16px; }
+.church-body .row, .church-body .toggle, .church-body .photo-drop, .church-body input, .church-body textarea, .church-body select { background: var(--sheet); }
+.church-body .row input, .church-body .row select, .church-body .row textarea { background: var(--paper); }
+.sec-list { gap: 8px; border-top: 0; }
+.sec-row { padding: 8px 8px 8px 12px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); }
+.pills input:checked + span, .seg button[aria-pressed="true"] { background: var(--rubric); color: var(--btn-ink); }
+.seg { background: var(--sheet); }
+.add { padding: 0 14px; border: 1px dashed var(--line); border-radius: 999px; font: 600 .95rem var(--font-body); }
+.add:hover { background: var(--sheet); border-style: solid; text-decoration: none; }
+@media (max-width: 560px) { .form-tools { padding: 0 0 4px; } }
 @media (max-width: 1020px) {
   .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 16px; }
   .editor { grid-template-columns: 1fr; }
