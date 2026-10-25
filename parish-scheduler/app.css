@@ -342,19 +342,3 @@ footer.foot { text-align: center; color: var(--muted); font-size: 15px; padding:
 }
 .print-only { display: none; }
 
-/* Donate button: plain link to Ko-fi, no script. Self-contained colours so it looks the same on every site. */
-.kofi-btn{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px 0 13px;border-radius:999px;background:#f5ead8;border:1px solid #e4d0aa;color:#5c4019;font-family:inherit;font-size:15px;font-weight:600;line-height:1;letter-spacing:.01em;text-decoration:none;white-space:nowrap;flex:none;transition:background-color .2s ease-out,border-color .2s ease-out,box-shadow .2s ease-out}
-a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
-.kofi-btn:hover{background:#f0dfc2;border-color:#d4b682;box-shadow:0 4px 14px rgba(120,84,30,.12)}
-.kofi-btn:focus-visible{outline:2px solid #a87f33;outline-offset:3px}
-.kofi-btn .kofi-heart{fill:#b4533d}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kofi-btn{background:#352b1d;border-color:#5a4529;color:#f0ddb6}:root:not([data-theme="light"]) .kofi-btn:hover{background:#3f3322;border-color:#76603b}:root:not([data-theme="light"]) .kofi-btn .kofi-heart{fill:#e08a6f}}
-:root[data-theme="dark"] .kofi-btn{background:#352b1d;border-color:#5a4529;color:#f0ddb6}
-:root[data-theme="dark"] .kofi-btn .kofi-heart{fill:#e08a6f}
-@media (prefers-reduced-motion:reduce){.kofi-btn{transition:none}}
-.kofi-note{font-size:.92em}
-.top .kofi-btn{margin-left:20px}#top-links[hidden]+.kofi-btn{margin-left:auto}@media (max-width:760px){.top .kofi-btn{margin-left:auto}}
-/* the scheduler has no dark theme, so the donate button stays light too */
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .top .kofi-btn{background:#f5ead8;border-color:#e4d0aa;color:#5c4019}:root:not([data-theme="light"]) .top .kofi-btn:hover{background:#f0dfc2;border-color:#d4b682}:root:not([data-theme="light"]) .top .kofi-btn .kofi-heart{fill:#b4533d}}
-/* signed in on a tablet, the section tabs share the header: tabs drop their icons and the donate button shrinks to its heart */
-@media (min-width:761px) and (max-width:1180px){#tabs:not([hidden]) .tab{padding:0 14px;font-size:16px;white-space:nowrap}#tabs:not([hidden]) .tab svg{display:none}#tabs:not([hidden])~.kofi-btn{width:44px;padding:0;justify-content:center;margin-left:8px}#tabs:not([hidden])~.kofi-btn .kofi-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
