@@ -270,18 +270,6 @@ body.pew-open { overflow: hidden; }
   *, *::before { transition: none !important; animation: none !important; }
 }
 
-/* Donate button: plain link to Ko-fi, no script. Self-contained colours so it looks the same on every site. */
-.kofi-btn{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 16px 0 13px;border-radius:999px;background:#f5ead8;border:1px solid #e4d0aa;color:#5c4019;font-family:inherit;font-size:15px;font-weight:600;line-height:1;letter-spacing:.01em;text-decoration:none;white-space:nowrap;flex:none;transition:background-color .2s ease-out,border-color .2s ease-out,box-shadow .2s ease-out}
-a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
-.kofi-btn:hover{background:#f0dfc2;border-color:#d4b682;box-shadow:0 4px 14px rgba(120,84,30,.12)}
-.kofi-btn:focus-visible{outline:2px solid #a87f33;outline-offset:3px}
-.kofi-btn .kofi-heart{fill:#b4533d}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .kofi-btn{background:#352b1d;border-color:#5a4529;color:#f0ddb6}:root:not([data-theme="light"]) .kofi-btn:hover{background:#3f3322;border-color:#76603b}:root:not([data-theme="light"]) .kofi-btn .kofi-heart{fill:#e08a6f}}
-:root[data-theme="dark"] .kofi-btn{background:#352b1d;border-color:#5a4529;color:#f0ddb6}
-:root[data-theme="dark"] .kofi-btn .kofi-heart{fill:#e08a6f}
-@media (prefers-reduced-motion:reduce){.kofi-btn{transition:none}}
-.kofi-note{font-size:.92em}
-.kofi-corner{position:absolute;top:16px;right:16px;z-index:5}@media (max-width:600px){.kofi-corner{top:12px;right:12px}}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -334,7 +322,6 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
 </svg>
 
 <div class="wrap">
-  <div class="kofi-corner"><a class="kofi-btn" href="https://ko-fi.com/treeoflifeproject" target="_blank" rel="noopener" aria-label="Donate on Ko-fi (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="kofi-heart" d="M12 20.3c-.3 0-.6-.1-.8-.3C7.4 16.9 3.5 13.6 3.5 9.4 3.5 6.6 5.6 4.5 8.2 4.5c1.6 0 3 .8 3.8 2.1.8-1.3 2.2-2.1 3.8-2.1 2.6 0 4.7 2.1 4.7 4.9 0 4.2-3.9 7.5-7.7 10.6-.2.2-.5.3-.8.3z"/></svg><span class="kofi-label">Donate</span></a></div>
   <header class="hero">
     <div class="hero-text">
       <p class="eyebrow">A guide for newcomers</p>
@@ -479,7 +466,6 @@ a.kofi-btn svg{width:17px;height:17px;flex:none;margin:0}
       <li><a href="https://www.usccb.org/prayer-and-worship/the-mass/general-instruction-of-the-roman-missal/girm-chapter-2" target="_blank" rel="noopener">General Instruction of the Roman Missal, chapter 2</a>, including postures</li>
       <li><a href="https://www.usccb.org/prayer-and-worship/the-mass/order-of-mass/liturgy-of-the-eucharist/guidelines-for-the-reception-of-communion" target="_blank" rel="noopener">Guidelines for the reception of Communion</a></li>
     </ul>
-    <p class="kofi-note">Free, and kept free by gifts: <a href="https://ko-fi.com/treeoflifeproject" target="_blank" rel="noopener">donate on Ko-fi</a>. Gifts go to the person who runs the project and are not tax-deductible.</p>
     <p>A one-person project, built with the help of Claude, an AI model. <a href="/about/">About</a> &middot; <a href="/about/#privacy">Privacy</a></p>
   </footer>
 <nav class="fam" aria-label="More from us"><p class="fam-eyebrow">More from us</p><ul><li><a href="/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 30V14" stroke="#8c7a66" stroke-width="2.4" stroke-linecap="round" fill="none"/><path d="M16 19c-5 0-8-3-9-8 5 0 8 3 9 8z" fill="#6f9a6c"/><path d="M16 15c5 0 8-3 9-8-5 0-8 3-9 8z" fill="#4b7651"/><circle cx="16" cy="7" r="3.2" fill="#d6a546"/></svg></span><span class="fam-txt"><b>Tree of Life</b><span>Big questions about God, one at a time, with honest answers and sources you can check.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/parish-studio/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 1.8v5.4M13.7 4h4.6" stroke="#a87f33" stroke-width="1.7" stroke-linecap="round"/><path d="M7 15.2V29h18V15.2L16 9.6z" fill="#e1e9da"/><path d="M4.5 16.2L16 9.2l11.5 7" fill="none" stroke="#4d6d51" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="16.8" r="2.1" fill="#f1d59c"/><path d="M13.2 29v-5.2a2.8 2.8 0 0 1 5.6 0V29z" fill="#f1d59c"/><rect x="4" y="28.2" width="24" height="2.6" rx="1.2" fill="#b99572"/></svg></span><span class="fam-txt"><b>Parish Website Studio</b><span>Help your parish get a free, warm website in an afternoon.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/church-finder/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 30s-9-8.6-9-16a9 9 0 0 1 18 0c0 7.4-9 16-9 16z" fill="#e1e9da" stroke="#4d6d51" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 8.2v9.6M12.4 11.6h7.2" stroke="#a87f33" stroke-width="2" stroke-linecap="round"/></svg></span><span class="fam-txt"><b>Church Finder</b><span>Find a Catholic church near you, with Mass times and directions.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li><li><a href="/parish-scheduler/"><span class="fam-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="7" width="24" height="22" rx="4" fill="#e4ecdf" stroke="#4d6d51" stroke-width="2"/><path d="M4 13h24" stroke="#4d6d51" stroke-width="2"/><path d="M10 4v5M22 4v5" stroke="#4d6d51" stroke-width="2" stroke-linecap="round"/><path d="M16 16v9M12.5 19.5h7" stroke="#a87f33" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="fam-txt"><b>Parish Scheduler</b><span>A free volunteer schedule for your parish: swaps, sick days and replacements in a tap.</span></span><span class="fam-go" aria-hidden="true">&rarr;</span></a></li></ul><p class="fam-about"><a href="/about/">About, privacy and credits</a></p></nav>
